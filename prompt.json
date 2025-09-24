@@ -1,0 +1,161 @@
+{
+    "meta": {
+      "spec_version": "1.0.0",
+      "title": "Personalized Career & Skills Advisor — Frontend Only",
+      "author": "Cursor Prompt",
+      "description": "A frontend-only prototype for a career advisor tool. Users enter their details and career interests, then see a Neo-Brutalist styled flowchart (ReactFlow) of their career growth, skills, courses, internships, and job market options.",
+      "framework": {
+        "name": "React.js",
+        "app_router": true,
+        "typescript": true,
+        "react_server_components": true
+      }
+    },
+    "tech_stack": {
+      "styling": "TailwindCSS (Neo-Brutalism)",
+      "ui_kit": ["shadcn/ui", "lucide-react"],
+      "forms": "react-hook-form + zod",
+      "state": "Zustand (for storing user profile & results)",
+      "charts": "reactflow",
+      "notifications": "sonner"
+    },
+    "design_language": {
+      "theme_name": "Neo-Brutalism",
+      "tailwind_overrides": {
+        "theme": {
+          "extend": {
+            "colors": {
+              "nb-bg": "#F7F5F2",
+              "nb-ink": "#111111",
+              "nb-accent": "#6EE7B7",
+              "nb-accent-2": "#60A5FA",
+              "nb-warn": "#F59E0B",
+              "nb-error": "#EF4444",
+              "nb-ok": "#10B981",
+              "nb-card": "#FFFFFF"
+            },
+            "boxShadow": {
+              "nb": "8px 8px 0 0 rgba(0,0,0,0.9)"
+            },
+            "borderRadius": {
+              "nb": "1.25rem"
+            },
+            "fontFamily": {
+              "display": ["Space Grotesk", "system-ui", "sans-serif"],
+              "body": ["Inter", "system-ui", "sans-serif"]
+            }
+          }
+        }
+      },
+      "neo_brutalism_rules": [
+        "Thick borders (2-3px #111).",
+        "Offset shadows (sticker effect).",
+        "Punchy headings, compact body text.",
+        "Rounded corners (rounded-nb).",
+        "Micro-interactions: hover:-translate-y-0.5, active:translate-y-0."
+      ]
+    },
+    "app_structure": {
+      "root_layout": {
+        "header": ["Logo", "Nav: Home, Start", "Theme Toggle (optional)"],
+        "footer": ["© 2025 CareerFlow (demo)", "Links: About, FAQ"]
+      },
+      "routes": [
+        {
+          "path": "/",
+          "title": "Landing",
+          "sections": [
+            "Hero section with bold tagline + CTA (Start Now)",
+            "3 feature cards: Personalized Advice, Career Flowchart, Skill Mapping",
+            "How it works (3 steps: Enter Details → See Career Path → Explore Opportunities)"
+          ]
+        },
+        {
+          "path": "/details",
+          "title": "Enter Your Details",
+          "form": {
+            "fields": [
+              "name",
+              "age",
+              "educationLevel (dropdown)",
+              "skills[] (tags input)",
+              "careerInterest (text)",
+              "location (optional)"
+            ],
+            "validation": "Zod schema",
+            "submit_behavior": "Save to Zustand, redirect to /results"
+          }
+        },
+        {
+          "path": "/results",
+          "title": "Career Path Results",
+          "sections": [
+            "Greeting with user name",
+            "Summary panel: suggested career interest & related roles",
+            "ReactFlow chart showing nodes: Courses, Internships, Jobs, Companies",
+            "Alternative careers section with badges/cards",
+            "Toast on success: 'Career path generated (demo)'"
+          ]
+        }
+      ]
+    },
+    "components": [
+      { "name": "NBCard", "purpose": "Neo-Brutalist card wrapper" },
+      { "name": "NBButton", "purpose": "Styled button with variants" },
+      { "name": "FormInput", "purpose": "react-hook-form + zod input wrapper" },
+      { "name": "FlowChart", "purpose": "ReactFlow wrapper with sample nodes/edges" },
+      { "name": "SummaryPanel", "purpose": "Shows user’s main career recommendation" }
+    ],
+    "mock_services": {
+      "modules": [
+        {
+          "name": "careerService",
+          "functions": [
+            "generatePath(profile): returns mock nodes/edges for ReactFlow",
+            "suggestAlternatives(profile): returns list of 2-3 alternate careers"
+          ]
+        }
+      ]
+    },
+    "ux_flows": {
+      "basic": [
+        "User lands on homepage → clicks CTA",
+        "Fills details form → submit",
+        "Redirected to results → see flowchart + summary + alternatives"
+      ]
+    },
+    "acceptance_criteria": [
+      "Landing page has CTA that routes to /details.",
+      "Details form validates and requires basic info.",
+      "Results page shows ReactFlow chart with mock career path.",
+      "Alternative career options are displayed below chart.",
+      "UI follows Neo-Brutalism: thick borders, shadows, bold text.",
+      "No backend calls — all via mock service & Zustand."
+    ],
+    "file_structure": {
+      "root": [
+        "app/(marketing)/page.tsx (Landing)",
+        "app/details/page.tsx",
+        "app/results/page.tsx",
+        "components/NBCard.tsx",
+        "components/NBButton.tsx",
+        "components/FormInput.tsx",
+        "components/FlowChart.tsx",
+        "components/SummaryPanel.tsx",
+        "lib/services/careerService.ts",
+        "lib/stores/userStore.ts",
+        "lib/types.ts"
+      ]
+    },
+    "copy": {
+      "brand": "CareerFlow (demo)",
+      "tagline": "Map your future, one skill at a time.",
+      "hero_cta": "Start Now",
+      "features": [
+        "Personalized advice powered by AI (mock).",
+        "Visual career flowchart with ReactFlow.",
+        "Skill-gap mapping for real-world jobs."
+      ]
+    }
+  }
+  
