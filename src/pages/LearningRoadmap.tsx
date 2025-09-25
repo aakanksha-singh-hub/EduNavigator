@@ -28,14 +28,68 @@ export const LearningRoadmap: React.FC = () => {
   const { enhancedProfile, setEnhancedProfile } = useUserStore();
   const { awardXP, completeActivity } = useGamification();
   const [completedPhases, setCompletedPhases] = useState<string[]>([]);
-  const [startedPhases, setStartedPhases] = useState<string[]>([]);
+
 
   useEffect(() => {
+    const generateMissingRoadmap = async () => {
+      if (enhancedProfile?.selectedCareerPath && !enhancedProfile?.learningRoadmap) {
+        console.log('Learning roadmap missing, generating...');
+        
+        try {
+          // Find the selected career recommendation
+          const selectedCareer = enhancedProfile.careerRecommendations?.find(
+            rec => rec.id === enhancedProfile.selectedCareerPath
+          );
+          
+          if (selectedCareer) {
+            // Create a basic learning roadmap from the career's recommended path
+            const basicRoadmap = {
+              id: `roadmap_${selectedCareer.id}`,
+              title: `${selectedCareer.title} Learning Path`,
+              description: `Personalized learning path for ${selectedCareer.title}`,
+              totalDuration: selectedCareer.recommendedPath?.totalDuration || '6-12 months',
+              phases: selectedCareer.recommendedPath?.phases || [
+                {
+                  id: 'phase_1',
+                  title: 'Foundation Skills',
+                  description: 'Build fundamental skills required for this career',
+                  duration: '2-3 months',
+                  priority: 'critical' as const,
+                  resources: [],
+                  skills: selectedCareer.requiredSkills?.slice(0, 3).map(s => s.name) || [],
+                  order: 1
+                }
+              ],
+              estimatedCost: selectedCareer.recommendedPath?.estimatedCost || 2000,
+              difficulty: selectedCareer.recommendedPath?.difficulty || 'intermediate' as const,
+              prerequisites: selectedCareer.recommendedPath?.prerequisites || [],
+              outcomes: selectedCareer.recommendedPath?.outcomes || [`Job-ready for ${selectedCareer.title}`]
+            };
+            
+            // Update the enhanced profile with the learning roadmap
+            const updatedProfile = {
+              ...enhancedProfile,
+              learningRoadmap: basicRoadmap,
+              updatedAt: new Date()
+            };
+            
+            setEnhancedProfile(updatedProfile);
+            toast.success('Learning roadmap generated successfully!');
+          }
+        } catch (error) {
+          console.error('Failed to generate learning roadmap:', error);
+          toast.error('Failed to generate learning roadmap. Please try again.');
+        }
+      }
+    };
+
     if (!enhancedProfile?.selectedCareerPath) {
       toast.error('Please select a career path first');
       navigate('/dashboard');
+    } else {
+      generateMissingRoadmap();
     }
-  }, [enhancedProfile, navigate]);
+  }, [enhancedProfile, navigate, setEnhancedProfile]);
 
   if (!enhancedProfile?.learningRoadmap) {
     return (
@@ -63,11 +117,7 @@ export const LearningRoadmap: React.FC = () => {
     rec => rec.id === enhancedProfile.selectedCareerPath
   );
 
-  const handleStartPhase = (phaseId: string) => {
-    setStartedPhases(prev => [...prev, phaseId]);
-    toast.success('Phase started! Good luck with your learning journey!');
-    awardXP(25, 'Started learning phase');
-  };
+
 
   const handleCompletePhase = (phaseId: string, phaseTitle: string) => {
     setCompletedPhases(prev => [...prev, phaseId]);
@@ -196,8 +246,7 @@ export const LearningRoadmap: React.FC = () => {
                     <NBCard key={phase.id} className={cn(
                       'p-6 transition-all duration-200',
                       isCompleted && 'bg-green-50 border-green-200',
-                      startedPhases.includes(phase.id) && !isCompleted && 'bg-blue-50 border-blue-300 shadow-md',
-                      isActive && !isCompleted && !startedPhases.includes(phase.id) && 'border-blue-200'
+                      isActive && !isCompleted && 'border-blue-200'
                     )}>
                       <div className="flex items-start space-x-4">
                         {/* Phase Number */}
@@ -205,8 +254,6 @@ export const LearningRoadmap: React.FC = () => {
                           'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200',
                           isCompleted 
                             ? 'bg-green-500 text-white'
-                            : startedPhases.includes(phase.id)
-                            ? 'bg-blue-600 text-white shadow-lg animate-pulse'
                             : isActive 
                             ? 'bg-blue-500 text-white'
                             : 'bg-gray-200 text-gray-600'
@@ -266,11 +313,7 @@ export const LearningRoadmap: React.FC = () => {
                                     className="text-sm"
                                   />
                                 ))}
-                                {phase.resources.length > 2 && (
-                                  <div className="text-xs text-muted-foreground p-2 text-center bg-accent/20 rounded">
-                                    +{phase.resources.length - 2} more resources available
-                                  </div>
-                                )}
+
                               </div>
                             </div>
                           )}
@@ -279,25 +322,7 @@ export const LearningRoadmap: React.FC = () => {
                           <div className="flex space-x-3">
                             {!isCompleted && isActive && (
                               <>
-                                <NBButton
-                                  size="sm"
-                                  variant={startedPhases.includes(phase.id) ? "ok" : "primary"}
-                                  onClick={() => handleStartPhase(phase.id)}
-                                  className="flex items-center space-x-1"
-                                  disabled={startedPhases.includes(phase.id)}
-                                >
-                                  {startedPhases.includes(phase.id) ? (
-                                    <>
-                                      <CheckCircle className="w-4 h-4" />
-                                      <span>Phase Started</span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Play className="w-4 h-4" />
-                                      <span>Start Phase</span>
-                                    </>
-                                  )}
-                                </NBButton>
+
                                 <NBButton
                                   variant="secondary"
                                   size="sm"

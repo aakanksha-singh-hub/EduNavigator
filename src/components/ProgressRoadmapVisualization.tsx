@@ -240,11 +240,7 @@ export const ProgressRoadmapVisualization: React.FC<ProgressRoadmapVisualization
                               className="text-sm"
                             />
                           ))}
-                          {phase.resources.length > 2 && (
-                            <div className="text-xs text-gray-500 p-2 text-center bg-gray-50 rounded">
-                              +{phase.resources.length - 2} more resources available
-                            </div>
-                          )}
+
                         </div>
                       </div>
                     )}
