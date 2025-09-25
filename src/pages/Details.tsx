@@ -87,6 +87,18 @@ export const Details = () => {
     setValue('resume', undefined);
   };
 
+  const handleTakeAssessment = async (data: any) => {
+    const profile = {
+      ...data,
+      skills: data.skills,
+      resume: resumeData || undefined
+    };
+    
+    setProfile(profile);
+    toast.success('Profile saved! Redirecting to career assessment...');
+    navigate('/assessment');
+  };
+
   const onSubmit = async (data: any) => {
     const profile = {
       ...data,
@@ -291,7 +303,7 @@ export const Details = () => {
                 )}
               </div>
 
-              <div className="flex justify-end space-x-4 pt-6">
+              <div className="flex justify-between items-center pt-6">
                 <NBButton
                   type="button"
                   variant="secondary"
@@ -300,9 +312,20 @@ export const Details = () => {
                 >
                   Cancel
                 </NBButton>
-                <NBButton type="submit" disabled={isLoading}>
-                  {isLoading ? 'Generating...' : 'Generate Career Path'}
-                </NBButton>
+                
+                <div className="flex space-x-4">
+                  <NBButton
+                    type="button"
+                    variant="accent"
+                    onClick={handleSubmit(handleTakeAssessment)}
+                    disabled={isLoading}
+                  >
+                    Take Career Assessment
+                  </NBButton>
+                  <NBButton type="submit" disabled={isLoading}>
+                    {isLoading ? 'Generating...' : 'Generate Career Path'}
+                  </NBButton>
+                </div>
               </div>
             </form>
           </NBCard>

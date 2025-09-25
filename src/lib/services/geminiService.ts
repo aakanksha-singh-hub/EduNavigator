@@ -193,6 +193,23 @@ export class GeminiService {
     }
   }
 
+  static async generateCareerRecommendations(prompt: string): Promise<string> {
+    // Check if API key is available
+    if (!config.geminiApiKey) {
+      console.warn('Gemini API key not found, using fallback data');
+      throw new Error('API key not configured');
+    }
+
+    try {
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error('Error generating career recommendations with Gemini:', error);
+      throw error;
+    }
+  }
+
   static async suggestAlternatives(profile: UserProfile): Promise<AlternativeCareer[]> {
     // Check if API key is available
     if (!config.geminiApiKey) {
@@ -276,6 +293,31 @@ export class GeminiService {
 
     const pathData = mockPaths['software-developer'];
     return {
+      id: `fallback_career_${Date.now()}`,
+      title: 'Software Developer',
+      description: 'Design, develop, and maintain software applications using various programming languages and frameworks.',
+      fitScore: 75,
+      salaryRange: { min: 60000, max: 120000, currency: 'USD', period: 'yearly' },
+      growthProspects: 'high' as const,
+      requiredSkills: [],
+      recommendedPath: {
+        id: 'fallback_path',
+        title: 'Software Developer Learning Path',
+        description: 'Comprehensive learning path for software development',
+        totalDuration: '6-12 months',
+        phases: [],
+        estimatedCost: 2000,
+        difficulty: 'intermediate' as const,
+        prerequisites: [],
+        outcomes: []
+      },
+      jobMarketData: {
+        demand: 'high' as const,
+        competitiveness: 'medium' as const,
+        locations: ['Remote', 'Major Cities'],
+        industryGrowth: 15,
+        averageSalary: 90000
+      },
       primaryCareer: 'Software Developer',
       relatedRoles: ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'DevOps Engineer'],
       careerPath: {

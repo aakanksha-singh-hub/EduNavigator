@@ -1,5 +1,6 @@
-import { UserProfile, CareerRecommendation, AlternativeCareer } from '../types';
+import { UserProfile, CareerRecommendation, AlternativeCareer, CareerAssessmentData } from '../types';
 import { GeminiService } from './geminiService';
+import { CareerRecommendationService } from './careerRecommendationService';
 
 // Mock data for different career paths
 const mockCareerPaths = {
@@ -108,14 +109,31 @@ const mockAlternatives = {
 };
 
 export class CareerService {
-  static async generatePath(profile: UserProfile): Promise<CareerRecommendation> {
+  static async generatePath(profile: UserProfile, assessmentData?: CareerAssessmentData): Promise<CareerRecommendation> {
     try {
-      // Try to use Gemini API first
+      // Use new recommendation service if assessment data is available
+      if (assessmentData) {
+        const recommendations = await CareerRecommendationService.generateRecommendations(profile, assessmentData);
+        return recommendations[0]; // Return the top recommendation
+      }
+      
+      // Fallback to original Gemini API method
       return await GeminiService.generateCareerPath(profile);
     } catch (error) {
-      console.error('Error with Gemini API, falling back to mock data:', error);
+      console.error('Error with career generation, falling back to mock data:', error);
       // Fallback to mock data if API fails
       return this.getMockRecommendation(profile);
+    }
+  }
+
+  static async generateRecommendations(profile: UserProfile, assessmentData?: CareerAssessmentData): Promise<CareerRecommendation[]> {
+    try {
+      return await CareerRecommendationService.generateRecommendations(profile, assessmentData);
+    } catch (error) {
+      console.error('Error generating recommendations:', error);
+      // Return single recommendation as array for consistency
+      const singleRec = await this.generatePath(profile, assessmentData);
+      return [singleRec];
     }
   }
 
@@ -149,6 +167,31 @@ export class CareerService {
     const alternatives = mockAlternatives[careerType as keyof typeof mockAlternatives];
 
     return {
+      id: `career_${careerType}_${Date.now()}`,
+      title: this.getCareerTitle(careerType),
+      description: `A career path in ${this.getCareerTitle(careerType)} based on your interests and skills.`,
+      fitScore: 75, // Default fit score for mock data
+      salaryRange: { min: 60000, max: 120000, currency: 'USD', period: 'yearly' },
+      growthProspects: 'high' as const,
+      requiredSkills: [],
+      recommendedPath: {
+        id: `path_${careerType}`,
+        title: `${this.getCareerTitle(careerType)} Learning Path`,
+        description: `Comprehensive learning path for ${this.getCareerTitle(careerType)}`,
+        totalDuration: '6-12 months',
+        phases: [],
+        estimatedCost: 2000,
+        difficulty: 'intermediate' as const,
+        prerequisites: [],
+        outcomes: []
+      },
+      jobMarketData: {
+        demand: 'high' as const,
+        competitiveness: 'medium' as const,
+        locations: ['Remote', 'Major Cities'],
+        industryGrowth: 10,
+        averageSalary: 90000
+      },
       primaryCareer: this.getCareerTitle(careerType),
       relatedRoles: this.getRelatedRoles(careerType),
       careerPath: {
