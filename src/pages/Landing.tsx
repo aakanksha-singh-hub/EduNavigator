@@ -95,7 +95,7 @@ export const Landing = () => {
                 <Target className="w-5 h-5 text-accent-foreground" />
               </div>
               <h1 className="text-2xl font-bold text-foreground">
-                CareerFlow
+                EduNavigator
               </h1>
             </div>
             <nav className="hidden md:flex space-x-6">
@@ -145,7 +145,7 @@ export const Landing = () => {
         <BGPattern variant="grid" mask="fade-center" size={32} fill="rgba(139, 92, 246, 0.05)" />
         <div className="max-w-7xl mx-auto relative">
           <h2 className="text-4xl font-bold text-foreground text-center mb-16">
-            Why Choose CareerFlow?
+            Why Choose EduNavigator?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <NBCard className="text-center group hover:scale-105 transition-all duration-300 hover:shadow-xl border-border/50 bg-card/50 backdrop-blur-sm">
@@ -309,7 +309,7 @@ export const Landing = () => {
               <div className="w-6 h-6 bg-accent rounded-lg flex items-center justify-center">
                 <Target className="w-4 h-4 text-accent-foreground" />
               </div>
-              <span className="text-foreground font-bold">© 2025 CareerFlow (demo)</span>
+              <span className="text-foreground font-bold">© 2025 EduNavigator (demo)</span>
             </div>
             <div className="flex space-x-6">
               <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">

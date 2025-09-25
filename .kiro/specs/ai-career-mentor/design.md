@@ -2,7 +2,7 @@
 
 ## Overview
 
-The AI Career Mentor extends the existing CareerFlow application to create a comprehensive generative AI-powered platform that guides students through their entire career journey. Building on the existing resume processing and career visualization capabilities, we'll add personalized career discovery, skill gap analysis, progress tracking with gamification, enhanced resume optimization, and an intelligent career chatbot.
+The AI Career Mentor extends the existing EduNavigator application to create a comprehensive generative AI-powered platform that guides students through their entire career journey. Building on the existing resume processing and career visualization capabilities, we'll add personalized career discovery, skill gap analysis, progress tracking with gamification, enhanced resume optimization, and an intelligent career chatbot.
 
 The design leverages the existing React + TypeScript architecture, Google Gemini AI integration, and React Flow visualization while adding new features that create a complete career mentorship experience.
 
