@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CareerRecommendationsList } from '../components/CareerRecommendationsList';
+import { ProgressDashboard } from '../components/ProgressDashboard';
 import { GridBackgroundSmall } from '../components/ui/grid-background';
 import { DotBackground } from '../components/ui/dot-background';
 import { NBCard } from '../components/NBCard';
@@ -19,16 +20,19 @@ import {
   TrendingUp,
   BarChart3,
   Settings,
-  Download
+  Download,
+  BookOpen,
+  Activity
 } from 'lucide-react';
 
 export const CareerDashboard = () => {
   const navigate = useNavigate();
   const { profile, enhancedProfile, setEnhancedProfile } = useUserStore();
   const [recommendations, setRecommendations] = useState<CareerRecommendation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [savedCareerIds, setSavedCareerIds] = useState<string[]>([]);
   const [selectedCareerId, setSelectedCareerId] = useState<string | undefined>();
+  const [activeTab, setActiveTab] = useState<'recommendations' | 'progress'>('recommendations');
 
   useEffect(() => {
     const checkAndLoad = async () => {
@@ -53,22 +57,44 @@ export const CareerDashboard = () => {
         return;
       }
 
-      console.log('Profile and assessment found, loading recommendations...');
-      loadRecommendations();
+      // Only load recommendations if we don't have any yet
+      if (enhancedProfile.careerRecommendations.length === 0) {
+        console.log('Profile and assessment found, loading recommendations...');
+        // Add a timeout to prevent infinite loading
+        const loadTimeout = setTimeout(() => {
+          console.log('Loading timeout reached, using fallback');
+          handleUseFallbackRecommendations();
+        }, 10000); // 10 second timeout
+        
+        loadRecommendations().finally(() => {
+          clearTimeout(loadTimeout);
+        });
+      } else {
+        console.log('Using existing recommendations from profile');
+        setRecommendations(enhancedProfile.careerRecommendations);
+      }
     };
 
     checkAndLoad();
-  }, [profile, enhancedProfile, navigate]);
+  }, [profile, enhancedProfile?.careerAssessment, navigate]); // Remove enhancedProfile from dependencies, only watch for assessment changes
 
   const loadRecommendations = async () => {
-    if (!profile || !enhancedProfile?.careerAssessment) return;
+    if (!profile || !enhancedProfile?.careerAssessment) {
+      console.log('Missing profile or assessment data');
+      return;
+    }
 
+    console.log('Starting to load recommendations...');
     setIsLoading(true);
+    
     try {
+      console.log('Calling CareerService.generateRecommendations...');
       const recs = await CareerService.generateRecommendations(
         profile,
         enhancedProfile.careerAssessment
       );
+      
+      console.log('Received recommendations:', recs);
       setRecommendations(recs);
       
       // Update enhanced profile with recommendations
@@ -82,8 +108,12 @@ export const CareerDashboard = () => {
       toast.success(`Generated ${recs.length} personalized career recommendations!`);
     } catch (error) {
       console.error('Error loading recommendations:', error);
-      toast.error('Failed to load career recommendations');
+      toast.error(`Failed to load career recommendations: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      
+      // Set empty recommendations to stop loading state
+      setRecommendations([]);
     } finally {
+      console.log('Setting loading to false');
       setIsLoading(false);
     }
   };
@@ -93,19 +123,190 @@ export const CareerDashboard = () => {
     await loadRecommendations();
   };
 
-  const handleSelectCareer = (recommendation: CareerRecommendation) => {
+  const handleUseFallbackRecommendations = async () => {
+    console.log('Using fallback recommendations...');
+    setIsLoading(true);
+    
+    try {
+      // Import the service directly to call fallback
+      const { CareerRecommendationService } = await import('../lib/services/careerRecommendationService');
+      const fallbackRecs = profile ? CareerRecommendationService.getFallbackRecommendations(profile, enhancedProfile?.careerAssessment) : [];
+      
+      console.log('Got fallback recommendations:', fallbackRecs);
+      setRecommendations(fallbackRecs);
+      
+      if (enhancedProfile) {
+        const updatedProfile = {
+          ...enhancedProfile,
+          careerRecommendations: fallbackRecs,
+          updatedAt: new Date()
+        };
+        setEnhancedProfile(updatedProfile);
+      }
+      
+      toast.success(`Generated ${fallbackRecs.length} curated career recommendations!`);
+    } catch (error) {
+      console.error('Error with fallback recommendations:', error);
+      toast.error('Failed to load fallback recommendations');
+      // Set empty array to stop loading
+      setRecommendations([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSelectCareer = async (recommendation: CareerRecommendation) => {
     setSelectedCareerId(recommendation.id);
     
     if (enhancedProfile) {
-      const updatedProfile = {
-        ...enhancedProfile,
-        selectedCareerPath: recommendation.id,
-        updatedAt: new Date()
-      };
-      setEnhancedProfile(updatedProfile);
+      try {
+        // Show loading state
+        toast.loading('Setting up your career path...', { id: 'career-setup' });
+        
+        let skillGapAnalysis = null;
+        let learningRoadmap = null;
+        
+        try {
+          // 1. Generate skill gap analysis
+          const { SkillAnalysisService } = await import('../lib/services/skillAnalysisService');
+          skillGapAnalysis = await SkillAnalysisService.analyzeSkillGaps(
+            enhancedProfile,
+            recommendation.title
+          );
+        } catch (skillError) {
+          console.warn('Skill gap analysis failed, using basic analysis:', skillError);
+          skillGapAnalysis = {
+            targetCareer: recommendation.title,
+            overallReadiness: 70,
+            strengthAreas: enhancedProfile.skills || [],
+            improvementAreas: recommendation.requiredSkills?.map(s => s.name) || [],
+            analysisDate: new Date()
+          };
+        }
+        
+        try {
+          // 2. Generate learning roadmap
+          const { LearningRoadmapService } = await import('../lib/services/learningRoadmapService');
+          const roadmapOptions = {
+            timeframe: 'moderate' as const,
+            budget: 'medium' as const,
+            learningStyle: 'mixed' as const,
+            timeCommitment: 10, // 10 hours per week
+            focusAreas: skillGapAnalysis.improvementAreas || []
+          };
+          
+          const generatedRoadmap = await LearningRoadmapService.generateLearningRoadmap(
+            skillGapAnalysis,
+            roadmapOptions
+          );
+          
+          learningRoadmap = generatedRoadmap.learningPath;
+        } catch (roadmapError) {
+          console.warn('Learning roadmap generation failed, using basic roadmap:', roadmapError);
+          learningRoadmap = {
+            id: `roadmap_${recommendation.id}`,
+            title: `${recommendation.title} Learning Path`,
+            description: `Personalized learning path for ${recommendation.title}`,
+            totalDuration: '6-12 months',
+            phases: [
+              {
+                id: 'phase_1',
+                title: 'Foundation Skills',
+                description: 'Build fundamental skills required for this career',
+                duration: '2-3 months',
+                priority: 'critical' as const,
+                resources: [],
+                skills: recommendation.requiredSkills?.slice(0, 3).map(s => s.name) || [],
+                order: 1
+              },
+              {
+                id: 'phase_2',
+                title: 'Advanced Skills',
+                description: 'Develop advanced skills and specializations',
+                duration: '3-4 months',
+                priority: 'important' as const,
+                resources: [],
+                skills: recommendation.requiredSkills?.slice(3, 6).map(s => s.name) || [],
+                order: 2
+              },
+              {
+                id: 'phase_3',
+                title: 'Professional Development',
+                description: 'Build portfolio and gain practical experience',
+                duration: '2-3 months',
+                priority: 'important' as const,
+                resources: [],
+                skills: ['Portfolio Development', 'Professional Networking'],
+                order: 3
+              }
+            ],
+            estimatedCost: 1500,
+            difficulty: 'intermediate' as const,
+            prerequisites: enhancedProfile.skills || [],
+            outcomes: [
+              `Proficiency in ${recommendation.title} skills`,
+              'Industry-ready portfolio',
+              'Job interview preparation'
+            ]
+          };
+        }
+        
+        // 3. Update profile with all the new data
+        const updatedProfile = {
+          ...enhancedProfile,
+          selectedCareerPath: recommendation.id,
+          // Add skill gap analysis results
+          skillGapAnalysis,
+          // Add learning roadmap
+          learningRoadmap,
+          updatedAt: new Date()
+        };
+        
+        setEnhancedProfile(updatedProfile);
+        
+        // 4. Award gamification points and achievements
+        const { useUserStore } = await import('../lib/stores/userStore');
+        const store = useUserStore.getState();
+        
+        // Award XP for career selection
+        store.awardExperience(100, `Selected career path: ${recommendation.title}`);
+        
+        // Check for career selection achievements
+        store.checkAndAwardAchievements('career_selected', { career: recommendation });
+        
+        // Award XP for skill gap analysis
+        store.awardExperience(75, 'Completed skill gap analysis');
+        store.checkAndAwardAchievements('skill_gap_analysis', { analysis: skillGapAnalysis });
+        
+        // Award XP for roadmap generation
+        store.awardExperience(100, 'Generated learning roadmap');
+        store.checkAndAwardAchievements('roadmap_generated', { roadmap: learningRoadmap });
+        
+        // Update milestone progress
+        store.updateMilestoneProgress();
+        
+        // 5. Show success and navigate to roadmap
+        toast.success(`🎉 Career path set up successfully!`, { id: 'career-setup' });
+        toast.info('Check out your personalized learning roadmap!');
+        
+        // Navigate to learning roadmap view after a short delay
+        setTimeout(() => {
+          navigate('/learning-roadmap');
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Error setting up career path:', error);
+        toast.error('Failed to set up career path completely, but selection saved.', { id: 'career-setup' });
+        
+        // Still update the basic selection
+        const updatedProfile = {
+          ...enhancedProfile,
+          selectedCareerPath: recommendation.id,
+          updatedAt: new Date()
+        };
+        setEnhancedProfile(updatedProfile);
+      }
     }
-    
-    toast.success(`Selected ${recommendation.title} as your career path!`);
   };
 
   const handleSaveCareer = (recommendation: CareerRecommendation) => {
@@ -125,9 +326,11 @@ export const CareerDashboard = () => {
     });
   };
 
-  const handleViewDetails = () => {
-    // Navigate to detailed view (could be implemented later)
-    toast.info('Detailed career view coming soon!');
+  const handleViewDetails = (recommendation: CareerRecommendation) => {
+    // Navigate to detailed view with the recommendation data
+    navigate(`/career-details/${recommendation.id}`, { 
+      state: { recommendation } 
+    });
   };
 
   const handleExportData = () => {
@@ -221,6 +424,40 @@ export const CareerDashboard = () => {
         </div>
       </header>
 
+      {/* Tab Navigation */}
+      <div className="border-b border-border/20 bg-card/30 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex space-x-8">
+            <button
+              onClick={() => setActiveTab('recommendations')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'recommendations'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Target className="w-4 h-4" />
+                <span>Career Recommendations</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('progress')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'progress'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <Activity className="w-4 h-4" />
+                <span>Progress Dashboard</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Content */}
       <section className="py-8 px-4 relative">
         <GridBackgroundSmall 
@@ -241,6 +478,14 @@ export const CareerDashboard = () => {
         </DotBackground>
 
         <div className="max-w-7xl mx-auto relative space-y-8">
+          {/* Progress Dashboard Tab */}
+          {activeTab === 'progress' && (
+            <ProgressDashboard />
+          )}
+
+          {/* Recommendations Tab */}
+          {activeTab === 'recommendations' && (
+            <div className="space-y-8">
           {/* Summary Cards */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <NBCard className="p-4">
@@ -296,6 +541,48 @@ export const CareerDashboard = () => {
             </NBCard>
           </div>
 
+          {/* Selected Career Path */}
+          {enhancedProfile?.selectedCareerPath && (
+            <NBCard className="p-6 bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+                  <Target className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground">Selected Career Path</h2>
+                  <p className="text-green-700">
+                    {recommendations.find(r => r.id === enhancedProfile.selectedCareerPath)?.title || 'Career Path Selected'}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex space-x-3">
+                <NBButton
+                  size="sm"
+                  onClick={() => navigate('/learning-roadmap')}
+                  className="flex items-center space-x-1"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>View Learning Roadmap</span>
+                </NBButton>
+                <NBButton
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    const selected = recommendations.find(r => r.id === enhancedProfile.selectedCareerPath);
+                    if (selected) {
+                      navigate(`/career-details/${selected.id}`, { state: { recommendation: selected } });
+                    }
+                  }}
+                  className="flex items-center space-x-1"
+                >
+                  <Target className="w-4 h-4" />
+                  <span>View Details</span>
+                </NBButton>
+              </div>
+            </NBCard>
+          )}
+
           {/* Assessment Summary */}
           <NBCard className="p-6">
             <h2 className="text-lg font-semibold text-foreground mb-3">Your Career Profile</h2>
@@ -312,7 +599,7 @@ export const CareerDashboard = () => {
                 <Settings className="w-4 h-4" />
                 <span>Retake Assessment</span>
               </NBButton>
-              {selectedCareerId && (
+              {!enhancedProfile?.selectedCareerPath && selectedCareerId && (
                 <NBButton
                   size="sm"
                   onClick={() => {
@@ -340,6 +627,18 @@ export const CareerDashboard = () => {
                   <p className="text-muted-foreground">
                     Analyzing your assessment and creating personalized career suggestions...
                   </p>
+                </div>
+                <div className="pt-4">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Taking too long? You can use our curated recommendations instead.
+                  </p>
+                  <NBButton 
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleUseFallbackRecommendations}
+                  >
+                    Use Curated Recommendations
+                  </NBButton>
                 </div>
               </div>
             </NBCard>
@@ -386,9 +685,17 @@ export const CareerDashboard = () => {
                   <NBButton onClick={handleRefreshRecommendations}>
                     Try Again
                   </NBButton>
+                  <NBButton 
+                    variant="accent"
+                    onClick={handleUseFallbackRecommendations}
+                  >
+                    Use Curated Recommendations
+                  </NBButton>
                 </div>
               </div>
             </NBCard>
+          )}
+            </div>
           )}
         </div>
       </section>

@@ -5,6 +5,9 @@ import { Toaster } from '@/components/ui/sonner'
 import { GridBackground } from '@/components/ui/grid-background'
 import { DotBackground } from '@/components/ui/dot-background'
 
+// Import API test utility for debugging
+import '@/lib/utils/apiTest'
+
 function App() {
   return (
     <div className="dark relative min-h-screen bg-background text-foreground">

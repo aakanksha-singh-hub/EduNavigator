@@ -25,24 +25,73 @@ export class CareerRecommendationService {
     assessmentData?: CareerAssessmentData
   ): Promise<CareerRecommendation[]> {
     try {
-      // Check cache first
-      const cached = this.getCachedRecommendations(profile, assessmentData);
-      if (cached) {
-        return cached;
+      // For development, skip cache to always get fresh recommendations
+      if (import.meta.env.DEV) {
+        console.log('Development mode: Skipping cache to get fresh recommendations');
+      } else {
+        // Check cache first in production
+        const cached = this.getCachedRecommendations(profile, assessmentData);
+        if (cached) {
+          console.log('Using cached recommendations');
+          return cached;
+        }
       }
 
-      // Generate new recommendations
-      const recommendations = await this.generateNewRecommendations(profile, assessmentData);
-      
-      // Cache the results
-      this.cacheRecommendations(profile, assessmentData, recommendations);
-      
-      return recommendations;
+      // Check if API is properly configured
+      if (!this.isAPIConfigured()) {
+        console.warn('Gemini API not configured, using fallback recommendations');
+        return this.getFallbackRecommendations(profile, assessmentData);
+      }
+
+      // Generate new recommendations with timeout and fallback
+      try {
+        console.log('CareerRecommendationService: API is configured, generating new recommendations...');
+        const recommendations = await Promise.race([
+          this.generateNewRecommendations(profile, assessmentData),
+          new Promise<CareerRecommendation[]>((_, reject) => {
+            setTimeout(() => reject(new Error('Recommendation generation timeout after 15 seconds')), 15000);
+          })
+        ]);
+        
+        console.log('CareerRecommendationService: Successfully generated recommendations:', recommendations.length);
+        
+        // Cache the results
+        this.cacheRecommendations(profile, assessmentData, recommendations);
+        return recommendations;
+      } catch (timeoutError) {
+        console.warn('API timeout or error, falling back to curated recommendations:', timeoutError);
+        return this.getFallbackRecommendations(profile, assessmentData);
+      }
+
     } catch (error) {
       console.error('Error generating career recommendations:', error);
       // Fallback to basic recommendations
       return this.getFallbackRecommendations(profile, assessmentData);
     }
+  }
+
+  /**
+   * Check if the Gemini API is properly configured
+   */
+  private static isAPIConfigured(): boolean {
+    // Import config here to avoid circular dependencies
+    const config = {
+      geminiApiKey: import.meta.env.VITE_GEMINI_API_KEY || ''
+    };
+    
+    // Debug logging to help troubleshoot (only in development)
+    if (import.meta.env.DEV) {
+      console.log('API Key check:', {
+        hasKey: !!config.geminiApiKey,
+        keyLength: config.geminiApiKey?.length || 0,
+        keyPrefix: config.geminiApiKey?.substring(0, 10) + '...',
+        isPlaceholder: config.geminiApiKey === 'your_api_key_here'
+      });
+    }
+    
+    return !!(config.geminiApiKey && 
+           config.geminiApiKey !== '' && 
+           config.geminiApiKey !== 'your_api_key_here');
   }
 
   /**
@@ -52,11 +101,17 @@ export class CareerRecommendationService {
     profile: UserProfile,
     assessmentData?: CareerAssessmentData
   ): Promise<CareerRecommendation[]> {
+    console.log('CareerRecommendationService: Starting generateNewRecommendations');
+    
     const prompt = this.buildRecommendationPrompt(profile, assessmentData);
     
     try {
+      console.log('CareerRecommendationService: Calling GeminiService.generateCareerRecommendations');
       const aiResponse = await GeminiService.generateCareerRecommendations(prompt);
+      console.log('CareerRecommendationService: Received AI response:', aiResponse?.substring(0, 200) + '...');
+      
       const recommendations = this.parseAIResponse(aiResponse);
+      console.log('CareerRecommendationService: Parsed recommendations:', recommendations.length);
       
       // Calculate fit scores for each recommendation and ensure all required fields
       return recommendations.map(rec => ({
@@ -141,7 +196,7 @@ export class CareerRecommendationService {
       - Personality Traits: ${assessmentData.personalityTraits.join(', ')}
       - Career Goals: ${assessmentData.careerGoals.join(', ')}
       - Timeline: ${assessmentData.timeframe}
-      - Assessment Completed: ${assessmentData.completedAt.toDateString()}
+      - Assessment Completed: ${new Date(assessmentData.completedAt).toDateString()}
       `;
     }
 
@@ -448,47 +503,46 @@ export class CareerRecommendationService {
   /**
    * Provide fallback recommendations when AI service fails
    */
-  private static getFallbackRecommendations(
+  static getFallbackRecommendations(
     profile: UserProfile,
     assessmentData?: CareerAssessmentData
   ): CareerRecommendation[] {
-    const fallbackRecommendations: Partial<CareerRecommendation>[] = [
-      {
-        id: 'fallback_1',
-        title: 'Software Developer',
-        description: 'Design, develop, and maintain software applications using various programming languages and frameworks.',
-        salaryRange: { min: 60000, max: 120000, currency: 'USD', period: 'yearly' },
-        growthProspects: 'high',
-        primaryCareer: 'Software Developer',
-        relatedRoles: ['Frontend Developer', 'Backend Developer', 'Full Stack Developer'],
-        summary: 'Based on your technical interests and skills, software development offers excellent growth opportunities.'
-      },
-      {
-        id: 'fallback_2',
-        title: 'Data Analyst',
-        description: 'Analyze data to help organizations make informed business decisions using statistical tools and techniques.',
-        salaryRange: { min: 50000, max: 90000, currency: 'USD', period: 'yearly' },
-        growthProspects: 'high',
-        primaryCareer: 'Data Analyst',
-        relatedRoles: ['Business Analyst', 'Data Scientist', 'Research Analyst'],
-        summary: 'Your analytical skills and attention to detail make you well-suited for data analysis roles.'
-      },
-      {
-        id: 'fallback_3',
-        title: 'Product Manager',
-        description: 'Lead product development from conception to launch, working with cross-functional teams.',
-        salaryRange: { min: 70000, max: 130000, currency: 'USD', period: 'yearly' },
-        growthProspects: 'high',
-        primaryCareer: 'Product Manager',
-        relatedRoles: ['Project Manager', 'Product Owner', 'Business Analyst'],
-        summary: 'Your leadership potential and strategic thinking align well with product management roles.'
+    // Create personalized fallback recommendations based on user profile
+    const baseRecommendations = this.getBaseRecommendations();
+    
+    // Filter and customize based on user's interests and skills
+    let recommendations = baseRecommendations;
+    
+    // If user has specific career interest, prioritize related careers
+    if (profile.careerInterest) {
+      const interest = profile.careerInterest.toLowerCase();
+      recommendations = baseRecommendations.filter(rec => 
+        rec.title.toLowerCase().includes(interest) ||
+        rec.description.toLowerCase().includes(interest) ||
+        rec.relatedRoles.some(role => role.toLowerCase().includes(interest))
+      );
+      
+      // If no matches, fall back to all recommendations
+      if (recommendations.length === 0) {
+        recommendations = baseRecommendations;
       }
-    ];
-
-    return fallbackRecommendations.map(rec => ({
+    }
+    
+    // If we have assessment data, further customize
+    if (assessmentData) {
+      recommendations = this.customizeWithAssessment(recommendations, assessmentData);
+    }
+    
+    // Ensure we have at least 3 recommendations
+    if (recommendations.length < 3) {
+      recommendations = baseRecommendations.slice(0, 5);
+    }
+    
+    return recommendations.map(rec => ({
       ...rec,
       fitScore: this.calculateFitScore(rec, profile, assessmentData).overallFit,
-      requiredSkills: [],
+      requiredSkills: this.generateRequiredSkills(rec.title),
+      recommendedPath: this.generateLearningPath(rec.title, profile),
       jobMarketData: {
         demand: 'high',
         competitiveness: 'medium',
@@ -497,6 +551,174 @@ export class CareerRecommendationService {
         averageSalary: (rec.salaryRange!.min + rec.salaryRange!.max) / 2
       }
     })) as CareerRecommendation[];
+  }
+
+  /**
+   * Get base set of career recommendations
+   */
+  private static getBaseRecommendations(): Partial<CareerRecommendation>[] {
+    return [
+      {
+        id: 'fallback_1',
+        title: 'Software Developer',
+        description: 'Design, develop, and maintain software applications using various programming languages and frameworks. Work on web applications, mobile apps, or enterprise software systems.',
+        salaryRange: { min: 60000, max: 120000, currency: 'USD', period: 'yearly' },
+        growthProspects: 'high',
+        primaryCareer: 'Software Developer',
+        relatedRoles: ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Mobile Developer'],
+        summary: 'Based on your technical interests and skills, software development offers excellent growth opportunities and high demand in the job market.'
+      },
+      {
+        id: 'fallback_2',
+        title: 'Data Analyst',
+        description: 'Analyze complex data sets to help organizations make informed business decisions. Use statistical tools, create visualizations, and identify trends and patterns.',
+        salaryRange: { min: 50000, max: 90000, currency: 'USD', period: 'yearly' },
+        growthProspects: 'high',
+        primaryCareer: 'Data Analyst',
+        relatedRoles: ['Business Analyst', 'Data Scientist', 'Research Analyst', 'Business Intelligence Analyst'],
+        summary: 'Your analytical skills and attention to detail make you well-suited for data analysis roles in the growing field of data science.'
+      },
+      {
+        id: 'fallback_3',
+        title: 'Product Manager',
+        description: 'Lead product development from conception to launch, working with cross-functional teams. Define product strategy, gather requirements, and coordinate with engineering and design teams.',
+        salaryRange: { min: 70000, max: 130000, currency: 'USD', period: 'yearly' },
+        growthProspects: 'high',
+        primaryCareer: 'Product Manager',
+        relatedRoles: ['Project Manager', 'Product Owner', 'Business Analyst', 'Strategy Consultant'],
+        summary: 'Your leadership potential and strategic thinking align well with product management roles in tech companies.'
+      },
+      {
+        id: 'fallback_4',
+        title: 'UX/UI Designer',
+        description: 'Create user-centered designs for digital products. Conduct user research, create wireframes and prototypes, and collaborate with development teams to implement designs.',
+        salaryRange: { min: 55000, max: 100000, currency: 'USD', period: 'yearly' },
+        growthProspects: 'high',
+        primaryCareer: 'UX/UI Designer',
+        relatedRoles: ['Graphic Designer', 'Web Designer', 'User Researcher', 'Interaction Designer'],
+        summary: 'If you have a creative mindset and enjoy solving user problems, UX/UI design offers a perfect blend of creativity and technology.'
+      },
+      {
+        id: 'fallback_5',
+        title: 'Digital Marketing Specialist',
+        description: 'Develop and execute digital marketing campaigns across various channels. Analyze campaign performance, manage social media, and optimize content for search engines.',
+        salaryRange: { min: 45000, max: 80000, currency: 'USD', period: 'yearly' },
+        growthProspects: 'high',
+        primaryCareer: 'Digital Marketing Specialist',
+        relatedRoles: ['Content Marketing Manager', 'SEO Specialist', 'Social Media Manager', 'Marketing Analyst'],
+        summary: 'Digital marketing combines creativity with data analysis, perfect for those who enjoy both strategic thinking and creative content creation.'
+      },
+      {
+        id: 'fallback_6',
+        title: 'Cybersecurity Analyst',
+        description: 'Protect organizations from cyber threats by monitoring security systems, investigating incidents, and implementing security measures.',
+        salaryRange: { min: 65000, max: 110000, currency: 'USD', period: 'yearly' },
+        growthProspects: 'high',
+        primaryCareer: 'Cybersecurity Analyst',
+        relatedRoles: ['Information Security Specialist', 'Security Engineer', 'Penetration Tester', 'Risk Analyst'],
+        summary: 'With increasing cyber threats, cybersecurity offers excellent job security and growth opportunities for detail-oriented professionals.'
+      }
+    ];
+  }
+
+  /**
+   * Customize recommendations based on assessment data
+   */
+  private static customizeWithAssessment(
+    recommendations: Partial<CareerRecommendation>[],
+    assessmentData: CareerAssessmentData
+  ): Partial<CareerRecommendation>[] {
+    // Score recommendations based on assessment alignment
+    const scoredRecommendations = recommendations.map(rec => {
+      let score = 0;
+      
+      // Check interest alignment
+      const interests = assessmentData.interests.join(' ').toLowerCase();
+      if (rec.description?.toLowerCase().includes('creative') && interests.includes('creative')) score += 2;
+      if (rec.description?.toLowerCase().includes('technical') && interests.includes('technology')) score += 2;
+      if (rec.description?.toLowerCase().includes('data') && interests.includes('analysis')) score += 2;
+      if (rec.description?.toLowerCase().includes('people') && interests.includes('helping')) score += 2;
+      
+      // Check value alignment
+      const values = assessmentData.values.join(' ').toLowerCase();
+      if (rec.description?.toLowerCase().includes('innovation') && values.includes('innovation')) score += 1;
+      if (rec.description?.toLowerCase().includes('leadership') && values.includes('leadership')) score += 1;
+      if (rec.description?.toLowerCase().includes('stability') && values.includes('stability')) score += 1;
+      
+      return { ...rec, alignmentScore: score };
+    });
+    
+    // Sort by alignment score and return top recommendations
+    return scoredRecommendations
+      .sort((a, b) => (b.alignmentScore || 0) - (a.alignmentScore || 0))
+      .slice(0, 5);
+  }
+
+  /**
+   * Generate required skills for a career
+   */
+  private static generateRequiredSkills(careerTitle: string) {
+    const skillMap: Record<string, any[]> = {
+      'Software Developer': [
+        { id: 'js', name: 'JavaScript', category: 'Technical', isRequired: true, priority: 'critical' },
+        { id: 'react', name: 'React', category: 'Technical', isRequired: true, priority: 'important' },
+        { id: 'git', name: 'Git', category: 'Technical', isRequired: true, priority: 'critical' },
+        { id: 'problem-solving', name: 'Problem Solving', category: 'Soft Skills', isRequired: true, priority: 'critical' }
+      ],
+      'Data Analyst': [
+        { id: 'sql', name: 'SQL', category: 'Technical', isRequired: true, priority: 'critical' },
+        { id: 'excel', name: 'Excel', category: 'Technical', isRequired: true, priority: 'important' },
+        { id: 'python', name: 'Python', category: 'Technical', isRequired: false, priority: 'important' },
+        { id: 'statistics', name: 'Statistics', category: 'Technical', isRequired: true, priority: 'critical' }
+      ],
+      'Product Manager': [
+        { id: 'strategy', name: 'Strategic Thinking', category: 'Soft Skills', isRequired: true, priority: 'critical' },
+        { id: 'communication', name: 'Communication', category: 'Soft Skills', isRequired: true, priority: 'critical' },
+        { id: 'agile', name: 'Agile Methodology', category: 'Technical', isRequired: true, priority: 'important' },
+        { id: 'analytics', name: 'Data Analytics', category: 'Technical', isRequired: false, priority: 'nice-to-have' }
+      ]
+    };
+    
+    return skillMap[careerTitle] || [
+      { id: 'communication', name: 'Communication', category: 'Soft Skills', isRequired: true, priority: 'critical' },
+      { id: 'problem-solving', name: 'Problem Solving', category: 'Soft Skills', isRequired: true, priority: 'important' }
+    ];
+  }
+
+  /**
+   * Generate a basic learning path for a career
+   */
+  private static generateLearningPath(careerTitle: string, profile: UserProfile) {
+    return {
+      id: `path_${careerTitle.toLowerCase().replace(/\s+/g, '_')}`,
+      title: `${careerTitle} Learning Path`,
+      description: `Comprehensive learning path to become a ${careerTitle}`,
+      totalDuration: '6-12 months',
+      phases: [],
+      estimatedCost: 2000,
+      difficulty: 'intermediate' as const,
+      prerequisites: profile.skills || [],
+      outcomes: [`Proficiency in ${careerTitle} skills`, 'Industry-ready portfolio', 'Job interview preparation']
+    };
+  }
+
+  /**
+   * Get API configuration status for user feedback
+   */
+  static getAPIStatus(): { configured: boolean; message: string } {
+    const isConfigured = this.isAPIConfigured();
+    
+    if (isConfigured) {
+      return {
+        configured: true,
+        message: 'AI-powered recommendations are available'
+      };
+    } else {
+      return {
+        configured: false,
+        message: 'Using curated career recommendations. Configure Gemini API for personalized AI recommendations.'
+      };
+    }
   }
 
   /**

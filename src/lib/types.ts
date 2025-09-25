@@ -16,6 +16,10 @@ export interface EnhancedUserProfile extends UserProfile {
   careerRecommendations: CareerRecommendation[];
   selectedCareerPath?: string;
   
+  // Skill Analysis and Learning
+  skillGapAnalysis?: any; // Will be defined by SkillAnalysisService
+  learningRoadmap?: LearningPath;
+  
   // Progress Tracking
   progressData: ProgressData;
   achievements: Achievement[];
@@ -97,6 +101,26 @@ export interface LearningResource {
   rating?: number;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   skills: string[];
+  platformLinks?: PlatformLink[];
+}
+
+// Platform Link Types
+export interface PlatformLink {
+  platform: string;
+  displayName: string;
+  url: string;
+  logo?: string;
+  isRecommended?: boolean;
+}
+
+export interface LearningPlatform {
+  id: string;
+  name: string;
+  displayName: string;
+  logo: string;
+  baseUrl: string;
+  searchTemplate: string;
+  strengths: string[];
 }
 
 // Progress Tracking Types
@@ -432,6 +456,14 @@ export interface UserStore {
   updateProgress: (progress: Partial<ProgressData>) => void;
   addAchievement: (achievement: Achievement) => void;
   updateStreak: (streakData: StreakData) => void;
+  
+  // Gamification actions
+  processActivityCompletion: (activity: CompletedActivity) => void;
+  awardExperience: (xp: number, reason: string) => void;
+  checkAndAwardAchievements: (activityType: string, activityData?: any) => Achievement[];
+  updateMilestoneProgress: () => void;
+  initializeGamification: () => void;
+  getLevelInfo: () => LevelInfo | null;
   
   // Chatbot actions
   setCurrentConversation: (conversation: ChatConversation | null) => void;
