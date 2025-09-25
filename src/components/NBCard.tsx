@@ -13,17 +13,17 @@ export const NBCard: React.FC<NBCardProps> = ({
   variant = 'default' 
 }) => {
   const variantStyles = {
-    default: 'bg-card border-border',
-    accent: 'bg-accent border-accent text-accent-foreground',
-    warn: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400',
-    error: 'bg-red-500/10 border-red-500/20 text-red-400',
-    ok: 'bg-green-500/10 border-green-500/20 text-green-400'
+    default: 'bg-gradient-to-br from-white/95 to-pink-50/80 border-pink-200',
+    accent: 'bg-gradient-to-br from-purple-50/90 to-blue-50/90 border-purple-200',
+    warn: 'bg-gradient-to-br from-yellow-50/90 to-orange-50/90 border-yellow-300 text-orange-700',
+    error: 'bg-gradient-to-br from-red-50/90 to-pink-50/90 border-red-300 text-red-700',
+    ok: 'bg-gradient-to-br from-green-50/90 to-emerald-50/90 border-green-300 text-green-700'
   };
 
   return (
     <div 
       className={cn(
-        'rounded-lg border p-6 transition-all hover:shadow-lg',
+        'rounded-2xl border-2 p-6 transition-all hover:shadow-xl backdrop-blur-sm',
         variantStyles[variant],
         className
       )}

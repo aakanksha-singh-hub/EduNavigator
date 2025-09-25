@@ -304,7 +304,7 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
             {question.options?.map((option, index) => (
               <label
                 key={index}
-                className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 cursor-pointer transition-colors"
+                className="flex items-center space-x-3 p-4 rounded-xl border-2 border-pink-200 hover:bg-pink-50 hover:border-pink-300 cursor-pointer transition-all duration-200"
               >
                 <input
                   type="radio"
@@ -312,9 +312,9 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
                   value={option}
                   checked={currentAnswer === option}
                   onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-                  className="w-4 h-4 text-primary focus:ring-primary"
+                  className="w-4 h-4 text-pink-500 focus:ring-pink-400"
                 />
-                <span className="text-sm font-medium">{option}</span>
+                <span className="text-sm font-medium text-gray-700">{option}</span>
               </label>
             ))}
           </div>
@@ -323,7 +323,7 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
       case 'ranking':
         return (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-gray-600 mb-4">
               Select up to 3 options that matter most to you:
             </p>
             {question.options?.map((option, index) => {
@@ -360,7 +360,7 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
                   />
                   <span className="text-sm font-medium">{option}</span>
                   {isSelected && (
-                    <CheckCircle className="w-4 h-4 text-primary ml-auto" />
+                    <CheckCircle className="w-5 h-5 text-purple-500 ml-auto" />
                   )}
                 </label>
               );
@@ -397,32 +397,32 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
 
   return (
     <div className={cn('max-w-4xl mx-auto', className)}>
-      <NBCard className="border-border/50 bg-card/50 backdrop-blur-sm">
+      <NBCard className="border-pink-300 bg-gradient-to-br from-white/95 via-pink-50/50 to-purple-50/50 backdrop-blur-sm shadow-xl">
         {/* Progress Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-foreground">
+            <h2 className="text-2xl font-bold text-gray-800">
               Career Assessment
             </h2>
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-gray-600">
               Step {currentStep + 1} of {totalSteps}
             </span>
           </div>
           
           {/* Progress Bar */}
-          <div className="w-full bg-secondary rounded-full h-2 mb-6">
+          <div className="w-full bg-pink-100 rounded-full h-3 mb-6 shadow-inner">
             <div 
-              className="bg-primary h-2 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-pink-500 to-purple-500 h-3 rounded-full transition-all duration-500 shadow-sm"
               style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
             />
           </div>
 
           {/* Category Info */}
           <div className="text-center mb-6">
-            <h3 className="text-xl font-semibold text-foreground mb-2">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
               {getCategoryTitle(currentCategory)}
             </h3>
-            <p className="text-muted-foreground">
+            <p className="text-gray-600">
               {getCategoryDescription(currentCategory)}
             </p>
           </div>
@@ -432,9 +432,9 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
         <div className="space-y-8 mb-8">
           {currentQuestions.map((question, index) => (
             <div key={question.id} className="space-y-4">
-              <h4 className="text-lg font-medium text-foreground">
+              <h4 className="text-lg font-medium text-gray-800">
                 {index + 1}. {question.question}
-                {question.required && <span className="text-destructive ml-1">*</span>}
+                {question.required && <span className="text-red-500 ml-1">*</span>}
               </h4>
               {renderQuestion(question)}
             </div>
@@ -442,7 +442,7 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center pt-6 border-t border-border">
+        <div className="flex justify-between items-center pt-6 border-t border-pink-200">
           <NBButton
             type="button"
             variant="secondary"
@@ -458,12 +458,12 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
               <div
                 key={index}
                 className={cn(
-                  'w-2 h-2 rounded-full transition-colors',
+                  'w-3 h-3 rounded-full transition-colors',
                   index === currentStep 
-                    ? 'bg-primary' 
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-500 shadow-md' 
                     : index < currentStep 
-                      ? 'bg-primary/60' 
-                      : 'bg-secondary'
+                      ? 'bg-pink-400 shadow-sm' 
+                      : 'bg-pink-200'
                 )}
               />
             ))}

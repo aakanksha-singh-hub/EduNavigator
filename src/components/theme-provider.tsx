@@ -26,33 +26,22 @@ export function ThemeProvider({
   storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  // Force light theme only for educational website
+  const [theme] = useState<Theme>('light')
 
   useEffect(() => {
     const root = window.document.documentElement
 
-    root.classList.remove('light', 'dark')
-
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? 'dark'
-        : 'light'
-
-      root.classList.add(systemTheme)
-      return
-    }
-
-    root.classList.add(theme)
+    // Always use light theme for educational website
+    root.classList.remove('dark', 'system')
+    root.classList.add('light')
   }, [theme])
 
   const value = {
-    theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+    theme: 'light' as Theme,
+    setTheme: () => {
+      // Disable theme switching for educational website
+      // Always keep it light mode
     },
   }
 

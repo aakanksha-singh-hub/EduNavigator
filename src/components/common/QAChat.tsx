@@ -141,24 +141,28 @@ export function QAChat({ documentText }: QAChatProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3 mb-6">
-        <Bot className="h-8 w-8 text-primary" />
-        <h2 className="text-3xl font-bold text-foreground">
+        <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+          <Bot className="h-5 w-5 text-white" />
+        </div>
+        <h2 className="text-3xl font-bold text-gray-800">
           Ask Questions About Your Document
         </h2>
       </div>
 
       {/* Suggested Questions */}
       {messages.length === 0 && (
-        <Card>
+        <Card className="border-pink-200 bg-gradient-to-br from-pink-50 to-purple-50">
           <CardContent className="p-6">
             <div className="flex items-center gap-2 mb-4">
-              <Lightbulb className="h-5 w-5 text-yellow-500" />
-              <h3 className="font-semibold text-foreground">Suggested Questions</h3>
+              <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-lg flex items-center justify-center">
+                <Lightbulb className="h-4 w-4 text-white" />
+              </div>
+              <h3 className="font-semibold text-gray-800">Suggested Questions</h3>
             </div>
             {isLoadingSuggestions ? (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                <span className="ml-2 text-muted-foreground">Generating questions...</span>
+                <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
+                <span className="ml-2 text-gray-600">Generating questions...</span>
               </div>
             ) : (
               <div className="grid gap-3">
@@ -166,7 +170,7 @@ export function QAChat({ documentText }: QAChatProps) {
                   <Button
                     key={suggestion.id}
                     variant="outline"
-                    className="justify-start text-left h-auto py-3 px-4 whitespace-normal"
+                    className="justify-start text-left h-auto py-3 px-4 whitespace-normal border-purple-200 hover:bg-purple-50 hover:border-purple-300 text-gray-700"
                     onClick={() => handleSuggestedQuestionClick(suggestion.question)}
                   >
                     <span className="text-sm">{suggestion.question}</span>
@@ -180,7 +184,7 @@ export function QAChat({ documentText }: QAChatProps) {
 
       {/* Chat Messages */}
       {messages.length > 0 && (
-        <Card className="max-h-96 overflow-y-auto">
+        <Card className="max-h-96 overflow-y-auto border-blue-200 bg-white">
           <CardContent className="p-6 space-y-4">
             {messages.map((message) => (
               <div
@@ -191,16 +195,16 @@ export function QAChat({ documentText }: QAChatProps) {
               >
                 {message.role === "assistant" && (
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                      <Bot className="h-4 w-4 text-primary-foreground" />
+                    <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center shadow">
+                      <Bot className="h-4 w-4 text-white" />
                     </div>
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
+                  className={`max-w-[80%] rounded-2xl p-4 ${
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground ml-8"
-                      : "bg-muted"
+                      ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white ml-8 shadow-md"
+                      : "bg-gray-50 border border-gray-200 text-gray-800"
                   }`}
                 >
                   {message.role === "user" ? (
@@ -213,8 +217,8 @@ export function QAChat({ documentText }: QAChatProps) {
                 </div>
                 {message.role === "user" && (
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4 text-secondary-foreground" />
+                    <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center shadow">
+                      <User className="h-4 w-4 text-white" />
                     </div>
                   </div>
                 )}
@@ -223,14 +227,14 @@ export function QAChat({ documentText }: QAChatProps) {
             {isLoading && (
               <div className="flex gap-3 justify-start">
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                    <Bot className="h-4 w-4 text-primary-foreground" />
+                  <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center shadow">
+                    <Bot className="h-4 w-4 text-white" />
                   </div>
                 </div>
-                <div className="bg-muted rounded-lg p-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4">
                   <div className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    <span className="text-sm text-muted-foreground">Thinking...</span>
+                    <Loader2 className="h-4 w-4 animate-spin text-purple-500" />
+                    <span className="text-sm text-gray-600">Thinking...</span>
                   </div>
                 </div>
               </div>
@@ -247,9 +251,13 @@ export function QAChat({ documentText }: QAChatProps) {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
           placeholder="Ask a question about your document..."
           disabled={isLoading}
-          className="flex-1"
+          className="flex-1 border-purple-200 focus:border-purple-400 focus:ring-purple-200"
         />
-        <Button type="submit" disabled={!inputValue.trim() || isLoading}>
+        <Button 
+          type="submit" 
+          disabled={!inputValue.trim() || isLoading}
+          className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white shadow-lg"
+        >
           {isLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
@@ -259,7 +267,7 @@ export function QAChat({ documentText }: QAChatProps) {
       </form>
 
       {messages.length > 0 && (
-        <div className="text-xs text-muted-foreground text-center">
+        <div className="text-xs text-gray-500 text-center bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg p-2">
           Ask follow-up questions to dive deeper into your document
         </div>
       )}

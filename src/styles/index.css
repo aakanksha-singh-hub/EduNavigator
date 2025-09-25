@@ -2,86 +2,87 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-
 @layer base {
   :root {
-    --background: 220 13% 8%;
-    --foreground: 210 40% 98%;
-    --card: 220 13% 11%;
-    --card-foreground: 210 40% 98%;
-    --popover: 220 13% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 263 70% 50%;
+    /* Light theme colors for educational website */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 215 13% 16%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 215 13% 16%;
-    --muted-foreground: 217 10% 65%;
-    --accent: 142 86% 28%;
-    --accent-foreground: 355 7% 97%;
-    --destructive: 0 63% 31%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 215 13% 20%;
-    --input: 215 13% 16%;
-    --ring: 263 70% 50%;
-    --radius: 0.5rem;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
   }
 
-  .dark {
-    --background: 220 13% 8%;
-    --foreground: 210 40% 98%;
-    --card: 220 13% 11%;
-    --card-foreground: 210 40% 98%;
-    --popover: 220 13% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 263 70% 50%;
+  /* Remove all dark mode styles */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 215 13% 16%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 215 13% 16%;
-    --muted-foreground: 217 10% 65%;
-    --accent: 142 86% 28%;
-    --accent-foreground: 355 7% 97%;
-    --destructive: 0 63% 31%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 215 13% 20%;
-    --input: 215 13% 16%;
-    --ring: 263 70% 50%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
   }
 }
 
 @font-face {
   font-family: "geist";
   src: url("/fonts/GeistVariableVF.woff2") format("woff2");
-  /* font-weight: normal;
-  font-style: normal; */
 }
 
 @layer base {
   * {
-    border-color: hsl(215, 13%, 20%);
+    border-color: hsl(var(--border));
   }
 
   body {
-    background-color: hsl(220, 13%, 8%);
-    color: hsl(210, 40%, 98%);
+    background: linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 50%, #eff6ff 100%);
+    color: hsl(var(--foreground));
     font-family: 'geist', system-ui, sans-serif;
+    min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'geist', system-ui, sans-serif;
     font-weight: 600;
+    color: hsl(var(--foreground));
   }
 }
 
-/* Light rays background */
+/* Light educational background */
 @layer utilities {
-  .light-rays-bg {
-    background: linear-gradient(135deg, hsl(220, 13%, 8%) 0%, hsl(263, 70%, 8%) 50%, hsl(220, 13%, 8%) 100%);
+  .light-educational-bg {
+    background: linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 25%, #eff6ff 50%, #f0fdf4 75%, #fef7ed 100%);
     background-image: 
-      radial-gradient(ellipse at top, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at bottom, rgba(34, 197, 94, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at top, rgba(236, 72, 153, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.04) 0%, transparent 50%);
   }
 }
@@ -94,24 +95,32 @@ html {
   width: 10px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
+  background: linear-gradient(to bottom, #ec4899, #a855f7);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted));
+  background: linear-gradient(to bottom, #db2777, #9333ea);
 }
 
 .gradient {
-  background: linear-gradient(to right, #F596D3, #D247BF);
+  background: linear-gradient(to right, #ec4899, #a855f7, #3b82f6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Enhanced educational card shadows */
+.educational-card-shadow {
+  box-shadow: 
+    0 4px 20px rgba(236, 72, 153, 0.1),
+    0 8px 40px rgba(168, 85, 247, 0.08),
+    0 16px 60px rgba(59, 130, 246, 0.06);
 }
 
 /* 3D Flip Effect for Flashcards */
@@ -127,68 +136,65 @@ html {
   transform: rotateY(180deg);
 }
 
-
-/* HeroCards background shadow */
-.shadow {
+/* Enhanced light theme animations */
+.educational-glow {
   position: absolute;
-  background: hsl(var(--primary) / 0%);
-  border-radius: 24px;
-  rotate: 35deg;
-
-  width: 260px;
-  top: 200px;
-  height: 400px;
-  filter: blur(150px);
-  animation: shadow-slide infinite 4s linear alternate;
+  background: linear-gradient(45deg, #fce7f3, #e0e7ff, #ecfdf5);
+  border-radius: 50%;
+  opacity: 0.6;
+  filter: blur(40px);
+  animation: gentle-float 6s ease-in-out infinite alternate;
 }
 
-@keyframes shadow-slide {
-  from {
-    background: hsl(var(--primary) / 20%);
-    right: 460px;
+@keyframes gentle-float {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.4;
   }
-
-  to {
-    background: hsl(var(--primary) / 80%);
-    right: 160px;
+  50% {
+    transform: translate(20px, -20px) scale(1.1);
+    opacity: 0.7;
   }
-}
-
-@media (max-width: 1024px) {
-  .shadow {
-    top: 70px;
-  }
-
-  @keyframes shadow-slide {
-    from {
-      background: hsl(var(--primary) / 20%);
-      right: 460px;
-    }
-
-    to {
-      background: hsl(var(--primary) / 50%);
-      right: 160px;
-    }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+    opacity: 0.4;
   }
 }
 
-@media (max-width: 768px) {
-  .shadow {
-    top: 70px;
-    width: 100px;
-    height: 350px;
-    filter: blur(60px);
-  }
+/* Pastel button hover effects */
+.btn-pastel-hover {
+  transition: all 0.3s ease;
+}
 
-  @keyframes shadow-slide {
-    from {
-      background: hsl(var(--primary) / 20%);
-      right: 280px;
-    }
+.btn-pastel-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.2);
+}
 
-    to {
-      background: hsl(var(--primary) / 30%);
-      right: 100px;
-    }
-  }
+/* Glass morphism for modern educational look */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Enhanced card styling for educational content */
+.educational-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(249, 250, 251, 0.9));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.educational-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  margin: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #fce7f3, #e0e7ff, #f0fdf4);
 }

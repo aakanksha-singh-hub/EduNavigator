@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CareerAssessmentForm } from '../components/CareerAssessmentForm';
-import { GridBackgroundSmall } from '../components/ui/grid-background';
-import { DotBackground } from '../components/ui/dot-background';
 import { NBCard } from '../components/NBCard';
 import { NBButton } from '../components/NBButton';
 import { useUserStore } from '../lib/stores/userStore';
@@ -166,7 +164,7 @@ export const CareerAssessment = () => {
 
   if (isCheckingProfile) {
     return (
-      <div className="min-h-screen light-rays-bg relative flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 relative flex items-center justify-center">
         <NBCard className="p-8 text-center">
           <div className="space-y-4">
             <div className="w-8 h-8 animate-spin mx-auto border-2 border-primary border-t-transparent rounded-full"></div>
@@ -182,23 +180,23 @@ export const CareerAssessment = () => {
   }
 
   return (
-    <div className="min-h-screen light-rays-bg relative">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 relative">
       {/* Header */}
-      <header className="border-b border-border/20 bg-card/50 backdrop-blur-sm">
+      <header className="border-b border-pink-200/50 bg-white/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => navigate('/details')}
-                className="p-2 hover:bg-accent/20 rounded-lg transition-colors"
+                className="p-2 hover:bg-pink-100 rounded-lg transition-colors"
               >
-                <ArrowLeft className="w-5 h-5 text-foreground" />
+                <ArrowLeft className="w-5 h-5 text-gray-700" />
               </button>
-              <h1 className="text-2xl font-bold text-foreground">
+              <h1 className="text-2xl font-bold text-gray-800">
                 Career Assessment
               </h1>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
               <User className="w-4 h-4" />
               <span>{profile.name}</span>
             </div>
@@ -208,22 +206,23 @@ export const CareerAssessment = () => {
 
       {/* Content */}
       <section className="py-12 px-4 relative">
-        <GridBackgroundSmall 
-          size={24} 
-          lineColor="rgba(139, 92, 246, 0.1)" 
-          opacity={0.2}
-          className="absolute inset-0"
-        >
-          <div />
-        </GridBackgroundSmall>
-        <DotBackground 
-          size={40} 
-          dotColor="rgba(34, 197, 94, 0.08)" 
-          opacity={0.3}
-          className="absolute inset-0"
-        >
-          <div />
-        </DotBackground>
+        {/* Light educational background patterns */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-50/30 via-purple-50/30 to-blue-50/30"></div>
+          <div 
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 25% 25%, #ec4899 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, #a855f7 1px, transparent 1px),
+                radial-gradient(circle at 75% 25%, #3b82f6 1px, transparent 1px),
+                radial-gradient(circle at 25% 75%, #10b981 1px, transparent 1px)
+              `,
+              backgroundSize: '120px 120px, 100px 100px, 80px 80px, 140px 140px',
+              backgroundPosition: '0 0, 40px 40px, 80px 0, 0 80px'
+            }}
+          ></div>
+        </div>
 
         <div className="max-w-6xl mx-auto relative">
           {!showForm && hasExistingAssessment && existingAssessment ? (
