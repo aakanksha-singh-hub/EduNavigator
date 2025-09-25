@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { cn } from '../lib/utils';
 
 interface NBButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'accent' | 'warn' | 'error' | 'ok';
+  variant?: 'primary' | 'secondary' | 'accent' | 'warn' | 'error' | 'ok' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
 }
@@ -48,7 +48,10 @@ export const NBButton: React.FC<NBButtonProps> = ({
       : 'bg-red-500 text-white hover:bg-red-600 hover:scale-105 active:scale-95',
     ok: isClicked
       ? 'bg-green-600 text-white shadow-lg scale-105'
-      : 'bg-green-500 text-white hover:bg-green-600 hover:scale-105 active:scale-95'
+      : 'bg-green-500 text-white hover:bg-green-600 hover:scale-105 active:scale-95',
+    ghost: isClicked
+      ? 'bg-gray-100 text-gray-900 shadow-lg scale-105'
+      : 'bg-transparent text-gray-700 hover:bg-gray-100 hover:scale-105 active:scale-95'
   };
 
   const sizeStyles = {

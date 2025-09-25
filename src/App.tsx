@@ -1,5 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import AppRoutes from '@/router/routes'
+import { Layout } from '@/components/Layout'
 import { CommandMenu } from '@/components/CommandMenu'
 import { Toaster } from '@/components/ui/sonner'
 import { GridBackground } from '@/components/ui/grid-background'
@@ -29,7 +30,9 @@ function App() {
       </DotBackground>
       <Router>
         <CommandMenu />
-        <AppRoutes />
+        <Layout>
+          <AppRoutes />
+        </Layout>
         <Toaster />
       </Router>
     </div>

@@ -12,7 +12,6 @@ import { AssessmentService } from '../lib/services/assessmentService';
 import { CareerRecommendation } from '../lib/types';
 import { toast } from 'sonner';
 import { 
-  ArrowLeft, 
   RefreshCw, 
   User, 
   Target, 
@@ -22,7 +21,8 @@ import {
   Settings,
   Download,
   BookOpen,
-  Activity
+  Activity,
+  FileText
 } from 'lucide-react';
 
 export const CareerDashboard = () => {
@@ -376,21 +376,13 @@ export const CareerDashboard = () => {
       <header className="border-b border-border/20 bg-card/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => navigate('/assessment')}
-                className="p-2 hover:bg-accent/20 rounded-lg transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5 text-foreground" />
-              </button>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">
-                  Career Dashboard
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Personalized career recommendations based on your assessment
-                </p>
-              </div>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">
+                Career Dashboard
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Personalized career recommendations based on your assessment
+              </p>
             </div>
             
             <div className="flex items-center space-x-2">

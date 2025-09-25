@@ -18,7 +18,8 @@ import {
   BarChart3,
   Star,
   Calendar,
-  Users
+  Users,
+  FileText
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { toast } from 'sonner';
@@ -153,8 +154,8 @@ export const LearningRoadmap: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border">
+      {/* Page Header */}
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center space-x-4">
             <NBButton
@@ -175,7 +176,7 @@ export const LearningRoadmap: React.FC = () => {
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
@@ -431,15 +432,7 @@ export const LearningRoadmap: React.FC = () => {
                 <NBButton 
                   variant="secondary" 
                   className="w-full justify-start"
-                  onClick={() => toast.info('Skill gap analysis coming soon!')}
-                >
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  Skill Gap Analysis
-                </NBButton>
-                <NBButton 
-                  variant="secondary" 
-                  className="w-full justify-start"
-                  onClick={() => toast.info('Progress tracking coming soon!')}
+                  onClick={() => navigate('/achievements')}
                 >
                   <Award className="w-4 h-4 mr-2" />
                   View Achievements

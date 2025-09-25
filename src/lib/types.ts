@@ -20,6 +20,9 @@ export interface EnhancedUserProfile extends UserProfile {
   skillGapAnalysis?: any; // Will be defined by SkillAnalysisService
   learningRoadmap?: LearningPath;
   
+  // Resume Analysis
+  resumeVersions?: ResumeVersion[];
+  
   // Progress Tracking
   progressData: ProgressData;
   achievements: Achievement[];
@@ -509,4 +512,85 @@ export interface CareerMentorConfig {
   maxConversations: number;
   maxResumeVersions: number;
   xpMultiplier: number;
+}
+// Resume Analysis Types
+export interface ResumeFeedback {
+  overallScore: number;
+  ATS: {
+    score: number;
+    tips: {
+      type: "good" | "improve";
+      tip: string;
+    }[];
+  };
+  toneAndStyle: {
+    score: number;
+    tips: {
+      type: "good" | "improve";
+      tip: string;
+      explanation: string;
+    }[];
+  };
+  content: {
+    score: number;
+    tips: {
+      type: "good" | "improve";
+      tip: string;
+      explanation: string;
+    }[];
+  };
+  structure: {
+    score: number;
+    tips: {
+      type: "good" | "improve";
+      tip: string;
+      explanation: string;
+    }[];
+  };
+  skills: {
+    score: number;
+    tips: {
+      type: "good" | "improve";
+      tip: string;
+      explanation: string;
+    }[];
+  };
+}
+
+// Extended ResumeVersion for AI analysis
+export interface EnhancedResumeVersion extends ResumeVersion {
+  companyName?: string;
+  jobTitle?: string;
+  jobDescription?: string;
+  resumeUrl?: string;
+  imageUrl?: string;
+  feedback?: ResumeFeedback;
+  status?: 'uploading' | 'analyzing' | 'completed' | 'error';
+}
+
+export interface ResumeUploadData {
+  companyName: string;
+  jobTitle: string;
+  jobDescription: string;
+  file: File;
+}
+
+// Skill Gap Analysis Types (for existing components)
+export interface SkillGap {
+  skillName: string;
+  currentLevel: 'none' | 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  requiredLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  gapSize: 'none' | 'small' | 'medium' | 'large';
+  priority: 'critical' | 'important' | 'nice-to-have';
+  estimatedLearningTime: string;
+  recommendedActions: string[];
+}
+
+export interface SkillGapAnalysis {
+  targetCareer: string;
+  overallReadiness: number;
+  skillGaps: SkillGap[];
+  strengthAreas: string[];
+  improvementAreas: string[];
+  analysisDate: Date;
 }
