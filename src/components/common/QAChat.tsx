@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
 import { Send, User, Bot, Loader2, Lightbulb } from "lucide-react";
 import { MarkdownRenderer } from "./MarkdownRenderer";
+import { config } from "../../lib/config";
 
 interface Message {
   id: string;
@@ -45,7 +46,7 @@ export function QAChat({ documentText }: QAChatProps) {
   const generateSuggestedQuestions = async () => {
     try {
       setIsLoadingSuggestions(true);
-      const response = await fetch("http://localhost:3002/api/generate-questions", {
+      const response = await fetch(`${config.apiBaseUrl}/api/generate-questions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +87,7 @@ export function QAChat({ documentText }: QAChatProps) {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3002/api/ask-question", {
+      const response = await fetch(`${config.apiBaseUrl}/api/ask-question`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

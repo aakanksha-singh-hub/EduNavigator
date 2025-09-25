@@ -28,16 +28,23 @@ if (
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Configure CORS
+const allowedOrigins = [
+  "http://localhost:5173", 
+  "http://127.0.0.1:5173",
+  "http://localhost:5174", 
+  "http://127.0.0.1:5174",
+  "http://localhost:5175", 
+  "http://127.0.0.1:5175"
+];
+
+// Add production frontend URL if specified
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", 
-      "http://127.0.0.1:5173",
-      "http://localhost:5174", 
-      "http://127.0.0.1:5174",
-      "http://localhost:5175", 
-      "http://127.0.0.1:5175"
-    ],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -340,6 +347,16 @@ app.post("/api/generate-questions", express.json(), async (req, res) => {
   }
 });
 
+// Health check endpoint for Render
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    message: "EduNavigator Learning Assistant Server is running!",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development"
+  });
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
   console.error("🔥 Server error:", error);
@@ -350,8 +367,12 @@ app.use((error, req, res, next) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`🚀 Learning Assistant server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 EduNavigator Learning Assistant server running on port ${PORT}`);
   console.log(`📄 Document analysis ready`);
   console.log(`🤖 Gemini AI configured`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+  if (process.env.FRONTEND_URL) {
+    console.log(`🖥️ Frontend URL: ${process.env.FRONTEND_URL}`);
+  }
 });
