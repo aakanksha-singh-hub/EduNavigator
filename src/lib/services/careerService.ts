@@ -7,19 +7,19 @@ const mockCareerPaths = {
   'software-developer': {
     nodes: [
       // Main career path - horizontal line
-      { id: '1', type: 'course' as const, title: 'Learn JavaScript', description: 'Master the fundamentals of JavaScript programming', duration: '3 months', difficulty: 'beginner' as const, position: { x: 100, y: 100 } },
-      { id: '2', type: 'course' as const, title: 'React Development', description: 'Build modern web applications with React', duration: '4 months', difficulty: 'intermediate' as const, position: { x: 450, y: 100 } },
-      { id: '3', type: 'internship' as const, title: 'Frontend Internship', description: '6-month internship at a tech startup', duration: '6 months', position: { x: 800, y: 100 } },
-      { id: '4', type: 'job' as const, title: 'Junior Developer', description: 'Entry-level software developer position', salary: '$60k-80k', position: { x: 1150, y: 100 } },
-      { id: '5', type: 'job' as const, title: 'Senior Developer', description: 'Lead development projects and mentor juniors', salary: '$90k-120k', position: { x: 1500, y: 100 } },
+      { id: '1', type: 'course' as const, title: 'AI Ethics Fundamentals', description: 'Learn ethical principles in AI development', duration: '3 months', difficulty: 'beginner' as const, position: { x: 100, y: 100 } },
+      { id: '2', type: 'course' as const, title: 'Machine Learning Ethics', description: 'Advanced ethical considerations in ML systems', duration: '4 months', difficulty: 'intermediate' as const, position: { x: 450, y: 100 } },
+      { id: '3', type: 'internship' as const, title: 'AI Policy Internship', description: '6-month internship at an AI ethics organization', duration: '6 months', position: { x: 800, y: 100 } },
+      { id: '4', type: 'job' as const, title: 'Junior AI Ethics Analyst', description: 'Entry-level AI ethics and policy position', salary: '$70k-90k', position: { x: 1150, y: 100 } },
+      { id: '5', type: 'job' as const, title: 'Senior AI Ethics Specialist', description: 'Lead AI governance and ethical AI initiatives', salary: '$100k-140k', position: { x: 1500, y: 100 } },
       
       // Skills below main path
-      { id: '7', type: 'skill' as const, title: 'TypeScript', description: 'Advanced JavaScript with type safety', position: { x: 100, y: 350 } },
-      { id: '8', type: 'skill' as const, title: 'Node.js', description: 'Backend development with JavaScript', position: { x: 450, y: 350 } },
-      { id: '9', type: 'skill' as const, title: 'AWS', description: 'Cloud computing and deployment', position: { x: 800, y: 350 } },
+      { id: '7', type: 'skill' as const, title: 'Philosophy & Ethics', description: 'Understanding ethical frameworks and moral reasoning', position: { x: 100, y: 350 } },
+      { id: '8', type: 'skill' as const, title: 'Policy Development', description: 'Creating governance frameworks and policies', position: { x: 450, y: 350 } },
+      { id: '9', type: 'skill' as const, title: 'AI Auditing', description: 'Evaluating AI systems for bias and fairness', position: { x: 800, y: 350 } },
       
       // Companies at the end
-      { id: '6', type: 'company' as const, title: 'Google', description: 'Work at one of the top tech companies', position: { x: 1150, y: 350 } },
+      { id: '6', type: 'company' as const, title: 'Partnership on AI', description: 'Work at leading AI ethics organizations', position: { x: 1150, y: 350 } },
     ],
     edges: [
       { id: 'e1-2', source: '1', target: '2', sourceHandle: 'right', targetHandle: 'left', type: 'smoothstep' as const, animated: true },
@@ -63,19 +63,19 @@ const mockCareerPaths = {
   'product-manager': {
     nodes: [
       // Main career path
-      { id: '1', type: 'course' as const, title: 'Business Fundamentals', description: 'Learn core business concepts', duration: '2 months', difficulty: 'beginner' as const, position: { x: 100, y: 100 } },
-      { id: '2', type: 'course' as const, title: 'Product Strategy', description: 'Product roadmap and planning', duration: '3 months', difficulty: 'intermediate' as const, position: { x: 450, y: 100 } },
-      { id: '3', type: 'course' as const, title: 'User Research', description: 'Understanding user needs and behavior', duration: '2 months', difficulty: 'intermediate' as const, position: { x: 800, y: 100 } },
-      { id: '4', type: 'internship' as const, title: 'Product Intern', description: 'Work on product features and strategy', duration: '6 months', position: { x: 1150, y: 100 } },
-      { id: '5', type: 'job' as const, title: 'Product Manager', description: 'Lead product development and strategy', salary: '$90k-130k', position: { x: 1500, y: 100 } },
+      { id: '1', type: 'course' as const, title: 'Quantum Physics Fundamentals', description: 'Learn quantum mechanics principles', duration: '4 months', difficulty: 'beginner' as const, position: { x: 100, y: 100 } },
+      { id: '2', type: 'course' as const, title: 'Quantum Programming', description: 'Programming quantum computers with Qiskit', duration: '3 months', difficulty: 'intermediate' as const, position: { x: 450, y: 100 } },
+      { id: '3', type: 'course' as const, title: 'Quantum Algorithms', description: 'Advanced quantum algorithm design', duration: '4 months', difficulty: 'advanced' as const, position: { x: 800, y: 100 } },
+      { id: '4', type: 'internship' as const, title: 'Quantum Research Intern', description: 'Research internship at quantum computing lab', duration: '6 months', position: { x: 1150, y: 100 } },
+      { id: '5', type: 'job' as const, title: 'Quantum Computing Engineer', description: 'Develop quantum algorithms and applications', salary: '$90k-160k', position: { x: 1500, y: 100 } },
       
       // Skills
-      { id: '7', type: 'skill' as const, title: 'Agile', description: 'Agile development methodologies', position: { x: 100, y: 350 } },
-      { id: '8', type: 'skill' as const, title: 'Analytics', description: 'Data-driven decision making', position: { x: 450, y: 350 } },
-      { id: '9', type: 'skill' as const, title: 'Leadership', description: 'Team management and communication', position: { x: 800, y: 350 } },
+      { id: '7', type: 'skill' as const, title: 'Linear Algebra', description: 'Mathematical foundations for quantum computing', position: { x: 100, y: 350 } },
+      { id: '8', type: 'skill' as const, title: 'Python Programming', description: 'Programming language for quantum development', position: { x: 450, y: 350 } },
+      { id: '9', type: 'skill' as const, title: 'Quantum Error Correction', description: 'Advanced quantum computing techniques', position: { x: 800, y: 350 } },
       
       // Company
-      { id: '6', type: 'company' as const, title: 'Apple', description: 'Product management at Apple', position: { x: 1150, y: 350 } },
+      { id: '6', type: 'company' as const, title: 'IBM Quantum', description: 'Quantum computing research at IBM', position: { x: 1150, y: 350 } },
     ],
     edges: [
       { id: 'e1-2', source: '1', target: '2', sourceHandle: 'right', targetHandle: 'left', type: 'smoothstep' as const, animated: true },
@@ -205,20 +205,24 @@ export class CareerService {
 
   private static getCareerTitle(careerType: string): string {
     const titles = {
-      'software-developer': 'Software Developer',
-      'data-scientist': 'Data Scientist',
-      'product-manager': 'Product Manager'
+      'ai-ethics-specialist': 'AI Ethics Specialist',
+      'quantum-computing-engineer': 'Quantum Computing Engineer',
+      'climate-tech-architect': 'Climate Tech Solutions Architect',
+      'bioinformatics-specialist': 'Bioinformatics Specialist',
+      'xr-developer': 'Extended Reality (XR) Developer'
     };
-    return titles[careerType as keyof typeof titles] || 'Software Developer';
+    return titles[careerType as keyof typeof titles] || 'AI Ethics Specialist';
   }
 
   private static getRelatedRoles(careerType: string): string[] {
     const roles = {
-      'software-developer': ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'DevOps Engineer'],
-      'data-scientist': ['Data Analyst', 'Machine Learning Engineer', 'Research Scientist', 'Data Engineer'],
-      'product-manager': ['Product Owner', 'Project Manager', 'Business Analyst', 'Product Marketing Manager']
+      'ai-ethics-specialist': ['AI Policy Researcher', 'Algorithmic Auditor', 'Tech Ethics Consultant', 'AI Governance Manager'],
+      'quantum-computing-engineer': ['Quantum Research Scientist', 'Quantum Software Developer', 'Quantum Algorithm Designer', 'Quantum Systems Architect'],
+      'climate-tech-architect': ['Sustainability Engineer', 'Clean Energy Analyst', 'Environmental Data Scientist', 'Green Technology Consultant'],
+      'bioinformatics-specialist': ['Computational Biologist', 'Genomics Data Analyst', 'Biomedical Software Engineer', 'Precision Medicine Developer'],
+      'xr-developer': ['VR Developer', 'AR Developer', '3D Graphics Programmer', 'Immersive Experience Designer']
     };
-    return roles[careerType as keyof typeof roles] || ['Software Developer'];
+    return roles[careerType as keyof typeof roles] || ['AI Policy Researcher', 'Tech Ethics Consultant'];
   }
 
   private static generateSummary(profile: UserProfile, careerType: string): string {

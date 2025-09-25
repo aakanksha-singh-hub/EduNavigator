@@ -130,7 +130,7 @@ export const CareerDashboard = () => {
     try {
       // Import the service directly to call fallback
       const { CareerRecommendationService } = await import('../lib/services/careerRecommendationService');
-      const fallbackRecs = profile ? CareerRecommendationService.getFallbackRecommendations(profile, enhancedProfile?.careerAssessment) : [];
+      const fallbackRecs = profile ? CareerRecommendationService.getIntelligentFallbackRecommendations(profile, enhancedProfile?.careerAssessment) : [];
       
       console.log('Got fallback recommendations:', fallbackRecs);
       setRecommendations(fallbackRecs);

@@ -67,6 +67,15 @@ export class GeminiService {
             : ''
         }
 
+        IMPORTANT: Avoid suggesting the same common tech jobs (Software Developer, Data Analyst, Product Manager, UX/UI Designer, Digital Marketing Specialist). 
+        
+        Instead, explore diverse, emerging, and specialized career paths that match the user's unique profile. Consider:
+        - Emerging tech roles (AI Ethics Specialist, Blockchain Developer, AR/VR Designer, etc.)
+        - Cross-industry opportunities (FinTech, HealthTech, EdTech, GreenTech, etc.)
+        - Specialized technical roles (DevOps Engineer, Cybersecurity Analyst, Cloud Architect, etc.)
+        - Creative-tech hybrid roles (Technical Writer, Developer Advocate, Solutions Engineer, etc.)
+        - Industry-specific roles based on user's background and interests
+        
         Please provide a detailed career recommendation in the following JSON format.
         For learning resources, include specific course titles and skills that can be found on platforms like Udemy, Coursera, LinkedIn Learning, and freeCodeCamp:
         {
@@ -272,7 +281,16 @@ export class GeminiService {
 
     try {
       const prompt = `
-        Based on this user profile, suggest 3 alternative career paths:
+        Based on this user profile, suggest 3 UNIQUE and DIVERSE alternative career paths. 
+        
+        AVOID these overused suggestions: Software Developer, Data Analyst, Product Manager, UX/UI Designer, Digital Marketing Specialist.
+        
+        Instead, focus on:
+        - Emerging technology roles
+        - Industry-specific specializations  
+        - Cross-functional hybrid positions
+        - Creative-technical combinations
+        - Niche expertise areas
         - Name: ${profile.name}
         - Age: ${profile.age}
         - Education: ${profile.educationLevel}
@@ -466,9 +484,9 @@ export class GeminiService {
     const pathData = mockPaths['software-developer']
     return {
       id: `fallback_career_${Date.now()}`,
-      title: 'Software Developer',
+      title: 'AI Solutions Engineer',
       description:
-        'Design, develop, and maintain software applications using various programming languages and frameworks.',
+        'Bridge the gap between AI research and practical applications by designing, implementing, and optimizing AI systems for real-world problems.',
       fitScore: 75,
       salaryRange: {
         min: 60000,
@@ -552,12 +570,12 @@ export class GeminiService {
         industryGrowth: 15,
         averageSalary: 90000,
       },
-      primaryCareer: 'Software Developer',
+      primaryCareer: 'AI Solutions Engineer',
       relatedRoles: [
-        'Frontend Developer',
-        'Backend Developer',
-        'Full Stack Developer',
-        'DevOps Engineer',
+        'Machine Learning Engineer',
+        'AI Research Scientist',
+        'Computer Vision Engineer',
+        'NLP Specialist',
       ],
       careerPath: {
         nodes: pathData.nodes,
@@ -568,7 +586,7 @@ export class GeminiService {
         profile.careerInterest
       } and skills in ${profile.skills.join(
         ', '
-      )}, a career in software development would be perfect for you. Your skills provide a strong foundation for building modern web applications.`,
+      )}, a career in AI Solutions Engineering would be perfect for you. This emerging field combines technical expertise with practical problem-solving to create impactful AI applications.`,
     }
   }
 
@@ -578,30 +596,30 @@ export class GeminiService {
     return [
       {
         id: 'alt1',
-        title: 'DevOps Engineer',
-        description: 'Focus on deployment and infrastructure',
+        title: 'AI Ethics Specialist',
+        description: 'Ensure responsible AI development and deployment',
         matchScore: 85,
-        salary: '$70k-100k',
-        requirements: ['Docker', 'Kubernetes', 'AWS'],
+        salary: '$80k-120k',
+        requirements: ['AI/ML Knowledge', 'Ethics', 'Policy Development'],
         growth: 'high',
       },
       {
         id: 'alt2',
-        title: 'UI/UX Designer',
-        description: 'Design user interfaces and experiences',
+        title: 'Blockchain Solutions Architect',
+        description: 'Design decentralized systems and smart contracts',
         matchScore: 75,
-        salary: '$60k-90k',
-        requirements: ['Figma', 'User Research', 'Prototyping'],
-        growth: 'medium',
+        salary: '$90k-140k',
+        requirements: ['Blockchain', 'Solidity', 'System Design'],
+        growth: 'high',
       },
       {
         id: 'alt3',
-        title: 'Technical Writer',
-        description: 'Create technical documentation',
+        title: 'Climate Tech Engineer',
+        description: 'Develop technology solutions for environmental challenges',
         matchScore: 70,
-        salary: '$50k-80k',
-        requirements: ['Writing', 'Technical Knowledge', 'Tools'],
-        growth: 'medium',
+        salary: '$70k-110k',
+        requirements: ['Environmental Science', 'Engineering', 'Sustainability'],
+        growth: 'high',
       },
     ]
   }
