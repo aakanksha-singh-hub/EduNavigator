@@ -6,9 +6,7 @@ import {
   Target, 
   TrendingUp, 
   AlertTriangle, 
-  CheckCircle, 
   Clock,
-  BarChart3,
   Award,
   Zap
 } from 'lucide-react';
@@ -22,33 +20,6 @@ export const SkillGapAnalysis: React.FC<SkillGapAnalysisProps> = ({
   analysis,
   className
 }) => {
-  const getGapSizeColor = (gapSize: string) => {
-    switch (gapSize) {
-      case 'none':
-        return 'text-green-600 bg-green-100';
-      case 'small':
-        return 'text-blue-600 bg-blue-100';
-      case 'medium':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'large':
-        return 'text-red-600 bg-red-100';
-      default:
-        return 'text-gray-600 bg-gray-100';
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'critical':
-        return 'text-red-600 bg-red-100 border-red-200';
-      case 'important':
-        return 'text-orange-600 bg-orange-100 border-orange-200';
-      case 'nice-to-have':
-        return 'text-blue-600 bg-blue-100 border-blue-200';
-      default:
-        return 'text-gray-600 bg-gray-100 border-gray-200';
-    }
-  };
 
   const getReadinessColor = (readiness: number) => {
     if (readiness >= 80) return 'text-green-600';

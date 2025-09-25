@@ -128,7 +128,14 @@ export class CareerRecommendationService {
       title: careerProfile.title,
       description: careerProfile.description,
       fitScore: detailedScore.overallFit,
-      salaryRange: careerProfile.salaryRange,
+      salaryRange: {
+        min: careerProfile.salaryRange.min,
+        max: careerProfile.salaryRange.max,
+        currency: careerProfile.salaryRange.currency,
+        period: careerProfile.salaryRange.period === 'annual' ? 'yearly' : 
+                careerProfile.salaryRange.period === 'monthly' ? 'monthly' :
+                careerProfile.salaryRange.period === 'hourly' ? 'hourly' : 'yearly'
+      },
       growthProspects: careerProfile.growthProspects,
       requiredSkills: careerProfile.requiredSkills.map(skill => ({
         id: `skill_${skill.skill.toLowerCase().replace(/\s+/g, '_')}`,

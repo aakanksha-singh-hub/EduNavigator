@@ -2,21 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import {
   FileText,
   Brain,
-  Clock,
   ChevronDown,
   ChevronUp,
   ArrowRight,
-  CheckCircle,
   TrendingUp,
   Award,
   Target,
   BookOpen,
-  Lightbulb,
   BarChart3,
-  Users,
-  Star,
   Zap,
-  Shield,
   MessageCircle,
 } from "lucide-react";
 import { Button } from "../ui/button";

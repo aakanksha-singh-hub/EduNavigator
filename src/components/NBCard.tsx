@@ -5,12 +5,14 @@ interface NBCardProps {
   children: React.ReactNode;
   className?: string;
   variant?: 'default' | 'accent' | 'warn' | 'error' | 'ok';
+  onClick?: () => void;
 }
 
 export const NBCard: React.FC<NBCardProps> = ({ 
   children, 
   className, 
-  variant = 'default' 
+  variant = 'default',
+  onClick 
 }) => {
   const variantStyles = {
     default: 'bg-gradient-to-br from-white/95 to-pink-50/80 border-pink-200',
@@ -27,6 +29,7 @@ export const NBCard: React.FC<NBCardProps> = ({
         variantStyles[variant],
         className
       )}
+      onClick={onClick}
     >
       {children}
     </div>

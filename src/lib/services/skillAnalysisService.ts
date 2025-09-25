@@ -290,7 +290,7 @@ export class SkillAnalysisService {
       progressData[skill.skillId] = {
         skillId: skill.skillId,
         skillName: skill.skillName,
-        currentLevel: skill.currentProficiency,
+        currentLevel: skill.currentProficiency === 'none' ? 'beginner' : skill.currentProficiency,
         progress: skill.proficiencyScore,
         activitiesCompleted: 0, // This would be tracked separately
         totalActivities: 0, // This would be calculated based on learning path
