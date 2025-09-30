@@ -119,9 +119,9 @@ export const MainNavbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3">
       <div className="max-w-7xl mx-auto">
-        {/* Glass navbar container */}
-        <div className="relative backdrop-blur-xl bg-white/90 border border-white/20 rounded-2xl shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 rounded-2xl"></div>
+        {/* Transparent navbar container */}
+        <div className="relative backdrop-blur-md bg-white/20 border border-white/10 rounded-2xl shadow-lg">
+          <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 rounded-2xl"></div>
           
           <div className="relative px-6 py-3">
             <div className="flex items-center justify-between h-12">
@@ -132,7 +132,7 @@ export const MainNavbar: React.FC = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900">EduNavigator</h1>
-              <p className="text-xs text-gray-500">AI Career Mentor</p>
+              <p className="text-xs text-gray-500">Intelligent Career Platform</p>
             </div>
           </div>
 

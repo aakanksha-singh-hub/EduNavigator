@@ -3,7 +3,7 @@ export const config = {
   geminiApiKey: import.meta.env.VITE_GEMINI_API_KEY || '',
   apiBaseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3002',
   appTitle: import.meta.env.VITE_APP_TITLE || 'EduNavigator',
-  appDescription: import.meta.env.VITE_APP_DESCRIPTION || 'AI-Powered Career & Skills Mentor',
+  appDescription: import.meta.env.VITE_APP_DESCRIPTION || 'Intelligent Career & Job Application Platform',
   isProduction: import.meta.env.PROD || false,
   isDevelopment: import.meta.env.DEV || true,
 };

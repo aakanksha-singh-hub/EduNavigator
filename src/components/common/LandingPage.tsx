@@ -91,7 +91,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
     },
     {
       icon: <MessageCircle className="h-8 w-8" />,
-      title: "AI Career Chatbot",
+      title: "AI Career Assistant",
       description: "Ask questions and get personalized guidance anytime.",
       color: "bg-cyan-100 text-cyan-600",
     },
@@ -125,7 +125,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
     {
       icon: <MessageCircle className="h-6 w-6" />,
       title: "Real-time Guidance",
-      description: "Get instant advice from your AI career mentor.",
+      description: "Get instant advice from your intelligent career assistant.",
       color: "bg-orange-50 border-orange-200",
     },
   ];
@@ -133,7 +133,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
   const faqs: FAQ[] = [
     {
       question: "Who can use EduNavigator?",
-      answer: "Any student looking to discover careers, build skills, or prepare for job applications can benefit from EduNavigator.",
+      answer: "Any job seeker looking to optimize their applications, improve their resume, or get AI-powered career guidance can benefit from EduNavigator.",
     },
     {
       question: "Does it cost anything?",
@@ -149,7 +149,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
     },
     {
       question: "Do I need prior experience to use the platform?",
-      answer: "No. EduNavigator is designed for students at any stage – beginner, intermediate, or advanced.",
+      answer: "No. EduNavigator is designed for job seekers at any career stage – entry-level, mid-career, or experienced professionals.",
     },
     {
       question: "Is my data secure?",
@@ -169,7 +169,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
           <div className="text-center space-y-8 mb-16">
             <div className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-100 to-purple-100 border border-pink-200 px-6 py-3 rounded-full text-sm font-medium text-purple-700">
               <Zap className="h-4 w-4" />
-              AI-POWERED CAREER & SKILLS MENTOR
+              INTELLIGENT CAREER & JOB APPLICATION PLATFORM
             </div>
 
             <div className="space-y-4">
@@ -179,10 +179,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-700 font-medium">
-                Your AI-Powered Career & Skills Mentor
+                Your Intelligent Career & Job Application Platform
               </p>
               <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-                "Discover the right career path, build the skills you need, and get job-ready with personalized AI guidance, all in one platform."
+                "Optimize your job applications with AI-powered resume analysis, get personalized career guidance, and land your dream job with intelligent application strategies."
               </p>
             </div>
 
@@ -264,7 +264,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                       : "opacity-0 translate-y-10"
                   }`}
                 >
-                  EduNavigator is an AI-driven education platform designed to empower students with personalized career guidance, skill-building roadmaps, and job readiness tools. By combining Generative AI, resume optimization, and learning support, EduNavigator ensures students are prepared for the ever-evolving job market while making learning efficient, engaging, and goal-oriented.
+                  EduNavigator is an intelligent career platform designed to revolutionize job applications with AI-powered resume analysis, personalized career guidance, and smart application optimization. By combining advanced AI technology with comprehensive career insights, EduNavigator ensures job seekers are equipped with the tools and knowledge needed to succeed in today's competitive job market.
                 </p>
               </div>
             </div>
@@ -293,7 +293,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               WHAT WE DO
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">EduNavigator</span> helps students
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">EduNavigator</span> helps job seekers
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Comprehensive support for every step of your educational and career journey
@@ -430,7 +430,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 </span>
               </h2>
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Join thousands of students who are already building their future with EduNavigator's AI-powered guidance
+                Join thousands of job seekers who are already advancing their careers with EduNavigator's intelligent guidance
               </p>
               <Button
                 onClick={onGetStarted}

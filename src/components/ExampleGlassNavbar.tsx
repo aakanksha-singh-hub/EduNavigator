@@ -19,10 +19,10 @@ export const ExamplePage: React.FC = () => {
           <section id="hero" className="min-h-screen flex items-center justify-center">
             <div className="text-center">
               <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                Welcome to EduNavigator
+                Welcome to SmartApply AI
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Your AI-powered career mentor for personalized guidance
+                Your intelligent career companion for smart job applications and career optimization
               </p>
               <button
                 onClick={handleGetStarted}

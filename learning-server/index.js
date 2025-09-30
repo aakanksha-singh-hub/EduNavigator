@@ -351,7 +351,7 @@ app.post("/api/generate-questions", express.json(), async (req, res) => {
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "healthy",
-    message: "EduNavigator Learning Assistant Server is running!",
+    message: "SmartApply AI Server is running!",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development"
   });
@@ -368,7 +368,7 @@ app.use((error, req, res, next) => {
 
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 EduNavigator Learning Assistant server running on port ${PORT}`);
+  console.log(`🚀 SmartApply AI server running on port ${PORT}`);
   console.log(`📄 Document analysis ready`);
   console.log(`🤖 Gemini AI configured`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);

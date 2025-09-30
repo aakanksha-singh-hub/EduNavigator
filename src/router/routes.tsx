@@ -10,6 +10,8 @@ import { LearningAssistant } from '@/pages/LearningAssistant'
 import { AchievementsPage } from '@/pages/AchievementsPage'
 import { ResumeUpload } from '@/pages/ResumeUpload'
 import { ResumeAnalysisResults } from '@/pages/ResumeAnalysisResults'
+import { AboutUs } from '@/pages/AboutUs'
+import { FAQ } from '@/pages/FAQ'
 import { ProgressDashboard } from '@/components/ProgressDashboard'
 import PlatformLinksDemo from '@/pages/PlatformLinksDemo'
 import { Route, Routes } from 'react-router-dom'
@@ -19,6 +21,8 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/details" element={<Details />} />
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/faq" element={<FAQ />} />
       <Route path="/assessment" element={<CareerAssessment />} />
       <Route path="/dashboard" element={<CareerDashboard />} />
       <Route path="/career-dashboard" element={<CareerDashboard />} />

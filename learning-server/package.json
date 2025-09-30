@@ -1,7 +1,7 @@
 {
-  "name": "learning-assistant-server",
+  "name": "smartapply-ai-server",
   "version": "1.0.0",
-  "description": "Learning Assistant - AI-powered document analysis server",
+  "description": "SmartApply AI - AI-powered career guidance and resume analysis server",
   "main": "index.js",
   "type": "module",
   "scripts": {

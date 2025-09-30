@@ -58,7 +58,7 @@
     "app_structure": {
       "root_layout": {
         "header": ["Logo", "Nav: Home, Start", "Theme Toggle (optional)"],
-        "footer": ["© 2025 EduNavigator (demo)", "Links: About, FAQ"]
+        "footer": ["© 2025 SmartApply AI (demo)", "Links: About, FAQ"]
       },
       "routes": [
         {
@@ -148,7 +148,7 @@
       ]
     },
     "copy": {
-      "brand": "EduNavigator (demo)",
+      "brand": "SmartApply AI (demo)",
       "tagline": "Map your future, one skill at a time.",
       "hero_cta": "Start Now",
       "features": [
