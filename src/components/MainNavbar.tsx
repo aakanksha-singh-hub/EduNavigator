@@ -119,9 +119,9 @@ export const MainNavbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3">
       <div className="max-w-7xl mx-auto">
-        {/* Transparent navbar container */}
-        <div className="relative backdrop-blur-md bg-white/20 border border-white/10 rounded-2xl shadow-lg">
-          <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/0 rounded-2xl"></div>
+        {/* White navbar container */}
+        <div className="relative bg-white border border-gray-200 rounded-2xl shadow-lg">
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-white rounded-2xl"></div>
           
           <div className="relative px-6 py-3">
             <div className="flex items-center justify-between h-12">

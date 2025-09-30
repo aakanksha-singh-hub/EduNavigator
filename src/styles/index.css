@@ -1,6 +1,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
 
 @layer base {
   :root {
@@ -62,15 +65,16 @@
   }
 
   body {
-    color: hsl(var(--foreground));
+    color: rgba(255, 255, 255, 0.9);
     font-family: 'geist', system-ui, sans-serif;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'geist', system-ui, sans-serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 600;
-    color: hsl(var(--foreground));
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -95,11 +99,40 @@
     #f5576c 75%, 
     #4facfe 100%
   ) !important;
-  background-size: cover, 400% 400% !important;
+  background-size: contain, 400% 400% !important;
   background-position: center, 0% 50% !important;
   background-repeat: no-repeat, repeat !important;
   animation: gradientShift 15s ease infinite !important;
   min-height: 100vh !important;
+}
+
+/* Individual section background classes */
+.hero-section {
+  background: url('/bg1.jpg'), linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.features-section {
+  background: url('/bg2.svg'), linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.about-section {
+  background: url('/bg2.svg'), linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.faq-section {
+  background: url('/bg-5.svg'), linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
 /* Animated gradient background */
@@ -214,6 +247,191 @@ html {
   position: relative;
 }
 
+/* Text color overrides for better visibility */
+p, span, div {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.text-muted-foreground {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.text-foreground {
+  color: white !important;
+}
+
+/* Button text colors */
+button {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Navbar text overrides */
+nav button,
+nav h1,
+nav p,
+nav span {
+  color: black !important;
+}
+
+nav .text-gray-900 {
+  color: black !important;
+}
+
+nav .text-gray-600 {
+  color: #374151 !important;
+}
+
+nav .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+/* Footer text overrides */
+footer span,
+footer button,
+footer a {
+  color: black !important;
+}
+
+footer .text-gray-900 {
+  color: black !important;
+}
+
+footer .text-gray-600 {
+  color: #374151 !important;
+}
+
+/* Hero section text clarity */
+.hero-section .text-center {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  padding: 3.5rem 2.5rem;
+  margin: 2rem auto;
+  max-width: 950px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(30, 58, 138, 0.5);
+}
+
+.hero-section h1 {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  font-size: 3.5rem !important;
+  line-height: 1.1 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.hero-section p {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  font-size: 1.25rem !important;
+  line-height: 1.6 !important;
+}
+
+.hero-section .text-transparent {
+  color: #60a5fa !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Hero section button styling */
+.hero-section button,
+.hero-section .start-journey-button {
+  color: #1e293b !important;
+}
+
+.hero-section .start-journey-button span {
+  color: #1e293b !important;
+}
+
+/* Override the animated button text specifically */
+.hero-section .start-journey-button span:first-child,
+.hero-section .start-journey-button span:last-child {
+  color: #1e293b !important;
+}
+
+.hero-section .start-journey-button:hover span:first-child {
+  color: #1e293b !important;
+}
+
+/* Specific styles for feature cards and FAQ content */
+.features-section p,
+.features-section .text-muted-foreground,
+.features-section h3,
+.features-section h2,
+.features-section h1,
+.features-section h4,
+.features-section h5,
+.features-section h6,
+.faq-section p,
+.faq-section span,
+.faq-section .text-muted-foreground,
+.faq-section .text-foreground,
+.faq-section button span,
+.faq-section h1,
+.faq-section h2,
+.faq-section h3,
+.faq-section h4,
+.faq-section h5,
+.faq-section h6 {
+  color: #1f2937 !important;
+  text-shadow: none !important;
+}
+
+/* FAQ questions in buttons */
+.faq-section button .text-lg {
+  color: #1f2937 !important;
+}
+
+/* Keep main section headings white */
+.features-section > div > h2,
+.faq-section > div > div > h2,
+.features-section .text-center h2,
+.faq-section .text-center h2,
+.faq-section .text-center p {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Override gradient text in FAQ section */
+.faq-section .text-transparent {
+  color: white !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Section badges styling */
+.features-section .inline-flex,
+.faq-section .inline-flex,
+.about-section .inline-flex {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  color: #1f2937 !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Hero section main headings */
+.hero-section h1,
+.hero-section h2,
+.about-section h1,
+.about-section h2,
+.about-section h3 {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* About section content */
+.about-section p,
+.about-section .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
 .educational-card::before {
   content: '';
   position: absolute;
@@ -304,4 +522,144 @@ html {
 
 .start-journey-button:hover span:first-child {
  color: transparent !important;
+}
+
+/* Notebook Paper Styling */
+.page {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 700px;
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 22px;
+  border-radius: 10px;
+  background: #fff;
+  background-image: linear-gradient(#f5f5f0 1.4rem, #ccc 1.5rem);
+  background-size: 100% 1.5rem;
+  line-height: 1.5rem;
+  padding: 2rem 1rem 1rem 5rem;
+  margin: 20px auto;
+}
+
+.page::before,
+.page::after {
+  position: absolute;
+  content: "";
+  bottom: 10px;
+  width: 40%;
+  height: 10px;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.7);
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+.page::before {
+  left: 15px;
+  transform: skew(-5deg) rotate(-5deg);
+}
+
+.page::after {
+  right: 15px;
+  transform: skew(5deg) rotate(5deg);
+}
+
+.page:hover::before,
+.page:hover::after {
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+.margin {
+  position: absolute;
+  border-left: 1px solid #d88;
+  height: 100%;
+  left: 3.3rem;
+  top: 0;
+}
+
+.page p {
+  margin: 0;
+  text-indent: 1rem;
+  padding-bottom: 1.5rem;
+  color: black !important;
+  line-height: 24px;
+  text-shadow: none !important;
+}
+
+.page strong {
+  color: #333 !important;
+}
+
+.indie-flower-regular {
+  font-family: "Indie Flower", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Merienda font classes */
+.merienda-light {
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.merienda-regular {
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.merienda-medium {
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.merienda-semibold {
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.merienda-bold {
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Simple Mission Box Styling */
+.mission-box {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.mission-box p {
+  color: #1f2937 !important;
+  font-size: 18px;
+  line-height: 1.7;
+  text-shadow: none !important;
+  margin-bottom: 1.5rem;
+}
+
+.mission-box .mission-points p {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid #3b82f6;
+}
+
+.mission-box strong {
+  color: #1e40af !important;
+  font-weight: 600;
 }
