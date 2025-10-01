@@ -159,7 +159,6 @@ export const ResumeUpload: React.FC = () => {
   };
 
   return (
-      return (
     <div className="min-h-screen career-assessment-bg p-6">
       {/* Page Header */}
       <div className="bg-white border-b border-gray-200">
