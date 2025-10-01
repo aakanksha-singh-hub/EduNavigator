@@ -356,7 +356,21 @@ export class AdvancedScoringEngine {
           }
         })
         
-        domainScore = domainMatches > 0 ? Math.min(90, 60 + (domainMatches / assessmentData.preferredIndustries.length) * 40) : 30
+        // STRONG DOMAIN FILTERING: If no domains match, heavily penalize the score
+        if (domainMatches === 0) {
+          console.log(`🚫 DOMAIN MISMATCH PENALTY: ${careerProfile.title} does not match any selected domains, applying heavy penalty`)
+          domainScore = 5 // Very low score for non-matching careers
+          factors.push({
+            name: 'Domain Mismatch',
+            value: 0,
+            impact: -0.8,
+            description: 'Career does not align with your selected domains'
+          })
+          reasoning.push(`Does not align with your selected career domains`)
+        } else {
+          domainScore = domainMatches > 0 ? Math.min(90, 60 + (domainMatches / assessmentData.preferredIndustries.length) * 40) : 30
+          console.log(`✅ DOMAIN SCORE: ${domainScore} (${domainMatches}/${assessmentData.preferredIndustries.length} domains matched)`)
+        }
       }
 
       // Secondary scoring based on general interests

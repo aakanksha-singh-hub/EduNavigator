@@ -407,6 +407,36 @@ footer .text-gray-600 {
   color: #000000 !important;
 }
 
+/* Resume Upload and Learning Assistant specific text styling */
+.career-assessment-bg .text-blue-600 {
+  color: #1d4ed8 !important;
+}
+
+.career-assessment-bg .text-green-600 {
+  color: #16a34a !important;
+}
+
+.career-assessment-bg .text-red-600 {
+  color: #dc2626 !important;
+}
+
+.career-assessment-bg .text-yellow-600 {
+  color: #ca8a04 !important;
+}
+
+.career-assessment-bg .text-purple-600 {
+  color: #9333ea !important;
+}
+
+/* White background cards within career assessment bg should have normal text */
+.career-assessment-bg .bg-white {
+  color: #000000 !important;
+}
+
+.career-assessment-bg .bg-white * {
+  color: #000000 !important;
+}
+
 /* Specific styles for feature cards and FAQ content */
 .features-section p,
 .features-section .text-muted-foreground,

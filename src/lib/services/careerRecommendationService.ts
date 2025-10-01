@@ -80,8 +80,72 @@ export class CareerRecommendationService {
     console.log('Preferred Industries:', assessmentData?.preferredIndustries)
     console.log(`Processing ${CAREER_DATABASE.length} careers from database`)
 
-    // Score all careers in the database
-    const scoredCareers = CAREER_DATABASE.map(careerProfile => {
+    // DOMAIN-SPECIFIC FILTERING: If user selected specific domains, filter careers first
+    let relevantCareers = CAREER_DATABASE
+    if (assessmentData?.preferredIndustries && assessmentData.preferredIndustries.length > 0) {
+      console.log('🎯 APPLYING DOMAIN FILTER: Only considering careers matching selected domains')
+      
+      relevantCareers = CAREER_DATABASE.filter(careerProfile => {
+        return assessmentData.preferredIndustries!.some(domain => {
+          const careerCategory = careerProfile.category.toLowerCase()
+          const careerTitle = careerProfile.title.toLowerCase()
+          
+          // Check domain matches using same logic as scoring engine
+          switch (domain) {
+            case 'technology':
+              return careerCategory.includes('technology') || 
+                     careerTitle.includes('software') || 
+                     careerTitle.includes('developer') || 
+                     careerTitle.includes('data scientist') ||
+                     careerCategory.includes('tech')
+            case 'business':
+              return careerCategory.includes('business') || 
+                     careerTitle.includes('manager') || 
+                     careerTitle.includes('analyst') ||
+                     careerTitle.includes('marketing') ||
+                     careerTitle.includes('financial')
+            case 'healthcare':
+              return careerCategory.includes('healthcare') || 
+                     careerTitle.includes('nurse') || 
+                     careerTitle.includes('therapist') ||
+                     careerTitle.includes('medical')
+            case 'creative':
+              return careerCategory.includes('creative') || 
+                     careerTitle.includes('designer') || 
+                     careerTitle.includes('ux') ||
+                     careerTitle.includes('graphic') ||
+                     careerTitle.includes('interior')
+            case 'education':
+              return careerCategory.includes('education') || 
+                     careerTitle.includes('teacher') || 
+                     careerTitle.includes('professor') ||
+                     careerTitle.includes('counselor') ||
+                     careerTitle.includes('instructional')
+            case 'engineering':
+              return careerCategory.includes('engineering') || 
+                     careerTitle.includes('engineer') ||
+                     careerTitle.includes('mechanical') ||
+                     careerTitle.includes('electrical') ||
+                     careerTitle.includes('biomedical') ||
+                     careerTitle.includes('environmental')
+            default:
+              return careerCategory.includes(domain.toLowerCase())
+          }
+        })
+      })
+      
+      console.log(`🎯 DOMAIN FILTER RESULT: Filtered from ${CAREER_DATABASE.length} to ${relevantCareers.length} careers`)
+      console.log('Filtered careers:', relevantCareers.map(c => `${c.title} (${c.category})`))
+    }
+
+    // If no careers match the domain filter, fall back to all careers but with heavy penalties
+    if (relevantCareers.length === 0) {
+      console.log('⚠️ NO DOMAIN MATCHES: Falling back to all careers with penalties')
+      relevantCareers = CAREER_DATABASE
+    }
+
+    // Score all relevant careers in the database
+    const scoredCareers = relevantCareers.map(careerProfile => {
       const detailedScore = this.scoringEngine.calculateDetailedFitScore(
         profile,
         careerProfile,

@@ -81,7 +81,7 @@ export const LearningAssistant: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
+      <div className="min-h-screen career-assessment-bg pt-20">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="flex flex-col items-center justify-center py-20">
             <div className="relative mb-6">
@@ -103,7 +103,7 @@ export const LearningAssistant: React.FC = () => {
 
   if (!studyMaterial && !error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
+      <div className="min-h-screen career-assessment-bg pt-20">
         <div className="max-w-4xl mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">
@@ -226,7 +226,7 @@ export const LearningAssistant: React.FC = () => {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
+      <div className="min-h-screen career-assessment-bg pt-20">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="mb-8">
             <button
@@ -276,7 +276,7 @@ export const LearningAssistant: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20">
+    <div className="min-h-screen career-assessment-bg pt-20">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
