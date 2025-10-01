@@ -180,20 +180,20 @@ export const CareerAssessment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 relative">
+    <div className="min-h-screen career-assessment-bg relative pt-32">
       {/* Header */}
-      <header className="border-b border-pink-200/50 bg-white/80 backdrop-blur-sm">
+      <header className="border-b border-gray-200 bg-white/90 backdrop-blur-sm fixed top-20 left-0 right-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => navigate('/details')}
-                className="p-2 hover:bg-pink-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-5 h-5 text-gray-700" />
               </button>
               <h1 className="text-2xl font-bold text-gray-800">
-                Career Assessment
+                Career Discovery Journey
               </h1>
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -205,70 +205,52 @@ export const CareerAssessment = () => {
       </header>
 
       {/* Content */}
-      <section className="py-12 px-4 relative">
-        {/* Light educational background patterns */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-pink-50/30 via-purple-50/30 to-blue-50/30"></div>
-          <div 
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle at 25% 25%, #ec4899 1px, transparent 1px),
-                radial-gradient(circle at 75% 75%, #a855f7 1px, transparent 1px),
-                radial-gradient(circle at 75% 25%, #3b82f6 1px, transparent 1px),
-                radial-gradient(circle at 25% 75%, #10b981 1px, transparent 1px)
-              `,
-              backgroundSize: '120px 120px, 100px 100px, 80px 80px, 140px 140px',
-              backgroundPosition: '0 0, 40px 40px, 80px 0, 0 80px'
-            }}
-          ></div>
-        </div>
-
+      <section className="py-12 px-4 relative mt-24">
         <div className="max-w-6xl mx-auto relative">
           {!showForm && hasExistingAssessment && existingAssessment ? (
             // Show existing assessment summary
             <div className="max-w-2xl mx-auto">
-              <NBCard className="border-border/50 bg-card/50 backdrop-blur-sm text-center">
+              <NBCard className="border-gray-200 bg-white/95 backdrop-blur-sm text-center">
                 <div className="mb-6">
                   <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <h2 className="text-2xl font-bold text-foreground mb-2">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
                     Assessment Already Completed
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-700">
                     You've already completed your career assessment. You can continue with your existing results or retake the assessment.
                   </p>
                 </div>
 
-                <div className="bg-secondary/50 rounded-lg p-4 mb-6 text-left">
+                <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
                   <div className="flex items-center space-x-2 mb-3">
-                    <Clock className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm text-gray-600">
                       Completed on {formatDate(existingAssessment.completedAt)}
                     </span>
                   </div>
                   
                   <div className="space-y-2 text-sm">
                     <div>
-                      <span className="font-medium">Top Interests:</span>{' '}
-                      <span className="text-muted-foreground">
+                      <span className="font-medium text-gray-900">Top Interests:</span>{' '}
+                      <span className="text-gray-700">
                         {existingAssessment.interests.slice(0, 3).join(', ')}
                       </span>
                     </div>
                     <div>
-                      <span className="font-medium">Key Values:</span>{' '}
-                      <span className="text-muted-foreground">
+                      <span className="font-medium text-gray-900">Key Values:</span>{' '}
+                      <span className="text-gray-700">
                         {existingAssessment.values.slice(0, 2).join(', ')}
                       </span>
                     </div>
                     <div>
-                      <span className="font-medium">Career Goals:</span>{' '}
-                      <span className="text-muted-foreground">
+                      <span className="font-medium text-gray-900">Career Goals:</span>{' '}
+                      <span className="text-gray-700">
                         {existingAssessment.careerGoals.slice(0, 2).join(', ')}
                       </span>
                     </div>
                     <div>
-                      <span className="font-medium">Timeline:</span>{' '}
-                      <span className="text-muted-foreground">
+                      <span className="font-medium text-gray-900">Timeline:</span>{' '}
+                      <span className="text-gray-700">
                         {existingAssessment.timeframe}
                       </span>
                     </div>
@@ -301,21 +283,45 @@ export const CareerAssessment = () => {
           ) : (
             // Loading or initial state
             <div className="max-w-2xl mx-auto">
-              <NBCard className="border-border/50 bg-card/50 backdrop-blur-sm text-center">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
-                  Welcome to Your Career Assessment
+              <NBCard className="border-gray-200 bg-white/95 backdrop-blur-sm text-center">
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  Welcome to Your Career Discovery Journey
                 </h2>
-                <p className="text-muted-foreground mb-6">
-                  This comprehensive assessment will help us understand your interests, values, work style, and career goals to provide personalized recommendations.
+                <p className="text-black mb-6">
+                  Follow our guided 4-step process to discover your ideal career path with personalized recommendations and roadmaps.
                 </p>
-                <div className="bg-secondary/50 rounded-lg p-4 mb-6 text-left">
-                  <h3 className="font-semibold mb-2">What to expect:</h3>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>• 5 sections covering different aspects of your career preferences</li>
-                    <li>• Multiple choice and ranking questions</li>
-                    <li>• Approximately 10-15 minutes to complete</li>
-                    <li>• Personalized career recommendations based on your responses</li>
-                  </ul>
+                <div className="bg-gray-50 rounded-lg p-6 mb-6 text-left">
+                  <h3 className="font-semibold mb-4 text-black">Your Journey Steps:</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                      <div>
+                        <div className="font-medium text-gray-900">Tell us your interests</div>
+                        <div className="text-sm text-gray-600">What activities and subjects excite you most?</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                      <div>
+                        <div className="font-medium text-gray-900">Choose career domains</div>
+                        <div className="text-sm text-gray-600">Select from tech, health, business, creative, and more</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                      <div>
+                        <div className="font-medium text-gray-900">Share your skills (optional)</div>
+                        <div className="text-sm text-gray-600">Let us know what you're already good at</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                      <div>
+                        <div className="font-medium text-gray-900">Get your personalized roadmap</div>
+                        <div className="text-sm text-gray-600">Career options, flowchart, and step-by-step guidance</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <NBButton onClick={() => setShowForm(true)}>
                   Start Assessment

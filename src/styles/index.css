@@ -357,6 +357,56 @@ footer .text-gray-600 {
   color: #1e293b !important;
 }
 
+/* Dashboard page background */
+.dashboard-bg {
+  background: url('/bg2.svg'), linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Career Assessment page background */
+.career-assessment-bg {
+  background: url('/bg2.svg'), linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Career Assessment text styling */
+.career-assessment-bg .text-foreground {
+  color: #000000 !important;
+}
+
+.career-assessment-bg .text-muted-foreground {
+  color: #000000 !important;
+}
+
+.career-assessment-bg .text-gray-900 {
+  color: #000000 !important;
+}
+
+.career-assessment-bg .text-gray-700 {
+  color: #000000 !important;
+}
+
+.career-assessment-bg .text-gray-600 {
+  color: #000000 !important;
+}
+
+.career-assessment-bg h1,
+.career-assessment-bg h2,
+.career-assessment-bg h3,
+.career-assessment-bg h4,
+.career-assessment-bg h5,
+.career-assessment-bg h6,
+.career-assessment-bg p,
+.career-assessment-bg span,
+.career-assessment-bg div,
+.career-assessment-bg label {
+  color: #000000 !important;
+}
+
 /* Specific styles for feature cards and FAQ content */
 .features-section p,
 .features-section .text-muted-foreground,

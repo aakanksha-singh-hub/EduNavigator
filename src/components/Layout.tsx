@@ -27,10 +27,10 @@ export const Layout: React.FC<LayoutProps> = ({
       <main className={`flex-1 ${showNavbar ? 'pt-0' : ''}`}>
         {children}
       </main>
-      <footer className="border-t border-blue-200 bg-blue-50 py-8 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <footer className="border-t border-blue-200 bg-blue-50 py-3 mt-auto">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+            <div className="flex items-center space-x-2 mb-2 md:mb-0">
               <span className="text-gray-900 font-bold">© 2025 EduNavigator</span>
             </div>
             <div className="flex space-x-6">

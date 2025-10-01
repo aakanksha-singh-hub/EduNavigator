@@ -254,30 +254,141 @@ export class AdvancedScoringEngine {
     let score = 50 // Base score
 
     if (assessmentData) {
-      // Use assessment data for more accurate matching
-      const interestKeywords = assessmentData.interests.join(' ').toLowerCase()
-      const careerKeywords = careerProfile.keywords.join(' ').toLowerCase()
-      const careerDescription = careerProfile.description.toLowerCase()
+      // Primary scoring based on career domains (preferredIndustries)
+      let domainScore = 0
+      let domainMatches = 0
+      
+      // Check if career category/subcategory matches selected domains
+      if (assessmentData.preferredIndustries && assessmentData.preferredIndustries.length > 0) {
+        assessmentData.preferredIndustries.forEach(domain => {
+          const domainLower = domain.toLowerCase()
+          const careerCategory = careerProfile.category.toLowerCase()
+          const careerSubcategory = careerProfile.subcategory.toLowerCase()
+          const careerTitle = careerProfile.title.toLowerCase()
+          
+          console.log(`Checking domain: ${domain} against career: ${careerProfile.title} (category: ${careerCategory})`)
+          
+          let isMatch = false
+          
+          // Direct category matches
+          if (careerCategory.includes(domainLower) || 
+              careerSubcategory.includes(domainLower) ||
+              careerTitle.includes(domainLower)) {
+            isMatch = true
+          }
+          
+          // Specific domain mappings based on actual domain IDs
+          switch (domain) {
+            case 'technology':
+              if (careerCategory.includes('technology') || 
+                  careerTitle.includes('software') || 
+                  careerTitle.includes('developer') || 
+                  careerTitle.includes('data scientist') ||
+                  careerTitle.includes('engineer') ||
+                  careerCategory.includes('tech')) {
+                isMatch = true
+              }
+              break
+            case 'business':
+              if (careerCategory.includes('business') || 
+                  careerTitle.includes('manager') || 
+                  careerTitle.includes('analyst') ||
+                  careerTitle.includes('sales') ||
+                  careerTitle.includes('marketing') ||
+                  careerTitle.includes('financial')) {
+                isMatch = true
+              }
+              break
+            case 'healthcare':
+              if (careerCategory.includes('healthcare') || 
+                  careerTitle.includes('nurse') || 
+                  careerTitle.includes('therapist') ||
+                  careerTitle.includes('medical') ||
+                  careerTitle.includes('physical therapist')) {
+                isMatch = true
+              }
+              break
+            case 'creative':
+              if (careerCategory.includes('creative') || 
+                  careerTitle.includes('designer') || 
+                  careerTitle.includes('ux') ||
+                  careerTitle.includes('graphic') ||
+                  careerTitle.includes('interior') ||
+                  careerTitle.includes('web designer') ||
+                  careerTitle.includes('social media')) {
+                isMatch = true
+              }
+              break
+            case 'education':
+              if (careerCategory.includes('education') || 
+                  careerTitle.includes('teacher') || 
+                  careerTitle.includes('instructional') ||
+                  careerTitle.includes('professor') ||
+                  careerTitle.includes('counselor') ||
+                  careerTitle.includes('education technology')) {
+                isMatch = true
+              }
+              break
+            case 'engineering':
+              if (careerCategory.includes('engineering') || 
+                  careerTitle.includes('engineer') ||
+                  careerTitle.includes('mechanical') ||
+                  careerTitle.includes('electrical') ||
+                  careerTitle.includes('biomedical') ||
+                  careerTitle.includes('environmental')) {
+                isMatch = true
+              }
+              break
+          }
+          
+          if (isMatch) {
+            domainMatches++
+            factors.push({
+              name: `Domain: ${domain}`,
+              value: 1,
+              impact: 0.4,
+              description: `Career aligns with your interest in ${domain} field`
+            })
+            reasoning.push(`Strong match with your selected domain: ${domain}`)
+            console.log(`✅ MATCH FOUND: ${domain} matches ${careerProfile.title}`)
+          } else {
+            console.log(`❌ No match: ${domain} does not match ${careerProfile.title}`)
+          }
+        })
+        
+        domainScore = domainMatches > 0 ? Math.min(90, 60 + (domainMatches / assessmentData.preferredIndustries.length) * 40) : 30
+      }
 
-      // Check direct interest matches
-      let interestMatches = 0
-      assessmentData.interests.forEach(interest => {
-        if (careerKeywords.includes(interest.toLowerCase()) || 
-            careerDescription.includes(interest.toLowerCase())) {
-          interestMatches++
-          factors.push({
-            name: `Interest: ${interest}`,
-            value: 1,
-            impact: 0.3,
-            description: `Career aligns with your interest in ${interest}`
-          })
-          reasoning.push(`Career matches your interest in ${interest}`)
-        }
-      })
+      // Secondary scoring based on general interests
+      let interestScore = 50
+      if (assessmentData.interests && assessmentData.interests.length > 0) {
+        const interestKeywords = assessmentData.interests.join(' ').toLowerCase()
+        const careerKeywords = careerProfile.keywords.join(' ').toLowerCase()
+        const careerDescription = careerProfile.description.toLowerCase()
 
-      score = Math.min(95, 50 + (interestMatches / assessmentData.interests.length) * 50)
+        let interestMatches = 0
+        assessmentData.interests.forEach(interest => {
+          if (careerKeywords.includes(interest.toLowerCase()) || 
+              careerDescription.includes(interest.toLowerCase())) {
+            interestMatches++
+            factors.push({
+              name: `Interest: ${interest}`,
+              value: 1,
+              impact: 0.2,
+              description: `Career aligns with your interest in ${interest}`
+            })
+            reasoning.push(`Career matches your interest in ${interest}`)
+          }
+        })
+
+        interestScore = Math.min(80, 40 + (interestMatches / assessmentData.interests.length) * 40)
+      }
+
+      // Combine domain and interest scores (domain weighted more heavily)
+      score = Math.round(domainScore * 0.7 + interestScore * 0.3)
+      
     } else {
-      // Use basic career interest from profile
+      // Use basic career interest from profile (fallback)
       if (userProfile.careerInterest) {
         const userInterest = userProfile.careerInterest.toLowerCase()
         const careerTitle = careerProfile.title.toLowerCase()

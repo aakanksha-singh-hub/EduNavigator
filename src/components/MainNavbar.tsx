@@ -34,14 +34,7 @@ const navItems: NavItem[] = [
     label: 'Career Discovery',
     icon: ClipboardList,
     path: '/assessment', // Will be dynamically determined
-    description: 'Discover and progress through your career journey'
-  },
-  {
-    id: 'generate-career-path',
-    label: 'Generate Career Path',
-    icon: Route,
-    path: '/career-path-generator',
-    description: 'Generate personalized career paths based on your profile'
+    description: 'Complete career assessment and get personalized recommendations'
   },
   {
     id: 'learning-assistant',
@@ -126,7 +119,10 @@ export const MainNavbar: React.FC = () => {
           <div className="relative px-6 py-3">
             <div className="flex items-center justify-between h-12">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <button 
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-3 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">EN</span>
             </div>
@@ -134,7 +130,7 @@ export const MainNavbar: React.FC = () => {
               <h1 className="text-xl font-bold text-gray-900">EduNavigator</h1>
               <p className="text-xs text-gray-500">Intelligent Career Platform</p>
             </div>
-          </div>
+          </button>
 
           {/* Navigation Tabs */}
           <div className="hidden md:flex items-center space-x-1">

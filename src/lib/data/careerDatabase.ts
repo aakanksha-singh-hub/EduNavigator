@@ -1363,6 +1363,414 @@ export const CAREER_DATABASE: CareerProfile[] = [
     industryTrends: { demand: 'high', growth: 22, competitiveness: 'medium' },
     relatedCareers: ['Embedded Software Engineer', 'Systems Engineer', 'Automation Engineer'],
     keywords: ['internet of things', 'iot', 'embedded systems', 'sensors', 'smart devices', 'connectivity']
+  },
+
+  // EXPANDED EDUCATION CAREERS
+  {
+    id: 'high-school-teacher',
+    title: 'High School Teacher',
+    description: 'Teach and mentor high school students in specific subject areas, developing curricula and fostering academic growth.',
+    category: 'Education',
+    subcategory: 'Secondary Education',
+    requiredSkills: [
+      { skill: 'Subject Matter Expertise', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Classroom Management', importance: 'critical', proficiencyLevel: 'intermediate', category: 'soft' },
+      { skill: 'Curriculum Development', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Student Assessment', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: 'Educational Technology', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' },
+      { skill: 'Differentiated Instruction', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 40000, max: 70000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: false,
+      hybrid: false,
+      onsite: true,
+      teamSize: '20-30 students',
+      workStyle: ['structured', 'mentoring', 'academic']
+    },
+    industryTrends: { demand: 'high', growth: 8, competitiveness: 'medium' },
+    relatedCareers: ['Middle School Teacher', 'Curriculum Specialist', 'Education Administrator'],
+    keywords: ['teaching', 'education', 'high school', 'students', 'curriculum', 'classroom']
+  },
+
+  {
+    id: 'university-professor',
+    title: 'University Professor',
+    description: 'Conduct research and teach undergraduate and graduate students in higher education institutions.',
+    category: 'Education',
+    subcategory: 'Higher Education',
+    requiredSkills: [
+      { skill: 'Research Methods', importance: 'critical', proficiencyLevel: 'expert', category: 'domain' },
+      { skill: 'Academic Writing', importance: 'critical', proficiencyLevel: 'advanced', category: 'soft' },
+      { skill: 'Lecture Delivery', importance: 'critical', proficiencyLevel: 'advanced', category: 'soft' },
+      { skill: 'Grant Writing', importance: 'important', proficiencyLevel: 'intermediate', category: 'soft' }
+    ],
+    preferredSkills: [
+      { skill: 'Statistical Analysis', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Peer Review', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    experienceLevel: 'senior',
+    salaryRange: { min: 60000, max: 120000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: false,
+      hybrid: true,
+      onsite: true,
+      teamSize: '10-100 students',
+      workStyle: ['research-focused', 'academic', 'independent']
+    },
+    industryTrends: { demand: 'medium', growth: 5, competitiveness: 'high' },
+    relatedCareers: ['Research Scientist', 'Academic Administrator', 'Postdoctoral Researcher'],
+    keywords: ['professor', 'university', 'research', 'higher education', 'academic', 'teaching']
+  },
+
+  {
+    id: 'special-education-teacher',
+    title: 'Special Education Teacher',
+    description: 'Work with students who have learning disabilities, behavioral disorders, or physical disabilities to help them reach their potential.',
+    category: 'Education',
+    subcategory: 'Special Education',
+    requiredSkills: [
+      { skill: 'Special Education Methods', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'IEP Development', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Behavioral Management', importance: 'critical', proficiencyLevel: 'intermediate', category: 'soft' },
+      { skill: 'Adaptive Technology', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' }
+    ],
+    preferredSkills: [
+      { skill: 'Sign Language', importance: 'nice-to-have', proficiencyLevel: 'beginner', category: 'soft' },
+      { skill: 'Family Counseling', importance: 'important', proficiencyLevel: 'beginner', category: 'soft' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 45000, max: 75000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'high',
+    workEnvironment: {
+      remote: false,
+      hybrid: false,
+      onsite: true,
+      teamSize: '5-15 students',
+      workStyle: ['supportive', 'patient', 'individualized']
+    },
+    industryTrends: { demand: 'high', growth: 12, competitiveness: 'medium' },
+    relatedCareers: ['School Psychologist', 'Occupational Therapist', 'Speech Therapist'],
+    keywords: ['special education', 'disabilities', 'IEP', 'adaptive', 'inclusive', 'support']
+  },
+
+  {
+    id: 'education-technology-specialist',
+    title: 'Education Technology Specialist',
+    description: 'Integrate technology into educational settings, train teachers on digital tools, and support educational technology initiatives.',
+    category: 'Education',
+    subcategory: 'Educational Technology',
+    requiredSkills: [
+      { skill: 'Educational Software', importance: 'critical', proficiencyLevel: 'advanced', category: 'technical' },
+      { skill: 'Learning Management Systems', importance: 'critical', proficiencyLevel: 'advanced', category: 'technical' },
+      { skill: 'Teacher Training', importance: 'critical', proficiencyLevel: 'intermediate', category: 'soft' },
+      { skill: 'Technology Integration', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: 'Web Development', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' },
+      { skill: 'Data Analysis', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' }
+    ],
+    experienceLevel: 'mid',
+    salaryRange: { min: 50000, max: 80000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'high',
+    workEnvironment: {
+      remote: true,
+      hybrid: true,
+      onsite: true,
+      teamSize: '5-20 people',
+      workStyle: ['innovative', 'supportive', 'tech-savvy']
+    },
+    industryTrends: { demand: 'high', growth: 15, competitiveness: 'medium' },
+    relatedCareers: ['Instructional Designer', 'E-Learning Developer', 'Training Coordinator'],
+    keywords: ['edtech', 'educational technology', 'LMS', 'digital learning', 'teacher training', 'innovation']
+  },
+
+  {
+    id: 'school-counselor',
+    title: 'School Counselor',
+    description: 'Provide academic, career, and personal counseling to students, helping them navigate challenges and plan for their futures.',
+    category: 'Education',
+    subcategory: 'Student Services',
+    requiredSkills: [
+      { skill: 'Counseling Techniques', importance: 'critical', proficiencyLevel: 'advanced', category: 'soft' },
+      { skill: 'Crisis Intervention', importance: 'critical', proficiencyLevel: 'intermediate', category: 'soft' },
+      { skill: 'Career Guidance', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'College Planning', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: 'Group Facilitation', importance: 'important', proficiencyLevel: 'intermediate', category: 'soft' },
+      { skill: 'Mental Health First Aid', importance: 'important', proficiencyLevel: 'beginner', category: 'certification' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 45000, max: 70000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: false,
+      hybrid: false,
+      onsite: true,
+      teamSize: '1-5 counselors',
+      workStyle: ['supportive', 'confidential', 'empathetic']
+    },
+    industryTrends: { demand: 'high', growth: 10, competitiveness: 'medium' },
+    relatedCareers: ['Social Worker', 'Mental Health Counselor', 'Career Coach'],
+    keywords: ['school counseling', 'student support', 'guidance', 'mental health', 'career planning', 'crisis intervention']
+  },
+
+  // EXPANDED HEALTHCARE CAREERS
+  {
+    id: 'registered-nurse',
+    title: 'Registered Nurse',
+    description: 'Provide direct patient care, administer medications, monitor patient progress, and coordinate with healthcare teams.',
+    category: 'Healthcare',
+    subcategory: 'Nursing',
+    requiredSkills: [
+      { skill: 'Patient Care', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Medical Procedures', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Medication Administration', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Electronic Health Records', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' }
+    ],
+    preferredSkills: [
+      { skill: 'Critical Thinking', importance: 'important', proficiencyLevel: 'intermediate', category: 'soft' },
+      { skill: 'Communication', importance: 'important', proficiencyLevel: 'intermediate', category: 'soft' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 60000, max: 90000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'high',
+    workEnvironment: {
+      remote: false,
+      hybrid: false,
+      onsite: true,
+      teamSize: '10-50 people',
+      workStyle: ['fast-paced', 'caring', 'teamwork']
+    },
+    industryTrends: { demand: 'high', growth: 15, competitiveness: 'medium' },
+    relatedCareers: ['Nurse Practitioner', 'Nurse Manager', 'Clinical Nurse Specialist'],
+    keywords: ['nursing', 'patient care', 'healthcare', 'medical', 'hospital', 'clinic']
+  },
+
+  {
+    id: 'medical-technologist',
+    title: 'Medical Technologist',
+    description: 'Perform complex laboratory tests to help diagnose diseases and monitor patient health.',
+    category: 'Healthcare',
+    subcategory: 'Laboratory Medicine',
+    requiredSkills: [
+      { skill: 'Laboratory Techniques', importance: 'critical', proficiencyLevel: 'advanced', category: 'technical' },
+      { skill: 'Microscopy', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Quality Control', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Data Analysis', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' }
+    ],
+    preferredSkills: [
+      { skill: 'Molecular Biology', importance: 'important', proficiencyLevel: 'beginner', category: 'domain' },
+      { skill: 'Laboratory Information Systems', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 50000, max: 75000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: false,
+      hybrid: false,
+      onsite: true,
+      teamSize: '5-20 people',
+      workStyle: ['detail-oriented', 'precise', 'analytical']
+    },
+    industryTrends: { demand: 'medium', growth: 7, competitiveness: 'medium' },
+    relatedCareers: ['Clinical Laboratory Scientist', 'Pathologist Assistant', 'Research Technician'],
+    keywords: ['medical laboratory', 'diagnostics', 'testing', 'lab work', 'pathology', 'analysis']
+  },
+
+  // EXPANDED BUSINESS CAREERS
+  {
+    id: 'marketing-manager',
+    title: 'Marketing Manager',
+    description: 'Plan, implement, and oversee marketing strategies to promote products and services and increase brand awareness.',
+    category: 'Business',
+    subcategory: 'Marketing',
+    requiredSkills: [
+      { skill: 'Marketing Strategy', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Digital Marketing', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Campaign Management', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Budget Management', importance: 'important', proficiencyLevel: 'intermediate', category: 'soft' }
+    ],
+    preferredSkills: [
+      { skill: 'SEO/SEM', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Social Media Marketing', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' }
+    ],
+    experienceLevel: 'mid',
+    salaryRange: { min: 65000, max: 110000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'high',
+    workEnvironment: {
+      remote: true,
+      hybrid: true,
+      onsite: true,
+      teamSize: '5-15 people',
+      workStyle: ['creative', 'strategic', 'results-driven']
+    },
+    industryTrends: { demand: 'high', growth: 12, competitiveness: 'high' },
+    relatedCareers: ['Brand Manager', 'Digital Marketing Specialist', 'Marketing Director'],
+    keywords: ['marketing', 'campaigns', 'brand', 'digital marketing', 'strategy', 'promotion']
+  },
+
+  {
+    id: 'human-resources-manager',
+    title: 'Human Resources Manager',
+    description: 'Oversee recruitment, employee relations, training programs, and ensure compliance with employment laws.',
+    category: 'Business',
+    subcategory: 'Human Resources',
+    requiredSkills: [
+      { skill: 'Recruitment', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Employee Relations', importance: 'critical', proficiencyLevel: 'advanced', category: 'soft' },
+      { skill: 'Employment Law', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Performance Management', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: 'HRIS Systems', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Training Development', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    experienceLevel: 'mid',
+    salaryRange: { min: 60000, max: 100000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: true,
+      hybrid: true,
+      onsite: true,
+      teamSize: '5-20 people',
+      workStyle: ['people-focused', 'diplomatic', 'strategic']
+    },
+    industryTrends: { demand: 'medium', growth: 8, competitiveness: 'medium' },
+    relatedCareers: ['HR Business Partner', 'Compensation Analyst', 'Training Manager'],
+    keywords: ['human resources', 'recruitment', 'employee relations', 'HR', 'talent management', 'workplace']
+  },
+
+  // EXPANDED CREATIVE & DESIGN CAREERS
+  {
+    id: 'web-designer',
+    title: 'Web Designer',
+    description: 'Create visually appealing and user-friendly website designs, focusing on layout, color schemes, and user experience.',
+    category: 'Creative',
+    subcategory: 'Web Design',
+    requiredSkills: [
+      { skill: 'HTML/CSS', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Adobe Creative Suite', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'UI/UX Design', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Responsive Design', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' }
+    ],
+    preferredSkills: [
+      { skill: 'JavaScript', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' },
+      { skill: 'Figma', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 45000, max: 75000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'high',
+    workEnvironment: {
+      remote: true,
+      hybrid: true,
+      onsite: true,
+      teamSize: '3-10 people',
+      workStyle: ['creative', 'collaborative', 'user-focused']
+    },
+    industryTrends: { demand: 'high', growth: 15, competitiveness: 'high' },
+    relatedCareers: ['UX Designer', 'Front-end Developer', 'Digital Designer'],
+    keywords: ['web design', 'UI/UX', 'websites', 'visual design', 'user experience', 'digital']
+  },
+
+  {
+    id: 'interior-designer',
+    title: 'Interior Designer',
+    description: 'Plan and design interior spaces that are functional, safe, and aesthetically pleasing for various types of buildings.',
+    category: 'Creative',
+    subcategory: 'Interior Design',
+    requiredSkills: [
+      { skill: 'Space Planning', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Color Theory', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'CAD Software', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Building Codes', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: '3D Modeling', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Project Management', importance: 'important', proficiencyLevel: 'beginner', category: 'soft' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 40000, max: 70000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: false,
+      hybrid: true,
+      onsite: true,
+      teamSize: '1-5 people',
+      workStyle: ['creative', 'client-focused', 'detail-oriented']
+    },
+    industryTrends: { demand: 'medium', growth: 6, competitiveness: 'medium' },
+    relatedCareers: ['Architect', 'Set Designer', 'Furniture Designer'],
+    keywords: ['interior design', 'space planning', 'decor', 'aesthetics', 'residential', 'commercial']
+  },
+
+  // EXPANDED ENGINEERING CAREERS
+  {
+    id: 'biomedical-engineer',
+    title: 'Biomedical Engineer',
+    description: 'Apply engineering principles to design and develop medical devices, equipment, and software for healthcare applications.',
+    category: 'Engineering',
+    subcategory: 'Biomedical Engineering',
+    requiredSkills: [
+      { skill: 'Medical Device Design', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Biology/Anatomy', importance: 'critical', proficiencyLevel: 'intermediate', category: 'domain' },
+      { skill: 'Engineering Principles', importance: 'critical', proficiencyLevel: 'advanced', category: 'technical' },
+      { skill: 'FDA Regulations', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: 'CAD Software', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Signal Processing', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 65000, max: 95000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'high',
+    workEnvironment: {
+      remote: false,
+      hybrid: true,
+      onsite: true,
+      teamSize: '5-15 people',
+      workStyle: ['innovative', 'precise', 'healthcare-focused']
+    },
+    industryTrends: { demand: 'high', growth: 14, competitiveness: 'medium' },
+    relatedCareers: ['Medical Device Engineer', 'Clinical Engineer', 'Research Engineer'],
+    keywords: ['biomedical engineering', 'medical devices', 'healthcare technology', 'FDA', 'design', 'innovation']
+  },
+
+  {
+    id: 'environmental-engineer',
+    title: 'Environmental Engineer',
+    description: 'Develop solutions to environmental problems using engineering, soil science, biology, and chemistry principles.',
+    category: 'Engineering',
+    subcategory: 'Environmental Engineering',
+    requiredSkills: [
+      { skill: 'Environmental Regulations', importance: 'critical', proficiencyLevel: 'advanced', category: 'domain' },
+      { skill: 'Water Treatment', importance: 'critical', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Air Quality Assessment', importance: 'important', proficiencyLevel: 'intermediate', category: 'technical' },
+      { skill: 'Waste Management', importance: 'important', proficiencyLevel: 'intermediate', category: 'domain' }
+    ],
+    preferredSkills: [
+      { skill: 'GIS Software', importance: 'important', proficiencyLevel: 'beginner', category: 'technical' },
+      { skill: 'Project Management', importance: 'important', proficiencyLevel: 'intermediate', category: 'soft' }
+    ],
+    experienceLevel: 'entry',
+    salaryRange: { min: 60000, max: 90000, currency: 'USD', period: 'yearly' },
+    growthProspects: 'medium',
+    workEnvironment: {
+      remote: false,
+      hybrid: true,
+      onsite: true,
+      teamSize: '5-20 people',
+      workStyle: ['analytical', 'environmental-conscious', 'problem-solving']
+    },
+    industryTrends: { demand: 'medium', growth: 8, competitiveness: 'medium' },
+    relatedCareers: ['Environmental Scientist', 'Sustainability Consultant', 'Water Resources Engineer'],
+    keywords: ['environmental engineering', 'sustainability', 'pollution control', 'water treatment', 'environmental protection', 'green technology']
   }
 ]
 
