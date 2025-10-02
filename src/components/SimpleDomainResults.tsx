@@ -124,7 +124,7 @@ const generateCareerFlowchartData = (domain: string, careers: UICareer[]) => {
     title: 'Education & Learning',
     description: `Start with ${domain.toLowerCase()} fundamentals`,
     duration: '6-12 months',
-    difficulty: 'Beginner'
+    difficulty: 'beginner' as const
   });
 
   // Skills development
@@ -301,7 +301,7 @@ Career Assessment Tool`;
               </NBButton>
               <NBButton 
                 onClick={() => setShowFlowchart(!showFlowchart)} 
-                variant={showFlowchart ? "default" : "ghost"}
+                variant={showFlowchart ? "primary" : "ghost"}
                 className="px-6 py-3"
               >
                 <GitBranch className="mr-2 w-5 h-5" />
