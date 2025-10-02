@@ -35,7 +35,7 @@ const CategoryScore: React.FC<{ title: string; score: number }> = ({ title, scor
   return (
     <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
       <div className="flex items-center space-x-3">
-        <h4 className="font-medium text-foreground">{title}</h4>
+        <h4 className="font-medium" style={{ color: '#000000 !important', textShadow: 'none !important', fontFamily: 'inherit !important' }}>{title}</h4>
         <ScoreBadge score={score} />
       </div>
       <div className="text-right">
@@ -53,15 +53,15 @@ export const ResumeSummary: React.FC<ResumeSummaryProps> = ({
   className 
 }) => {
   return (
-    <div className={cn('bg-white rounded-xl border shadow-sm', className)}>
+    <div className={cn('bg-white/90 backdrop-blur-sm rounded-xl border shadow-sm force-black-text force-black-headings', className)}>
       {/* Header with overall score */}
       <div className="flex items-center space-x-6 p-6 border-b">
         <ScoreGauge score={feedback.overallScore} size="lg" />
         <div>
-          <h3 className="text-2xl font-bold text-foreground mb-2">
+          <h3 className="text-2xl font-bold mb-2" style={{ color: '#000000 !important', textShadow: 'none !important', fontFamily: 'inherit !important' }}>
             Overall Resume Score
           </h3>
-          <p className="text-muted-foreground">
+          <p className="text-black font-medium">
             This score is calculated based on multiple factors including ATS compatibility, 
             content quality, structure, and skills alignment.
           </p>
@@ -70,7 +70,7 @@ export const ResumeSummary: React.FC<ResumeSummaryProps> = ({
 
       {/* Category scores */}
       <div className="p-6 space-y-4">
-        <h4 className="font-semibold text-foreground mb-4">Score Breakdown</h4>
+        <h4 className="font-semibold mb-4" style={{ color: '#000000 !important', textShadow: 'none !important', fontFamily: 'inherit !important' }}>Score Breakdown</h4>
         
         <CategoryScore title="ATS Compatibility" score={feedback.ATS.score} />
         <CategoryScore title="Tone & Style" score={feedback.toneAndStyle.score} />

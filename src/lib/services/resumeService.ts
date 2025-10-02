@@ -1,35 +1,130 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ExtractedResumeInfo } from '../types';
-import { config } from '../config';
+import { config, debugConfig } from '../config';
 
-// Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(config.geminiApiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// Debug configuration
+console.log('ResumeService: Checking config...');
+debugConfig();
+
+// Create function to get AI instance with fallback models
+const getGeminiInstance = () => {
+  if (!config.geminiApiKey) {
+    throw new Error('Gemini API key not configured');
+  }
+  console.log('Creating Gemini instance with key:', config.geminiApiKey.substring(0, 10) + '...');
+  return new GoogleGenerativeAI(config.geminiApiKey);
+};
+
+const tryMultipleModels = async (genAI: GoogleGenerativeAI, prompt: string) => {
+  const models = ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash'];
+  
+  for (const modelName of models) {
+    try {
+      console.log(`Trying model: ${modelName}`);
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      console.log(`✅ ${modelName} worked!`);
+      return result;
+    } catch (error: any) {
+      console.log(`❌ ${modelName} failed:`, error.message);
+      if (error.message.includes('overloaded') && models.indexOf(modelName) < models.length - 1) {
+        console.log(`Model ${modelName} is overloaded, trying next model...`);
+        continue;
+      }
+      if (models.indexOf(modelName) === models.length - 1) {
+        // This is the last model, throw the error
+        throw error;
+      }
+    }
+  }
+  throw new Error('All models failed');
+};
 
 export class ResumeService {
   static async extractTextFromFile(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      
-      reader.onload = (e) => {
-        const text = e.target?.result as string;
-        resolve(text);
-      };
-      
-      reader.onerror = () => {
-        reject(new Error('Failed to read file'));
-      };
-      
-      if (file.type === 'text/plain') {
-        reader.readAsText(file);
-      } else if (file.type === 'application/pdf') {
-        // For PDF files, we'll need to handle this differently
-        // For now, we'll assume the file is already text or use a PDF parsing library
-        reader.readAsText(file);
+    const fileType = file.type;
+    const fileName = file.name.toLowerCase();
+    
+    try {
+      if (fileType === 'text/plain' || fileName.endsWith('.txt')) {
+        const text = await file.text();
+        if (!text.trim()) {
+          throw new Error('The uploaded text file appears to be empty. Please upload a file with content.');
+        }
+        return text;
+      } else if (fileType === 'application/pdf' || fileName.endsWith('.pdf')) {
+        return await this.extractTextFromPDF(file);
       } else {
-        reject(new Error('Unsupported file type. Please upload a PDF or text file.'));
+        const extension = fileName.split('.').pop()?.toUpperCase() || 'Unknown';
+        throw new Error(`Unsupported file type: ${extension}. Please upload a PDF or text file (.txt).`);
       }
-    });
+    } catch (error: any) {
+      if (error.message) {
+        throw error;
+      }
+      throw new Error('Failed to read the file. Please ensure the file is not corrupted and try again.');
+    }
+  }
+
+  /**
+   * Extract text from PDF files using PDF.js
+   */
+  private static async extractTextFromPDF(file: File): Promise<string> {
+    try {
+      // Dynamic import to avoid bundling issues
+      const pdfjsLib = await import('pdfjs-dist');
+      
+      // Set worker source - check if worker file exists in public folder
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+      
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      
+      let fullText = '';
+      
+      // Extract text from all pages
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        
+        // Extract text items and join them
+        const pageText = textContent.items
+          .map((item: any) => {
+            // Handle both regular text items and marked content
+            if ('str' in item) {
+              return item.str;
+            }
+            return '';
+          })
+          .join(' ');
+        
+        fullText += pageText + '\n\n';
+      }
+      
+      if (!fullText.trim()) {
+        throw new Error('The PDF appears to be empty or contains no extractable text. This might be a scanned document or image-based PDF. Please try converting it to text or use a different resume format.');
+      }
+      
+      return fullText.trim();
+    } catch (error: any) {
+      console.error('PDF extraction error:', error);
+      
+      if (error.message && error.message.includes('extractable text')) {
+        throw error; // Re-throw our custom message
+      }
+      
+      // Provide helpful error messages for common PDF issues
+      if (error.message && error.message.includes('Invalid PDF')) {
+        throw new Error('The uploaded file appears to be corrupted or not a valid PDF. Please try uploading a different file.');
+      }
+      
+      if (error.message && error.message.includes('worker')) {
+        throw new Error('PDF processing is temporarily unavailable. Please convert your PDF to a text file (.txt) or copy and paste your resume content.');
+      }
+      
+      // Generic PDF processing error
+      throw new Error('Failed to extract text from PDF. This might be a scanned document or protected PDF. Please try converting to text format or use a different resume file.');
+    }
   }
 
   static async extractResumeInfo(file: File): Promise<ExtractedResumeInfo> {
@@ -93,7 +188,8 @@ export class ResumeService {
         - Return only valid JSON, no additional text
       `;
 
-      const result = await model.generateContent(prompt);
+      const genAI = getGeminiInstance();
+      const result = await tryMultipleModels(genAI, prompt);
       const response = await result.response;
       const text = response.text();
       

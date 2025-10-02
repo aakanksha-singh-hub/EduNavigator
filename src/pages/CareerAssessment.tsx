@@ -46,12 +46,8 @@ export const CareerAssessment = () => {
     );
   }
 
-  if (!profile) {
-    return null; // Will redirect in useEffect
-  }
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen career-assessment-bg">
       {!assessmentComplete ? (
         <SimpleDomainAssessment onComplete={handleAssessmentComplete} />
       ) : (

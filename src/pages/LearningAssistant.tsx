@@ -146,8 +146,6 @@ export const LearningAssistant: React.FC = () => {
                   <h1 className="text-3xl font-bold text-white">Learning Assistant</h1>
                 </div>
                 <p className="text-white max-w-2xl mx-auto">
-                  Upload documents or paste text to generate AI-powered study materials: notes, glossary, 
-                  and personalized learning content.
                 </p>
               </div>
             </div>

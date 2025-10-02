@@ -76,6 +76,32 @@
     color: white !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
+
+  /* NUCLEAR BLACK TEXT OVERRIDE FOR RESUME ANALYSIS */
+  .force-black-headings h1,
+  .force-black-headings h2,
+  .force-black-headings h3,
+  .force-black-headings h4,
+  .force-black-headings h5,
+  .force-black-headings h6 {
+    color: #000000 !important;
+    text-shadow: none !important;
+    font-family: inherit !important;
+  }
+
+  /* NUCLEAR WHITE TEXT OVERRIDE FOR SPECIFIC ELEMENTS */
+  .force-white-text,
+  .force-white-text h1,
+  .force-white-text h2,
+  .force-white-text h3,
+  .force-white-text h4,
+  .force-white-text h5,
+  .force-white-text h6,
+  .force-white-text p {
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    font-family: inherit !important;
+  }
 }
 
 /* Light educational background */
@@ -249,7 +275,7 @@ html {
 
 /* Text color overrides for better visibility */
 p, span, div {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: rgba(14, 7, 7, 0.9) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -258,7 +284,7 @@ p, span, div {
 }
 
 .text-foreground {
-  color: white !important;
+  color: rgb(10, 5, 5) !important;
 }
 
 /* Button text colors */

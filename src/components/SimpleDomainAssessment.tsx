@@ -110,7 +110,7 @@ export const SimpleDomainAssessment: React.FC<SimpleDomainAssessmentProps> = ({ 
               🚀 Find Your Perfect Career
             </h1>
             <p className="text-xl font-medium mt-8 text-white">
-              Just 2 simple questions to get personalized career recommendations!
+              
             </p>
           <div className="flex justify-center mt-6">
             <div className="flex items-center space-x-4">

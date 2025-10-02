@@ -45,18 +45,17 @@ export const ATSScore: React.FC<ATSScoreProps> = ({
 
   return (
     <div className={cn(
-      'bg-gradient-to-b rounded-xl border p-6',
-      getBgGradient(score),
+      'bg-white/90 backdrop-blur-sm rounded-xl border p-6 force-black-text force-black-headings',
       className
     )}>
       {/* Header */}
       <div className="flex items-center space-x-4 mb-6">
         {getScoreIcon(score)}
         <div>
-          <h3 className="text-2xl font-bold text-foreground">
+          <h3 className="text-2xl font-bold" style={{ color: '#000000 !important', textShadow: 'none !important', fontFamily: 'inherit !important' }}>
             ATS Score: {score}/100
           </h3>
-          <p className="text-muted-foreground">
+          <p className="text-black font-medium">
             {getScoreLabel(score)} - Applicant Tracking System compatibility
           </p>
         </div>

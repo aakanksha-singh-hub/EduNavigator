@@ -40,13 +40,13 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
   };
 
   return (
-    <div className={cn('border rounded-lg', getBorderColor(score))}>
+    <div className={cn('border rounded-lg bg-white/90 backdrop-blur-sm force-black-text force-black-headings', getBorderColor(score))}>
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center justify-between p-4 hover:bg-white/20 transition-colors"
       >
         <div className="flex items-center space-x-4">
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+          <h3 className="text-lg font-semibold" style={{ color: '#000000 !important', textShadow: 'none !important', fontFamily: 'inherit !important' }}>{title}</h3>
           <span className={cn('text-xl font-bold', getScoreColor(score))}>
             {score}/100
           </span>
@@ -76,7 +76,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
                     {tip.tip}
                   </p>
                   {tip.explanation && (
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-black font-medium mt-1">
                       {tip.explanation}
                     </p>
                   )}
@@ -140,10 +140,10 @@ export const DetailedFeedback: React.FC<DetailedFeedbackProps> = ({
   ];
 
   return (
-    <div className={cn('space-y-4', className)}>
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Detailed Analysis</h2>
-        <p className="text-muted-foreground">
+    <div className={cn('space-y-4 force-black-headings', className)}>
+      <div className="mb-6 force-white-text">
+        <h2 className="text-2xl font-bold mb-2">Detailed Analysis</h2>
+        <p className="font-medium">
           Expand each section to see specific recommendations for improving your resume.
         </p>
       </div>

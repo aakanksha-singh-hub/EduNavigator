@@ -15,10 +15,17 @@ export const ResumeAnalysisResults: React.FC = () => {
   const navigate = useNavigate();
   const { enhancedProfile } = useUserStore();
 
+  // Debug logging
+  console.log('ResumeAnalysisResults - ID from URL:', id);
+  console.log('ResumeAnalysisResults - Enhanced profile:', enhancedProfile);
+  console.log('ResumeAnalysisResults - Resume versions:', enhancedProfile?.resumeVersions);
+
   // Find the resume analysis
   const resumeAnalysis = enhancedProfile?.resumeVersions?.find(
     version => version.id === id
   ) as EnhancedResumeVersion | undefined;
+
+  console.log('ResumeAnalysisResults - Found analysis:', resumeAnalysis);
 
   if (!resumeAnalysis) {
     return (
@@ -71,23 +78,29 @@ export const ResumeAnalysisResults: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen force-black-text force-black-headings" style={{
+      backgroundImage: 'url(/bg2.svg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed'
+    }}>
       {/* Page Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="backdrop-blur-sm border-b border-gray-200/30">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Resume Analysis Results</h1>
+              <h1 className="text-2xl font-bold" style={{ color: '#000000 !important', textShadow: 'none !important', fontFamily: 'inherit !important' }}>Resume Analysis Results</h1>
               <div className="flex items-center space-x-4 mt-1">
                 {resumeAnalysis.companyName && (
-                  <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-                    <Building className="w-4 h-4" />
+                  <div className="flex items-center space-x-1 text-sm text-black font-medium">
+                    <Building className="w-4 h-4 text-black" />
                     <span>{resumeAnalysis.companyName}</span>
                   </div>
                 )}
                 {resumeAnalysis.jobTitle && (
-                  <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-                    <Briefcase className="w-4 h-4" />
+                  <div className="flex items-center space-x-1 text-sm text-black font-medium">
+                    <Briefcase className="w-4 h-4 text-black" />
                     <span>{resumeAnalysis.jobTitle}</span>
                   </div>
                 )}
@@ -146,28 +159,6 @@ export const ResumeAnalysisResults: React.FC = () => {
 
             {/* Detailed Feedback */}
             <DetailedFeedback feedback={resumeAnalysis.feedback} />
-
-            {/* Action Buttons */}
-            <NBCard className="p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Next Steps</h3>
-              <div className="flex flex-wrap gap-3">
-                <NBButton onClick={() => navigate('/resume-upload')}>
-                  Analyze Another Resume
-                </NBButton>
-                <NBButton 
-                  variant="secondary"
-                  onClick={() => navigate('/learning-roadmap')}
-                >
-                  View Learning Roadmap
-                </NBButton>
-                <NBButton 
-                  variant="secondary"
-                  onClick={() => navigate('/achievements')}
-                >
-                  View Achievements
-                </NBButton>
-              </div>
-            </NBCard>
           </div>
         </div>
       </main>

@@ -30,7 +30,10 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
     onDrop,
     multiple: false,
-    accept: { 'application/pdf': ['.pdf'] },
+    accept: { 
+      'application/pdf': ['.pdf'],
+      'text/plain': ['.txt']
+    },
     maxSize: maxFileSize,
   });
 
@@ -56,7 +59,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center space-x-3">
-              <FileText className="w-8 h-8 text-red-500" />
+              <FileText className={`w-8 h-8 ${file.type === 'application/pdf' ? 'text-red-500' : 'text-blue-500'}`} />
               <div>
                 <p className="font-medium text-gray-900 truncate max-w-xs">
                   {file.name}
@@ -86,7 +89,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
               <span className="font-medium">Click to browse</span> or drag and drop
             </p>
             <p className="text-xs text-gray-400">
-              PDF files only (max {formatSize(maxFileSize)})
+              PDF or text files only (max {formatSize(maxFileSize)})
             </p>
           </div>
         )}
