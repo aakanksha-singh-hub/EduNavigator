@@ -31,42 +31,42 @@ const domains = [
     id: 'creative',
     name: 'Creative & Design',
     description: 'Graphic design, UX/UI, content creation, marketing',
-    icon: '🎨',
+    icon: '',
     color: 'from-pink-500 to-rose-500'
   },
   {
     id: 'technology', 
     name: 'Technology',
     description: 'Software development, data science, cybersecurity',
-    icon: '💻',
+    icon: '',
     color: 'from-blue-500 to-cyan-500'
   },
   {
     id: 'business',
     name: 'Business & Finance',
     description: 'Business analysis, project management, consulting',
-    icon: '💼',
+    icon: '',
     color: 'from-green-500 to-emerald-500'
   },
   {
     id: 'healthcare',
     name: 'Healthcare',
     description: 'Nursing, medical research, therapy',
-    icon: '🏥',
+    icon: '',
     color: 'from-red-500 to-pink-500'
   },
   {
     id: 'education',
     name: 'Education',
     description: 'Teaching, curriculum development, training',
-    icon: '📚',
+    icon: '',
     color: 'from-yellow-500 to-orange-500'
   },
   {
     id: 'engineering',
     name: 'Engineering',
     description: 'Mechanical, civil, electrical engineering',
-    icon: '⚙️',
+    icon: '',
     color: 'from-purple-500 to-violet-500'
   }
 ];

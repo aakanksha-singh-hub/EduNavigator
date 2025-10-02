@@ -63,7 +63,7 @@ export const Landing = () => {
             bridge skill gaps with our interactive flowchart.
           </p>
           <div className="flex justify-center">
-            <Link to="/details" className="start-journey-button">
+            <Link to="/assessment" className="start-journey-button">
               <span>
                 Start Your Journey
                 <ArrowRight className="w-5 h-5" />

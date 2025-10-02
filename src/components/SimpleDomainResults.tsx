@@ -57,8 +57,8 @@ interface SimpleDomainResultsProps {
 
 const getCareerIcon = (title: string): string => {
   const iconMap: Record<string, string> = {
-    'Graphic Designer': '🎨', 'UX/UI Designer': '📱', 'Content Creator': '✍️',
-    'Digital Marketer': '📢', 'Brand Designer': '🏷️', 'Video Editor': '🎬',
+    'Graphic Designer': '', 'UX/UI Designer': '', 'Content Creator': '',
+    'Digital Marketer': '', 'Brand Designer': '', 'Video Editor': '🎬',
     'Software Developer': '💻', 'Data Scientist': '📊', 'Cybersecurity Analyst': '🔒',
     'DevOps Engineer': '⚙️', 'Mobile App Developer': '📱', 'AI/ML Engineer': '🤖',
     'Business Analyst': '📈', 'Project Manager': '📋', 'Management Consultant': '💼',

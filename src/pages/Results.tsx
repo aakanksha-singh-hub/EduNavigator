@@ -21,7 +21,7 @@ export const Results = () => {
 
   useEffect(() => {
     if (!profile || !results) {
-      navigate('/details');
+      navigate('/assessment');
       return;
     }
     
@@ -36,7 +36,7 @@ export const Results = () => {
 
   const handleStartOver = () => {
     clearData();
-    navigate('/details');
+    navigate('/assessment');
   };
 
   const handleBackToOriginal = () => {
