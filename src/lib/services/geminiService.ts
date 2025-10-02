@@ -8,7 +8,8 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
 export class GeminiService {
   static async generateCareerPath(
-    profile: UserProfile
+    profile: UserProfile,
+    assessmentData?: any
   ): Promise<CareerRecommendation> {
     // Check if API key is available
     if (!config.geminiApiKey) {
@@ -17,201 +18,183 @@ export class GeminiService {
     }
 
     try {
-      const prompt = `
-        You are a career advisor AI. Based on the user's profile, generate a comprehensive career recommendation.
+      // Build domain-specific prompt
+      let domainFocus = 'general career guidance'
+      if (assessmentData?.preferredIndustries?.length > 0) {
+        domainFocus = assessmentData.preferredIndustries.join(', ')
+      }
 
-        User Profile:
-        - Name: ${profile.name}
-        - Age: ${profile.age}
-        - Education: ${profile.educationLevel}
-        - Skills: ${profile.skills.join(', ')}
-        - Career Interest: ${profile.careerInterest}
-        - Location: ${profile.location || 'Not specified'}
-        
-        ${
-          profile.resume
-            ? `
-        Resume Information (Extracted):
-        - Resume Skills: ${profile.resume.extractedInfo.skills.join(', ')}
-        - Work Experience: ${
-          profile.resume.extractedInfo.experience.length
-        } positions
-        - Education: ${profile.resume.extractedInfo.education.length} degrees
-        - Languages: ${
-          profile.resume.extractedInfo.languages?.join(', ') || 'Not specified'
-        }
-        - Certifications: ${
-          profile.resume.extractedInfo.certifications?.join(', ') ||
-          'Not specified'
-        }
-        - Professional Summary: ${
-          profile.resume.extractedInfo.summary || 'Not provided'
-        }
-        
-        Work Experience Details:
-        ${profile.resume.extractedInfo.experience
-          .map(
-            (exp) =>
-              `- ${exp.position} at ${exp.company} (${exp.duration}): ${exp.description}`
-          )
-          .join('\n')}
-        
-        Education Details:
-        ${profile.resume.extractedInfo.education
-          .map(
-            (edu) =>
-              `- ${edu.degree} in ${edu.field} from ${edu.institution} (${edu.year})`
-          )
-          .join('\n')}
-        `
-            : ''
-        }
+      const prompt = `You are an expert career advisor AI. Based on the user's profile and assessment data, generate a comprehensive career recommendation.
 
-        IMPORTANT: Avoid suggesting the same common tech jobs (Software Developer, Data Analyst, Product Manager, UX/UI Designer, Digital Marketing Specialist). 
-        
-        Instead, explore diverse, emerging, and specialized career paths that match the user's unique profile. Consider:
-        - Emerging tech roles (AI Ethics Specialist, Blockchain Developer, AR/VR Designer, etc.)
-        - Cross-industry opportunities (FinTech, HealthTech, EdTech, GreenTech, etc.)
-        - Specialized technical roles (DevOps Engineer, Cybersecurity Analyst, Cloud Architect, etc.)
-        - Creative-tech hybrid roles (Technical Writer, Developer Advocate, Solutions Engineer, etc.)
-        - Industry-specific roles based on user's background and interests
-        
-        Please provide a detailed career recommendation in the following JSON format.
-        For learning resources, include specific course titles and skills that can be found on platforms like Udemy, Coursera, LinkedIn Learning, and freeCodeCamp:
-        {
-          "primaryCareer": "Main career title",
-          "relatedRoles": ["Role 1", "Role 2", "Role 3", "Role 4"],
-          "summary": "Personalized summary explaining why this career path fits the user",
-          "careerPath": {
-            "nodes": [
-              {
-                "id": "1",
-                "type": "course",
-                "title": "Course Name",
-                "description": "Course description",
-                "duration": "3 months",
-                "difficulty": "beginner",
-                "position": {"x": 100, "y": 100}
-              },
-              {
-                "id": "2",
-                "type": "internship",
-                "title": "Internship Name",
-                "description": "Internship description",
-                "duration": "6 months",
-                "position": {"x": 300, "y": 100}
-              },
-              {
-                "id": "3",
-                "type": "job",
-                "title": "Job Title",
-                "description": "Job description",
-                "salary": "$60k-80k",
-                "position": {"x": 500, "y": 100}
-              },
-              {
-                "id": "4",
-                "type": "company",
-                "title": "Company Name",
-                "description": "Company description",
-                "position": {"x": 700, "y": 100}
-              },
-              {
-                "id": "5",
-                "type": "skill",
-                "title": "Skill Name",
-                "description": "Skill description",
-                "position": {"x": 100, "y": 300}
-              }
-            ],
-            "edges": [
-              {
-                "id": "e1-2",
-                "source": "1",
-                "target": "2",
-                "sourceHandle": "bottom",
-                "targetHandle": "top",
-                "type": "smoothstep",
-                "animated": true
-              },
-              {
-                "id": "e2-3",
-                "source": "2",
-                "target": "3",
-                "sourceHandle": "bottom",
-                "targetHandle": "top",
-                "type": "smoothstep",
-                "animated": true
-              },
-              {
-                "id": "e3-4",
-                "source": "3",
-                "target": "4",
-                "sourceHandle": "bottom",
-                "targetHandle": "top",
-                "type": "smoothstep",
-                "animated": true
-              },
-              {
-                "id": "e1-5",
-                "source": "1",
-                "target": "5",
-                "sourceHandle": "right",
-                "targetHandle": "left",
-                "type": "smoothstep"
-              }
-            ]
-          },
-          "alternatives": [
-            {
-              "id": "alt1",
-              "title": "Alternative Career 1",
-              "description": "Description of alternative career",
-              "matchScore": 85,
-              "salary": "$70k-100k",
-              "requirements": ["Skill 1", "Skill 2", "Skill 3"],
-              "growth": "high"
-            },
-            {
-              "id": "alt2",
-              "title": "Alternative Career 2",
-              "description": "Description of alternative career",
-              "matchScore": 75,
-              "salary": "$60k-90k",
-              "requirements": ["Skill 1", "Skill 2", "Skill 3"],
-              "growth": "medium"
-            },
-            {
-              "id": "alt3",
-              "title": "Alternative Career 3",
-              "description": "Description of alternative career",
-              "matchScore": 70,
-              "salary": "$50k-80k",
-              "requirements": ["Skill 1", "Skill 2", "Skill 3"],
-              "growth": "medium"
-            }
-          ]
-        }
+User Profile:
+- Name: ${profile.name}
+- Age: ${profile.age}
+- Education: ${profile.educationLevel}
+- Skills: ${profile.skills?.join(', ') || 'Not specified'}
+- Career Interest: ${profile.careerInterest}
+- Location: ${profile.location || 'Not specified'}
 
-        Create a realistic career path with 5-8 nodes including courses, internships, jobs, companies, and skills.
-        Make sure the positions are spread out appropriately for a flowchart (x: 100-1200, y: 100-400).
-        The career path should be relevant to the user's interests and skills.
-        ${
-          profile.resume
-            ? 'Use the detailed resume information to create a more personalized and accurate career path that builds on their existing experience and skills.'
-            : ''
-        }
-        Provide 3 alternative careers with realistic match scores, salaries, and requirements.
-        
-        IMPORTANT: All edges must include sourceHandle and targetHandle properties:
-        - Use "bottom" for sourceHandle and "top" for targetHandle for vertical connections
-        - Use "right" for sourceHandle and "left" for targetHandle for horizontal connections
-        - This is required for React Flow to render the connections properly
-      `
+${assessmentData ? `
+Assessment Data:
+- Selected Career Domains: ${assessmentData.preferredIndustries?.join(', ') || 'Not specified'}
+- Interests: ${assessmentData.interests?.join(', ') || 'Not specified'}
+- Career Goals: ${assessmentData.careerGoals?.join(', ') || 'Not specified'}
+- Timeline: ${assessmentData.timeframe || 'Not specified'}
+- Work Style Preferences: ${assessmentData.workStyle?.join(', ') || 'Not specified'}
+` : ''}
+
+IMPORTANT: 
+1. Focus SPECIFICALLY on the selected career domains: ${domainFocus}
+2. If education domain is selected, suggest ONLY education careers (teacher, professor, counselor, etc.)
+3. If healthcare domain is selected, suggest ONLY healthcare careers (nurse, therapist, medical, etc.)  
+4. If business domain is selected, suggest ONLY business careers (manager, analyst, marketing, etc.)
+5. Include REAL Coursera and Udemy course links that actually work
+
+Provide a career recommendation matching the selected domains with learning resources.
+
+IMPORTANT: Avoid suggesting the same common tech jobs (Software Developer, Data Analyst, Product Manager, UX/UI Designer, Digital Marketing Specialist). 
+
+Instead, explore diverse, emerging, and specialized career paths that match the user's unique profile. Consider:
+- Emerging tech roles (AI Ethics Specialist, Blockchain Developer, AR/VR Designer, etc.)
+- Cross-industry opportunities (FinTech, HealthTech, EdTech, GreenTech, etc.)
+- Specialized technical roles (DevOps Engineer, Cybersecurity Analyst, Cloud Architect, etc.)
+- Creative-tech hybrid roles (Technical Writer, Developer Advocate, Solutions Engineer, etc.)
+- Industry-specific roles based on user's background and interests
+
+Please provide a detailed career recommendation in the following JSON format.
+For learning resources, include specific course titles and skills that can be found on platforms like Udemy, Coursera, LinkedIn Learning, and freeCodeCamp:
+{
+  "primaryCareer": "Main career title matching the domains: ${domainFocus}",
+  "relatedRoles": ["Role 1", "Role 2", "Role 3", "Role 4"],
+  "summary": "Personalized summary explaining why this career path fits the user in the ${domainFocus} domain(s)",
+  "careerPath": {
+    "nodes": [
+      {
+        "id": "1",
+        "type": "course",
+        "title": "Course Name",
+        "description": "Course description",
+        "duration": "3 months",
+        "difficulty": "beginner",
+        "position": {"x": 100, "y": 100}
+      },
+      {
+        "id": "2",
+        "type": "internship",
+        "title": "Internship Name",
+        "description": "Internship description",
+        "duration": "6 months",
+        "position": {"x": 300, "y": 100}
+      },
+      {
+        "id": "3",
+        "type": "job",
+        "title": "Job Title",
+        "description": "Job description",
+        "salary": "$60k-80k",
+        "position": {"x": 500, "y": 100}
+      },
+      {
+        "id": "4",
+        "type": "company",
+        "title": "Company Name",
+        "description": "Company description",
+        "position": {"x": 700, "y": 100}
+      },
+      {
+        "id": "5",
+        "type": "skill",
+        "title": "Skill Name",
+        "description": "Skill description",
+        "position": {"x": 100, "y": 300}
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1-2",
+        "source": "1",
+        "target": "2",
+        "sourceHandle": "bottom",
+        "targetHandle": "top",
+        "type": "smoothstep",
+        "animated": true
+      },
+      {
+        "id": "e2-3",
+        "source": "2",
+        "target": "3",
+        "sourceHandle": "bottom",
+        "targetHandle": "top",
+        "type": "smoothstep",
+        "animated": true
+      },
+      {
+        "id": "e3-4",
+        "source": "3",
+        "target": "4",
+        "sourceHandle": "bottom",
+        "targetHandle": "top",
+        "type": "smoothstep",
+        "animated": true
+      },
+      {
+        "id": "e1-5",
+        "source": "1",
+        "target": "5",
+        "sourceHandle": "right",
+        "targetHandle": "left",
+        "type": "smoothstep"
+      }
+    ]
+  },
+  "alternatives": [
+    {
+      "id": "alt1",
+      "title": "Alternative Career 1 in ${domainFocus}",
+      "description": "Description of alternative career in the selected domains",
+      "matchScore": 85,
+      "salary": "$70k-100k",
+      "requirements": ["Skill 1", "Skill 2", "Skill 3"],
+      "growth": "high"
+    },
+    {
+      "id": "alt2",
+      "title": "Alternative Career 2 in ${domainFocus}",
+      "description": "Description of alternative career in the selected domains",
+      "matchScore": 75,
+      "salary": "$60k-90k",
+      "requirements": ["Skill 1", "Skill 2", "Skill 3"],
+      "growth": "medium"
+    },
+    {
+      "id": "alt3",
+      "title": "Alternative Career 3 in ${domainFocus}",
+      "description": "Description of alternative career in the selected domains",
+      "matchScore": 70,
+      "salary": "$50k-80k",
+      "requirements": ["Skill 1", "Skill 2", "Skill 3"],
+      "growth": "medium"
+    }
+  ]
+}
+
+Create a realistic career path with 5-8 nodes including courses, internships, jobs, companies, and skills.
+Make sure the positions are spread out appropriately for a flowchart (x: 100-1200, y: 100-400).
+The career path should be relevant to the user's interests and skills.
+Provide 3 alternative careers with realistic match scores, salaries, and requirements.
+
+IMPORTANT: All edges must include sourceHandle and targetHandle properties:
+- Use "bottom" for sourceHandle and "top" for targetHandle for vertical connections
+- Use "right" for sourceHandle and "left" for targetHandle for horizontal connections
+- This is required for React Flow to render the connections properly
+
+CRITICAL: Focus ONLY on careers in the selected domains: ${domainFocus}. Do not suggest tech careers unless technology was specifically selected.`
 
       const result = await model.generateContent(prompt)
       const response = await result.response
       const text = response.text()
+
+      console.log('Gemini raw response:', text)
 
       // Extract JSON from the response
       const jsonMatch = text.match(/\{[\s\S]*\}/)
@@ -224,7 +207,7 @@ export class GeminiService {
     } catch (error) {
       console.error('Error generating career path with Gemini:', error)
       // Fallback to mock data if API fails
-      return this.getFallbackRecommendation(profile)
+      return this.getFallbackRecommendation(profile, assessmentData)
     }
   }
 
@@ -297,22 +280,6 @@ export class GeminiService {
         - Skills: ${profile.skills.join(', ')}
         - Career Interest: ${profile.careerInterest}
         - Location: ${profile.location || 'Not specified'}
-        
-        ${
-          profile.resume
-            ? `
-        Resume Information (Extracted):
-        - Resume Skills: ${profile.resume.extractedInfo.skills.join(', ')}
-        - Work Experience: ${
-          profile.resume.extractedInfo.experience.length
-        } positions
-        - Education: ${profile.resume.extractedInfo.education.length} degrees
-        - Professional Summary: ${
-          profile.resume.extractedInfo.summary || 'Not provided'
-        }
-        `
-            : ''
-        }
 
         Return only a JSON array of alternative careers in this format:
         [
@@ -345,17 +312,51 @@ export class GeminiService {
   }
 
   private static getFallbackRecommendation(
-    profile: UserProfile
+    profile: UserProfile,
+    assessmentData?: any
   ): CareerRecommendation {
+    // Build domain-specific fallback based on selected domains
+    let domainFocus = 'general careers'
+    let careerTitle = 'AI Solutions Engineer'
+    let careerDescription = 'Bridge the gap between AI research and practical applications by designing, implementing, and optimizing AI systems for real-world problems.'
+    let relatedRoles = ['Machine Learning Engineer', 'AI Research Scientist', 'Computer Vision Engineer', 'NLP Specialist']
+    
+    if (assessmentData?.preferredIndustries?.length > 0) {
+      domainFocus = assessmentData.preferredIndustries.join(', ')
+      
+      // Domain-specific fallback careers
+      if (assessmentData.preferredIndustries.includes('engineering')) {
+        careerTitle = 'Mechanical Engineer'
+        careerDescription = 'Design, develop, and test mechanical and thermal devices including tools, engines, and machines using engineering principles and manufacturing processes.'
+        relatedRoles = ['Design Engineer', 'Manufacturing Engineer', 'Project Engineer', 'Systems Engineer']
+      } else if (assessmentData.preferredIndustries.includes('education')) {
+        careerTitle = 'Educational Technology Specialist'
+        careerDescription = 'Design and implement technology solutions to enhance learning experiences and improve educational outcomes in schools and universities.'
+        relatedRoles = ['Instructional Designer', 'Learning Experience Designer', 'Academic Technology Coordinator', 'E-Learning Developer']
+      } else if (assessmentData.preferredIndustries.includes('healthcare')) {
+        careerTitle = 'Healthcare Information Systems Analyst'
+        careerDescription = 'Analyze and improve healthcare information systems to enhance patient care, streamline operations, and ensure regulatory compliance.'
+        relatedRoles = ['Medical Records Technician', 'Health Information Manager', 'Clinical Data Analyst', 'Healthcare IT Specialist']
+      } else if (assessmentData.preferredIndustries.includes('business')) {
+        careerTitle = 'Business Intelligence Analyst'
+        careerDescription = 'Transform business data into actionable insights to drive strategic decision-making and improve organizational performance.'
+        relatedRoles = ['Data Analyst', 'Business Analyst', 'Management Consultant', 'Operations Analyst']
+      } else if (assessmentData.preferredIndustries.includes('creative')) {
+        careerTitle = 'UX/UI Designer'
+        careerDescription = 'Create intuitive and engaging user experiences for digital products by researching user needs and designing interfaces that are both functional and beautiful.'
+        relatedRoles = ['Graphic Designer', 'Web Designer', 'Product Designer', 'Interaction Designer']
+      }
+    }
+
     // Fallback to mock data if API fails
     const mockPaths = {
-      'software-developer': {
+      'default': {
         nodes: [
           {
             id: '1',
             type: 'course' as const,
-            title: 'Learn JavaScript',
-            description: 'Master the fundamentals of JavaScript programming',
+            title: 'Foundation Skills Course',
+            description: 'Master the fundamentals needed for your career path',
             duration: '3 months',
             difficulty: 'beginner' as const,
             position: { x: 100, y: 100 },
@@ -363,8 +364,8 @@ export class GeminiService {
           {
             id: '2',
             type: 'course' as const,
-            title: 'React Development',
-            description: 'Build modern web applications with React',
+            title: 'Advanced Specialization',
+            description: 'Develop advanced skills in your chosen field',
             duration: '4 months',
             difficulty: 'intermediate' as const,
             position: { x: 300, y: 100 },
@@ -372,46 +373,39 @@ export class GeminiService {
           {
             id: '3',
             type: 'internship' as const,
-            title: 'Frontend Internship',
-            description: '6-month internship at a tech startup',
+            title: 'Professional Internship',
+            description: '6-month internship to gain real-world experience',
             duration: '6 months',
             position: { x: 500, y: 100 },
           },
           {
             id: '4',
             type: 'job' as const,
-            title: 'Junior Developer',
-            description: 'Entry-level software developer position',
+            title: 'Entry-Level Position',
+            description: 'Start your professional career',
             salary: '$60k-80k',
             position: { x: 700, y: 100 },
           },
           {
             id: '5',
             type: 'job' as const,
-            title: 'Senior Developer',
-            description: 'Lead development projects and mentor juniors',
+            title: 'Senior Position',
+            description: 'Lead projects and mentor others',
             salary: '$90k-120k',
             position: { x: 900, y: 100 },
           },
           {
             id: '6',
-            type: 'company' as const,
-            title: 'Google',
-            description: 'Work at one of the top tech companies',
-            position: { x: 1100, y: 100 },
+            type: 'skill' as const,
+            title: 'Core Skill',
+            description: 'Essential skill for your field',
+            position: { x: 100, y: 300 },
           },
           {
             id: '7',
             type: 'skill' as const,
-            title: 'TypeScript',
-            description: 'Advanced JavaScript with type safety',
-            position: { x: 100, y: 300 },
-          },
-          {
-            id: '8',
-            type: 'skill' as const,
-            title: 'Node.js',
-            description: 'Backend development with JavaScript',
+            title: 'Advanced Skill',
+            description: 'Specialized skill for career growth',
             position: { x: 300, y: 300 },
           },
         ],
@@ -453,26 +447,17 @@ export class GeminiService {
             animated: true,
           },
           {
-            id: 'e5-6',
-            source: '5',
-            target: '6',
-            sourceHandle: 'bottom',
-            targetHandle: 'top',
-            type: 'smoothstep' as const,
-            animated: true,
-          },
-          {
-            id: 'e1-7',
+            id: 'e1-6',
             source: '1',
-            target: '7',
+            target: '6',
             sourceHandle: 'right',
             targetHandle: 'left',
             type: 'smoothstep' as const,
           },
           {
-            id: 'e2-8',
+            id: 'e2-7',
             source: '2',
-            target: '8',
+            target: '7',
             sourceHandle: 'right',
             targetHandle: 'left',
             type: 'smoothstep' as const,
@@ -481,12 +466,11 @@ export class GeminiService {
       },
     }
 
-    const pathData = mockPaths['software-developer']
+    const pathData = mockPaths['default']
     return {
       id: `fallback_career_${Date.now()}`,
-      title: 'AI Solutions Engineer',
-      description:
-        'Bridge the gap between AI research and practical applications by designing, implementing, and optimizing AI systems for real-world problems.',
+      title: careerTitle,
+      description: careerDescription,
       fitScore: 75,
       salaryRange: {
         min: 60000,
@@ -498,62 +482,29 @@ export class GeminiService {
       requiredSkills: [],
       recommendedPath: {
         id: 'fallback_path',
-        title: 'Software Developer Learning Path',
-        description: 'Comprehensive learning path for software development',
+        title: `${careerTitle} Learning Path`,
+        description: `Comprehensive learning path for ${careerTitle}`,
         totalDuration: '6-12 months',
         phases: [
           {
             id: 'phase1',
             title: 'Foundation Skills',
-            description: 'Learn the basics of programming and web development',
+            description: 'Learn the basics needed for your career',
             duration: '3 months',
             priority: 'critical' as const,
             order: 1,
-            skills: ['JavaScript', 'HTML', 'CSS'],
+            skills: ['Foundation Skill 1', 'Foundation Skill 2'],
             resources: [
               {
-                id: 'js-basics',
-                title: 'JavaScript Fundamentals',
-                description: 'Master the core concepts of JavaScript programming',
+                id: 'foundation-course',
+                title: 'Foundation Course',
+                description: 'Master the core concepts',
                 type: 'course' as const,
                 provider: 'Multiple Platforms',
                 duration: '4 weeks',
                 cost: 50,
                 difficulty: 'beginner' as const,
-                skills: ['JavaScript', 'Programming Basics', 'Web Development']
-              },
-              {
-                id: 'html-css',
-                title: 'HTML & CSS Complete Course',
-                description: 'Build beautiful and responsive websites',
-                type: 'course' as const,
-                provider: 'Multiple Platforms',
-                duration: '3 weeks',
-                cost: 40,
-                difficulty: 'beginner' as const,
-                skills: ['HTML', 'CSS', 'Responsive Design']
-              }
-            ]
-          },
-          {
-            id: 'phase2',
-            title: 'Advanced Development',
-            description: 'Learn modern frameworks and tools',
-            duration: '4 months',
-            priority: 'important' as const,
-            order: 2,
-            skills: ['React', 'Node.js', 'Databases'],
-            resources: [
-              {
-                id: 'react-course',
-                title: 'React - The Complete Guide',
-                description: 'Build modern web applications with React',
-                type: 'course' as const,
-                provider: 'Multiple Platforms',
-                duration: '6 weeks',
-                cost: 80,
-                difficulty: 'intermediate' as const,
-                skills: ['React', 'JavaScript', 'Frontend Development']
+                skills: ['Foundation Skills']
               }
             ]
           }
@@ -561,7 +512,7 @@ export class GeminiService {
         estimatedCost: 2000,
         difficulty: 'intermediate' as const,
         prerequisites: ['Basic computer skills', 'Problem-solving mindset'],
-        outcomes: ['Build web applications', 'Understand programming concepts', 'Ready for junior developer roles'],
+        outcomes: ['Career readiness', 'Professional skills', 'Industry knowledge'],
       },
       jobMarketData: {
         demand: 'high' as const,
@@ -570,56 +521,112 @@ export class GeminiService {
         industryGrowth: 15,
         averageSalary: 90000,
       },
-      primaryCareer: 'AI Solutions Engineer',
-      relatedRoles: [
-        'Machine Learning Engineer',
-        'AI Research Scientist',
-        'Computer Vision Engineer',
-        'NLP Specialist',
-      ],
+      primaryCareer: careerTitle,
+      relatedRoles: relatedRoles,
       careerPath: {
         nodes: pathData.nodes,
         edges: pathData.edges,
       },
-      alternatives: this.getFallbackAlternatives(profile),
-      summary: `Based on your interest in ${
-        profile.careerInterest
-      } and skills in ${profile.skills.join(
-        ', '
-      )}, a career in AI Solutions Engineering would be perfect for you. This emerging field combines technical expertise with practical problem-solving to create impactful AI applications.`,
+      alternatives: this.getFallbackAlternatives(profile, assessmentData),
+      summary: `Based on your interest in ${profile.careerInterest} and the selected domains (${domainFocus}), a career in ${careerTitle} would be perfect for you. This field combines your skills with the growing opportunities in ${domainFocus}.`,
     }
   }
 
   private static getFallbackAlternatives(
-    _profile: UserProfile
+    profile: UserProfile,
+    assessmentData?: any
   ): AlternativeCareer[] {
+    // Domain-specific alternatives
+    if (assessmentData?.preferredIndustries?.includes('engineering')) {
+      return [
+        {
+          id: 'alt1',
+          title: 'Electrical Engineer',
+          description: 'Design and develop electrical systems and components',
+          matchScore: 85,
+          salary: '$75k-110k',
+          requirements: ['Electrical Engineering', 'Circuit Design', 'Project Management'],
+          growth: 'high',
+        },
+        {
+          id: 'alt2',
+          title: 'Civil Engineer',
+          description: 'Plan and design infrastructure projects like roads and buildings',
+          matchScore: 75,
+          salary: '$65k-95k',
+          requirements: ['Civil Engineering', 'AutoCAD', 'Project Planning'],
+          growth: 'medium',
+        },
+        {
+          id: 'alt3',
+          title: 'Environmental Engineer',
+          description: 'Develop solutions to environmental problems using engineering principles',
+          matchScore: 70,
+          salary: '$60k-90k',
+          requirements: ['Environmental Science', 'Engineering', 'Sustainability'],
+          growth: 'high',
+        },
+      ]
+    } else if (assessmentData?.preferredIndustries?.includes('healthcare')) {
+      return [
+        {
+          id: 'alt1',
+          title: 'Registered Nurse',
+          description: 'Provide direct patient care and support in healthcare settings',
+          matchScore: 85,
+          salary: '$60k-90k',
+          requirements: ['Nursing License', 'Patient Care', 'Medical Knowledge'],
+          growth: 'high',
+        },
+        {
+          id: 'alt2',
+          title: 'Physical Therapist',
+          description: 'Help patients recover mobility and manage pain through exercise',
+          matchScore: 75,
+          salary: '$70k-100k',
+          requirements: ['PT License', 'Anatomy', 'Rehabilitation Techniques'],
+          growth: 'high',
+        },
+        {
+          id: 'alt3',
+          title: 'Medical Technologist',
+          description: 'Perform laboratory tests to help diagnose diseases',
+          matchScore: 70,
+          salary: '$55k-85k',
+          requirements: ['Medical Technology', 'Laboratory Skills', 'Attention to Detail'],
+          growth: 'medium',
+        },
+      ]
+    }
+    
+    // Default alternatives for other domains
     return [
       {
         id: 'alt1',
-        title: 'AI Ethics Specialist',
-        description: 'Ensure responsible AI development and deployment',
+        title: 'Domain Expert Consultant',
+        description: 'Provide specialized consulting in your chosen field',
         matchScore: 85,
         salary: '$80k-120k',
-        requirements: ['AI/ML Knowledge', 'Ethics', 'Policy Development'],
+        requirements: ['Domain Knowledge', 'Communication', 'Problem Solving'],
         growth: 'high',
       },
       {
         id: 'alt2',
-        title: 'Blockchain Solutions Architect',
-        description: 'Design decentralized systems and smart contracts',
+        title: 'Training and Development Specialist',
+        description: 'Design and deliver professional development programs',
         matchScore: 75,
-        salary: '$90k-140k',
-        requirements: ['Blockchain', 'Solidity', 'System Design'],
-        growth: 'high',
+        salary: '$60k-90k',
+        requirements: ['Training Design', 'Communication', 'Subject Matter Expertise'],
+        growth: 'medium',
       },
       {
         id: 'alt3',
-        title: 'Climate Tech Engineer',
-        description: 'Develop technology solutions for environmental challenges',
+        title: 'Research Analyst',
+        description: 'Conduct research and analysis in your field of expertise',
         matchScore: 70,
-        salary: '$70k-110k',
-        requirements: ['Environmental Science', 'Engineering', 'Sustainability'],
-        growth: 'high',
+        salary: '$55k-85k',
+        requirements: ['Research Skills', 'Data Analysis', 'Critical Thinking'],
+        growth: 'medium',
       },
     ]
   }

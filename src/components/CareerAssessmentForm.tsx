@@ -6,7 +6,7 @@ import { NBCard } from './NBCard';
 import { NBButton } from './NBButton';
 import { cn } from '../lib/utils';
 import { CareerAssessmentData, AssessmentQuestion, AssessmentResponse } from '../lib/types';
-import { ChevronLeft, ChevronRight, CheckCircle, Heart, Briefcase, Award, Target } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle, Heart, Briefcase, Award, Target, ArrowLeft } from 'lucide-react';
 
 // Career domains data
 const careerDomains = [
@@ -14,42 +14,42 @@ const careerDomains = [
     id: 'technology',
     name: 'Technology & Software',
     description: 'Software development, data science, cybersecurity, AI/ML',
-    icon: '💻',
+    icon: '',
     skills: ['Programming Languages', 'Data Analysis', 'Cloud Computing', 'Machine Learning', 'Cybersecurity', 'Mobile Development']
   },
   {
     id: 'healthcare',
     name: 'Healthcare & Medicine',
     description: 'Medical practice, nursing, therapy, medical research',
-    icon: '🏥',
+    icon: '',
     skills: ['Patient Care', 'Medical Knowledge', 'Research Skills', 'Clinical Skills', 'Communication', 'Empathy']
   },
   {
     id: 'business',
     name: 'Business & Finance',
     description: 'Management, consulting, finance, entrepreneurship',
-    icon: '💼',
+    icon: '',
     skills: ['Financial Analysis', 'Project Management', 'Strategic Planning', 'Leadership', 'Sales', 'Market Research']
   },
   {
     id: 'creative',
     name: 'Creative & Design',
     description: 'Graphic design, marketing, writing, media production',
-    icon: '🎨',
+    icon: '',
     skills: ['Graphic Design', 'Content Creation', 'Brand Strategy', 'Video Production', 'Writing', 'Social Media']
   },
   {
     id: 'education',
     name: 'Education & Training',
     description: 'Teaching, curriculum development, educational technology',
-    icon: '📚',
+    icon: '',
     skills: ['Curriculum Design', 'Public Speaking', 'Mentoring', 'Educational Technology', 'Assessment', 'Learning Psychology']
   },
   {
     id: 'engineering',
     name: 'Engineering & Manufacturing',
     description: 'Mechanical, civil, electrical engineering, manufacturing',
-    icon: '⚙️',
+    icon: '',
     skills: ['Technical Design', 'Problem Solving', 'CAD Software', 'Project Management', 'Quality Control', 'Manufacturing Processes']
   }
 ];
@@ -226,13 +226,7 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
       version: '2.0'
     };
 
-    // Add skills if provided
-    if (formData.step3.skills.length > 0) {
-      assessmentData.currentSkills = formData.step3.skills;
-    }
-    if (formData.step3.experience) {
-      assessmentData.experienceLevel = formData.step3.experience;
-    }
+    // Note: Skills and experience are handled in the user profile, not assessment data
 
     onComplete(assessmentData);
   };
@@ -607,6 +601,17 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
 
   return (
     <div className={cn('max-w-4xl mx-auto', className)}>
+      {/* Back Arrow */}
+      <div className="mb-4">
+        <button
+          onClick={onCancel}
+          className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors p-2 hover:bg-gray-100 rounded-lg"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-sm">Back</span>
+        </button>
+      </div>
+
       <NBCard className="border-gray-300 bg-white/95 backdrop-blur-sm shadow-xl">
         {/* Progress Header */}
         <div className="mb-8">
@@ -649,8 +654,8 @@ export const CareerAssessmentForm: React.FC<CareerAssessmentFormProps> = ({
                   </div>
                   {index < steps.length - 1 && (
                     <div className={cn(
-                      "absolute w-full h-1 top-6 left-1/2 transform -translate-y-1/2 z-0",
-                      isCompleted ? "bg-green-300" : "bg-gray-200"
+                      "absolute w-full h-0.5 top-6 left-1/2 transform -translate-y-1/2 z-0",
+                      isCompleted ? "bg-green-200" : "bg-transparent"
                     )} style={{ width: 'calc(100% - 3rem)', marginLeft: '1.5rem' }} />
                   )}
                 </div>

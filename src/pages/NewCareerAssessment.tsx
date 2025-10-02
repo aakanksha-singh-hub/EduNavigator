@@ -10,7 +10,7 @@ interface SimpleDomainData {
   name: string;
 }
 
-export const CareerAssessment = () => {
+export const NewCareerAssessment = () => {
   const navigate = useNavigate();
   const { profile } = useUserStore();
   const [isCheckingProfile, setIsCheckingProfile] = useState(true);

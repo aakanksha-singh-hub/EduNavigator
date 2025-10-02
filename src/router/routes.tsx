@@ -6,6 +6,7 @@ import { CareerDashboard } from '@/pages/CareerDashboard'
 import { CareerDetails } from '@/pages/CareerDetails'
 import { CareerPathGenerator } from '@/pages/CareerPathGenerator'
 import { LearningRoadmap } from '@/pages/LearningRoadmap'
+import { EnhancedLearningRoadmap } from '@/pages/EnhancedLearningRoadmap'
 import { LearningAssistant } from '@/pages/LearningAssistant'
 import { AchievementsPage } from '@/pages/AchievementsPage'
 import { ResumeUpload } from '@/pages/ResumeUpload'
@@ -29,7 +30,8 @@ const AppRoutes = () => {
       <Route path="/progress-dashboard" element={<ProgressDashboard />} />
       <Route path="/career-details/:id" element={<CareerDetails />} />
       <Route path="/career-path-generator" element={<CareerPathGenerator />} />
-      <Route path="/learning-roadmap" element={<LearningRoadmap />} />
+      <Route path="/learning-roadmap" element={<EnhancedLearningRoadmap />} />
+      <Route path="/learning-roadmap-detailed" element={<LearningRoadmap />} />
       <Route path="/learning-assistant" element={<LearningAssistant />} />
       <Route path="/achievements" element={<AchievementsPage />} />
       <Route path="/resume-upload" element={<ResumeUpload />} />

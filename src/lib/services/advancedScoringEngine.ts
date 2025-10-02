@@ -284,6 +284,7 @@ export class AdvancedScoringEngine {
                   careerTitle.includes('software') || 
                   careerTitle.includes('developer') || 
                   careerTitle.includes('data scientist') ||
+                  careerTitle.includes('cybersecurity') ||
                   careerTitle.includes('engineer') ||
                   careerCategory.includes('tech')) {
                 isMatch = true
@@ -292,10 +293,22 @@ export class AdvancedScoringEngine {
             case 'business':
               if (careerCategory.includes('business') || 
                   careerTitle.includes('manager') || 
-                  careerTitle.includes('analyst') ||
+                  careerTitle.includes('business analyst') ||
                   careerTitle.includes('sales') ||
                   careerTitle.includes('marketing') ||
-                  careerTitle.includes('financial')) {
+                  careerTitle.includes('operations') ||
+                  careerTitle.includes('consultant')) {
+                isMatch = true
+              }
+              break
+            case 'finance':
+              if (careerCategory.includes('finance') || 
+                  careerTitle.includes('financial') ||
+                  careerTitle.includes('financial analyst') ||
+                  careerTitle.includes('accounting') ||
+                  careerTitle.includes('investment') ||
+                  careerTitle.includes('banking') ||
+                  careerTitle.includes('economist')) {
                 isMatch = true
               }
               break
