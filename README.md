@@ -85,8 +85,8 @@ EduNavigator is a comprehensive, AI-powered career guidance platform that helps 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/aakanksha-singh-hub/VirtuHack-genai.git
-cd VirtuHack-genai
+git clone https://github.com/aakanksha-singh-hub/EduNavigator.git
+cd Edunavigator
 ```
 
 2. **Install dependencies**
