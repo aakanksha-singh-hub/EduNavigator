@@ -10,6 +10,12 @@ EduNavigator is a comprehensive, AI-powered career guidance platform that helps 
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
 
+## 🌐 Live Demo
+
+**🚀 [Try EduNavigator Live](https://edu-navigator-sigma.vercel.app/)**
+
+Experience the full power of AI-driven career guidance - no installation required!
+
 ## ✨ Features
 
 ### **AI-Powered Career Discovery**
@@ -54,7 +60,7 @@ EduNavigator is a comprehensive, AI-powered career guidance platform that helps 
 - **TypeScript** - Type-safe development with strict type checking
 - **Vite** - Fast build tool and development server
 - **Tailwind CSS** - Utility-first CSS framework for rapid styling
-- **Radix UI** - Accessible, unstyled UI components
+- **Lucide React** - Beautiful & consistent icon library
 - **React Router** - Client-side routing and navigation
 - **React Flow** - Interactive flowchart and node-based visualizations
 
@@ -85,8 +91,8 @@ EduNavigator is a comprehensive, AI-powered career guidance platform that helps 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/aakanksha-singh-hub/EduNavigator.git
-cd Edunavigator
+git clone https://github.com/aakanksha-singh-hub/VirtuHack-genai.git
+cd VirtuHack-genai
 ```
 
 2. **Install dependencies**
@@ -202,50 +208,28 @@ src/
 
 ## 🚀 Deployment
 
-### Render (Recommended)
-1. Connect your GitHub repository to Render
-2. Set build command: `npm run build`
-3. Set start command: `npm run start`
-4. Add environment variables in Render dashboard
-5. Deploy!
+### ✅ Live Application
+**EduNavigator is currently deployed and accessible at:**
+**🌐 [https://edu-navigator-sigma.vercel.app/](https://edu-navigator-sigma.vercel.app/)**
 
-### Vercel
+### For Developers
+If you want to deploy your own instance:
+
+**Vercel (Recommended)**
 ```bash
 npm install -g vercel
 vercel --prod
 ```
 
-### Netlify
+**Netlify**
 ```bash
 npm run build
 # Upload dist/ folder to Netlify
 ```
 
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-```bash
-git checkout -b feature/amazing-feature
-```
-3. **Commit your changes**
-```bash
-git commit -m 'Add amazing feature'
-```
-4. **Push to the branch**
-```bash
-git push origin feature/amazing-feature
-```
-5. **Open a Pull Request**
-
-### Development Guidelines
-- Follow TypeScript best practices
-- Use existing UI components and design patterns
-- Write meaningful commit messages
-- Test your changes across different devices
-- Ensure accessibility standards are met
+**Render**
+- Set build command: `npm run build`
+- Set start command: `npm run start`
 
 ## 📝 License
 
@@ -255,7 +239,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Google Gemini AI** - For powering our intelligent recommendations
 - **React Flow** - For beautiful interactive flowcharts
-- **Radix UI** - For accessible component primitives
+- **Lucide React** - For consistent and beautiful icons
 - **Tailwind CSS** - For rapid and responsive styling
 - **PDF.js** - For client-side PDF processing
 
@@ -263,9 +247,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Having issues or questions? We're here to help!
 
-- 📧 **Email**: support@edunavigator.com
+- 🌐 **Live Demo**: [https://edu-navigator-sigma.vercel.app/](https://edu-navigator-sigma.vercel.app/)
 - 🐛 **Bug Reports**: [Create an issue](https://github.com/aakanksha-singh-hub/VirtuHack-genai/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/aakanksha-singh-hub/VirtuHack-genai/discussions)
+- 📧 **Contact**: For support and feedback
 
 ---
 
